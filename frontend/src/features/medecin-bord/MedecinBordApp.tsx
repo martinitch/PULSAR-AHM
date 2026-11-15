@@ -1,4 +1,4 @@
-/* Routes médecin de bord — nav courte : Équipage · Clinique · Journal. */
+/* Crew surgeon routes — short nav: Crew · Clinic · Log. */
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import { RoleLayout, type NavGroup } from "@/app/RoleLayout";
 import { NotFound } from "@/app/NotFound";

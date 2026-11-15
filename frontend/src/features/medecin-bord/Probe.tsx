@@ -1,5 +1,5 @@
-/* Image d’échographie SIMULÉE (démo) — remplacée plus tard par le flux de la sonde.
-   Les identifiants SVG sont uniques : plusieurs sondes sur la même page ne se mélangent pas. */
+/* SIMULATED ultrasound image (demo) — later replaced by the probe stream.
+   SVG ids are unique: several probes on the same page do not mix. */
 import { useId } from "react";
 
 export function Probe({
@@ -15,13 +15,13 @@ export function Probe({
   live?: boolean;
   marks?: boolean;
   variant?: "heart" | "eye";
-  /** Texte du caliper. Défaut selon la coupe. */
+  /** Caliper text. Default depends on the view. */
   markLabel?: string;
-  /** Flèche « à revoir » du médecin de bord. Houston la coupe : la légende est à côté de l’image. */
+  /** Crew surgeon "review" arrow. Houston crops it: the caption sits beside the image. */
   callout?: boolean;
   depthCm?: number;
   depthLabel?: string;
-  /** Description lue par le lecteur d’écran. */
+  /** Description read by the screen reader. */
   label?: string;
 }) {
   const uid = useId().replace(/:/g, "");

@@ -1,4 +1,4 @@
-/* Landing « / » — rythme SPACE STRO : scène inscrite, hero, sections FR/EN. */
+/* Landing « / » — SPACE STRO pacing: inset scene, hero, FR/EN sections. */
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Link, Navigate } from "react-router";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";

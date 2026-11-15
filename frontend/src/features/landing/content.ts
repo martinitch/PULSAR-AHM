@@ -1,6 +1,6 @@
-/* Contenu landing — astronaute + projet compréhensible (dangers HRP, rôles, parcours). */
+/* Landing content — astronaut + understandable project (HRP hazards, roles, journey). */
 
-/** Chaîne de préparation (inspirée mission control) — états fictifs DÉMO. */
+/** Preparation chain (inspired by mission control) — fictional DEMO states. */
 export const SYSTEMS: { id: string; label: string; status: "go" | "hold" | "warn" }[] = [
   { id: "watch", label: "Montre", status: "go" },
   { id: "telemetry", label: "Télémétrie", status: "go" },
@@ -23,7 +23,7 @@ export const APP_PATH: { step: string; title: string; text: string }[] = [
   { step: "04", title: "NASA Houston", text: "Rapports à chaque fenêtre de liaison ; recommandations renvoyées à bord." },
 ];
 
-/** Cinq dangers NASA HRP — essentiels pour comprendre pourquoi PULSAR existe. */
+/** Five NASA HRP hazards — essential to understand why PULSAR exists. */
 export const HAZARDS: { title: string; risk: string; pulsar: string }[] = [
   { title: "Rayonnements spatiaux", risk: "Hors magnétosphère, la dose augmente (cancer, système nerveux, cœur).", pulsar: "Dosimètre continu, prévision du débit de dose, consigne d’abri." },
   { title: "Isolement et confinement", risk: "Équipage réduit, espace fermé : sommeil, humeur et cohésion se dégradent.", pulsar: "Scan fatigue, bien-être, objectifs d’équipage sans classement." },
@@ -32,14 +32,14 @@ export const HAZARDS: { title: string; risk: string; pulsar: string }[] = [
   { title: "Environnement fermé", risk: "Air recyclé, CO₂, bruit, microbiologie.", pulsar: "Alertes orange / rouge et détection de dérive." },
 ];
 
-/** Trois rôles — pour comprendre qui voit quoi. */
+/** Three roles — to understand who sees what. */
 export const ROLES: { title: string; device: string; access: string; idHint: string }[] = [
   { title: "Astronaute", device: "Tablette + montre + kits", access: "Voit uniquement ses propres données.", idHint: "AST-…" },
   { title: "Médecin de bord", device: "Tablette médicale", access: "Voit tout l’équipage, valide les actions.", idHint: "CMO-…" },
   { title: "NASA Houston", device: "Mission Control", access: "Reçoit les rapports à chaque liaison.", idHint: "NASA-FS-…" },
 ];
 
-/** Chiffres « en bref » — labels simples. */
+/** “In brief” figures — simple labels. */
 export const SHOWCASE_STATS: { value: number; suffix?: string; label: string }[] = [
   { value: 5, label: "Risques santé suivis" },
   { value: 3, label: "Espaces selon le badge" },

@@ -1,5 +1,5 @@
-/* Glyphes pleins de la gamification (série, XP, badge, équipage).
-   Dessins originaux, une seule couleur (currentColor) : pas la marque Duolingo. */
+/* Solid gamification glyphs (streak, XP, badge, crew).
+   Original drawings, a single color (currentColor): not the Duolingo brand. */
 
 const GLYPHS = {
   flame: "M12 2.2c.6 2.6-1.4 4-1.4 6.4 0 1.3.7 2.2 1.6 2.8 2.4-1.8 4-3.8 4-6.4 2.4 2.2 3.8 5 3.8 8.2C20 18.4 16.4 22 12 22S4 18.4 4 13.2C4 9.4 6.2 6.4 8.6 4.8 9.8 6.6 10.6 7.4 10.6 9c0-2.8-1.2-5 1.4-6.8z",

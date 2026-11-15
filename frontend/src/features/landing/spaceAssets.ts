@@ -1,4 +1,4 @@
-/** Visuels spatiaux (NASA / domaine public + libre) — atmosphère landing. */
+/** Space visuals (NASA / public domain + free) — landing atmosphere. */
 export const SPACE_HERO = {
   src: "/images/space-sunrise.jpg",
   alt: "Lever de soleil orbital vu depuis l’ISS — NASA",

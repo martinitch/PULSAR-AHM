@@ -1,4 +1,4 @@
-/* Pastilles de constantes autour de la silhouette. Neutres au nominal, teintées seulement hors plage. */
+/* Vital-sign chips around the silhouette. Neutral when nominal, tinted only outside range. */
 import { Icon, Lamp, type IconName } from "@/components/ui";
 import type { Light } from "@/data/types";
 

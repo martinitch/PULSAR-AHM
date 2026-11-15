@@ -1,4 +1,4 @@
-/* Photo de dossier, locale uniquement. Aucune image n’est fournie : le bouton donne la capacité d’en choisir une. */
+/* Record photo, local only. No image is supplied: the button provides the ability to choose one. */
 import { useState, useSyncExternalStore } from "react";
 import { Icon } from "./Icon";
 import { useLang } from "@/i18n";

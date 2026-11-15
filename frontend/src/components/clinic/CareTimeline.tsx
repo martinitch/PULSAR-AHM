@@ -1,4 +1,4 @@
-/* Frise de plan de soins / mesures — chronologie clinique sobre. */
+/* Care-plan / measurement strip — plain clinical timeline. */
 import { Icon, Lamp, type IconName } from "@/components/ui";
 import type { Light } from "@/data/types";
 import { useLang } from "@/i18n";

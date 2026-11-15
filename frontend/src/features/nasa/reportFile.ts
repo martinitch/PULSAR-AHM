@@ -1,4 +1,4 @@
-/* PDF d’une page, généré dans le navigateur (Helvetica, WinAnsi). Pas de bibliothèque. */
+/* One-page PDF, generated in the browser (Helvetica, WinAnsi). No library. */
 
 const WIN: Record<string, string> = {
   "é": "\\351", "è": "\\350", "ê": "\\352", "ë": "\\353",
@@ -13,7 +13,7 @@ function pdfEscape(s: string) {
   return s.replace(/[()\\]/g, (c) => `\\${c}`).replace(/[^\x20-\x7E]/g, (ch) => WIN[ch] ?? "?");
 }
 
-/** Télécharge un PDF texte (une page). */
+/** Downloads a text PDF (one page). */
 export function downloadPdf(filename: string, lines: string[]) {
   const stream = lines.slice(0, 40).map((line, i) => `BT /F1 11 Tf 48 ${750 - i * 16} Td (${pdfEscape(line)}) Tj ET`).join("\n");
   const objects = [

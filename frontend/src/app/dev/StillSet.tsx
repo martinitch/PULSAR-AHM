@@ -1,4 +1,4 @@
-/* DEV — planche « Silhouette 3D » (face, ¾, dos) utilisée pour la page Figma Astronaute (A14). URL : /?stillset */
+/* DEV — « Silhouette 3D » board (front, ¾, back) used for the Astronaut Figma page (A14). URL: /?stillset */
 import { BodyStill, ZoneLegend, ZONES3D, statesFor, type View, type ZoneState } from "@/components/body3d";
 const ZSTATE_WORD: Record<ZoneState, string> = { nominal: "Dans la plage", medium: "Attention", high: "Alerte", active: "Sollicité", none: "Pas de mesure directe" };
 const ZONE_WHY: Record<string, string> = { brain: "Sommeil 5h10, fatigue modérée", eyes: "SANS — examen écho si signes", heart: "FC de repos 94 bpm, ↑ 3 j", lungs: "SpO₂ 97 %", immune: "Pas de capteur direct", skin: "Pas de capteur direct", spine: "Exercice ARED suivi", kidneys: "Hydratation dans la plage", muscles: "Exercice ARED suivi" };

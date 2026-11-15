@@ -1,5 +1,5 @@
-/* Graphiques temps réel (Recharts) : fréquence cardiaque + SpO₂, et rayonnement (débit de dose + cumul).
-   Données : useTelemetry (API FastAPI ou simulateur DÉMO), rafraîchies toutes les 2 s. Sobre : pas d’animation, pas de dégradé. */
+/* Real-time charts (Recharts): heart rate + SpO₂, and radiation (dose rate + cumulative).
+   Data: useTelemetry (FastAPI API or DÉMO simulator), refreshed every 2 s. Plain: no animation, no gradient. */
 import { CartesianGrid, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useHeartForecast, useTelemetry, type TelemetrySample } from "@/api";
 import { Icon } from "@/components/ui";

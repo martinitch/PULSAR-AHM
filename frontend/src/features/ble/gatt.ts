@@ -1,6 +1,6 @@
-/* Web Bluetooth (Chrome / Edge, localhost ou https).
-   Le navigateur affiche les appareils BLE réellement à portée. Le choix est celui de l’utilisateur.
-   Sans cette API, l’app reste sur le simulateur DÉMO. */
+/* Web Bluetooth (Chrome / Edge, localhost or https).
+   The browser shows BLE devices actually in range. The choice is the user's.
+   Without this API, the app stays on the DEMO simulator. */
 
 export const OPTIONAL_SERVICES = [
   "heart_rate",
@@ -69,7 +69,7 @@ export function takeDevice(id: string) {
 
 const MAC = /^[0-9A-F]{2}(?::[0-9A-F]{2}){5}$/i;
 
-/** Doit être appelé dans le clic. Ouvre le sélecteur réel du navigateur. */
+/** Must be called inside the click. Opens the browser's real picker. */
 export function requestNearbyDevice(name?: string): Promise<BleDevice> {
   const api = bluetooth();
   if (!api) return Promise.reject(new Error("Web Bluetooth indisponible"));
@@ -165,7 +165,7 @@ const LISTEN: { char: string; apply: (view: DataView, into: BleReading) => void 
   { char: "plx_continuous_measurement", apply: (v, into) => { const s = parseSpo2(v); if (s) { into.spo2 = s.spo2; if (s.pulse != null) into.pulse = s.pulse; } } },
 ];
 
-/** Ouvre la liaison GATT. Renvoie vrai si une mesure standard (pouls, SpO₂, tension…) est lue. */
+/** Opens the GATT link. Returns true if a standard measurement (pulse, SpO₂, blood pressure…) is read. */
 export async function listen(device: BleDevice, onReading: (reading: BleReading) => void): Promise<boolean> {
   const server = await device.gatt?.connect();
   if (!server) throw new Error("Connexion GATT impossible");
@@ -188,7 +188,7 @@ export async function listen(device: BleDevice, onReading: (reading: BleReading)
           characteristic.addEventListener("characteristicvaluechanged", () => take(characteristic.value));
         }
         if (characteristic.properties.read) take(await characteristic.readValue());
-      } catch { /* ce service n’a pas cette caractéristique */ }
+      } catch { /* this service does not have this characteristic */ }
     }));
   }));
   return found > 0;
@@ -196,6 +196,6 @@ export async function listen(device: BleDevice, onReading: (reading: BleReading)
 
 export function disconnect(id: string) {
   const device = held.get(id);
-  try { device?.gatt?.disconnect(); } catch { /* déjà coupé */ }
+  try { device?.gatt?.disconnect(); } catch { /* already disconnected */ }
   held.delete(id);
 }

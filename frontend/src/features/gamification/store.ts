@@ -1,5 +1,5 @@
-/* État local de la gamification, PAR astronaute (clé = code équipage), persistant (localStorage) :
-   activée/désactivée (EF-44) + missions du jour cochées. Synchronisé entre composants et onglets. */
+/* Local gamification state, PER astronaut (key = crew code), persistent (localStorage):
+   enabled/disabled (EF-44) + today's missions checked. Synced across components and tabs. */
 import { useCallback, useSyncExternalStore } from "react";
 import { HISTORY, MEASURES, MISSIONS, PRESET_DONE, TODAY_DEMO, constancyScore, profileFor } from "./data";
 import { CREW } from "@/data/demo/crew";
@@ -14,18 +14,18 @@ export function readState(id: string): State {
   try {
     const s = JSON.parse(localStorage.getItem(KEY(id)) || "null") as State | null;
     if (s) return s.day === today() ? s : { ...s, day: today(), done: [...PRESET_DONE] };
-  } catch { /* état illisible : valeurs par défaut */ }
+  } catch { /* unreadable state: default values */ }
   return { enabled: true, day: today(), done: [...PRESET_DONE] };
 }
 function write(id: string, s: State) { localStorage.setItem(KEY(id), JSON.stringify(s)); window.dispatchEvent(new Event(EVT)); }
 const subscribe = (f: () => void) => { window.addEventListener(EVT, f); window.addEventListener("storage", f); return () => { window.removeEventListener(EVT, f); window.removeEventListener("storage", f); }; };
 
-/** Mesures du jour faites par un membre (état local s’il existe, sinon démo). */
+/** Today's measurements done by a member (local state if it exists, otherwise demo). */
 export function measuresDone(id: string) {
   const raw = localStorage.getItem(KEY(id));
   return raw ? readState(id).done.filter((d) => MEASURES.some((m) => m.id === d)).length : TODAY_DEMO[id] ?? 0;
 }
-/** Objectif coopératif (EF-43) : % des mesures du jour faites par TOUT l’équipage, sans détail individuel côté astronaute. */
+/** Cooperative goal (EF-43): % of today's measurements done by the WHOLE crew, with no individual detail on the astronaut side. */
 export function crewGoal() {
   const total = CREW.length * MEASURES.length;
   const done = CREW.reduce((a, m) => a + measuresDone(m.id), 0);
@@ -46,7 +46,7 @@ export function useGamification(id: string) {
   const measuresComplete = measuresDoneCount >= MEASURES.length;
   const doneMissions = s.done.length;
   const badgesEarned = badges.filter((b) => b.value >= b.goal).length;
-  /** XP de régularité uniquement (missions cochées + série) — jamais une valeur de santé. */
+  /** Regularity XP only (checked missions + streak) — never a health value. */
   const xp = doneMissions * 25 + streak * 5;
   const constancy = constancyScore({
     streak,
@@ -66,7 +66,7 @@ export function useGamification(id: string) {
   };
 }
 
-/** XP démo pour un membre (même formule que l’état local). */
+/** Demo XP for a member (same formula as local state). */
 export function xpFor(id: string) {
   const done = measuresDone(id);
   const routines = readState(id).done.length - done;
@@ -76,7 +76,7 @@ export function xpFor(id: string) {
   return (done + Math.max(0, routines)) * 25 + streak * 5;
 }
 
-/** Lecture seule pour un autre écran (médecin de bord) : la gamification est-elle activée pour ce membre ? */
+/** Read-only for another screen (crew surgeon): is gamification enabled for this member? */
 export function useCrewGamificationSnapshot() {
   const { lang } = useLang();
   useSyncExternalStore(subscribe, () => CREW.map((m) => localStorage.getItem(KEY(m.id)) ?? "").join("|"), () => "");

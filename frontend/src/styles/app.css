@@ -1,5 +1,5 @@
-/* PULSAR AHM v6 — styles des écrans (composants + tableaux de bord par rôle).
-   Les valeurs viennent TOUJOURS des variables de src/design/tokens.css. */
+/* PULSAR AHM v6 — screen styles (components + role dashboards).
+   Values ALWAYS come from the variables in src/design/tokens.css. */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; overflow-x: clip; max-width: 100%; }
 html { height: 100%; }
@@ -22,7 +22,7 @@ button, input { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
 img { display: block; max-width: 100%; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
-/* Évite les cadres « IA » sur la nav : le focus reste discret */
+/* Avoids "AI" frames on the nav: focus stays discreet */
 .r-rail a:focus:not(:focus-visible),
 .r-rail button:focus:not(:focus-visible) { outline: none; }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -40,7 +40,7 @@ h3 { font-family: var(--font-sans); font-weight: 600; font-size: 1rem; line-heig
 .eyebrow .icon { vertical-align: -2px; margin-right: 4px; }
 .sub { color: var(--text-2); margin-top: var(--s2); }
 
-/* ---------- logo / marque ---------- */
+/* ---------- logo / brand ---------- */
 .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--text); }
 .logo .emblem { color: var(--text); flex: none; }
 .logo-word { font-family: var(--font-head); font-weight: 600; font-size: 1.0625rem; letter-spacing: 0.12em; }
@@ -233,7 +233,7 @@ main { min-width: 0; padding: var(--s5) var(--s7) var(--s7); max-width: calc(var
 .alert-card p { color: var(--text-2); max-width: 60ch; }
 
 /* ---------- login ---------- */
-/* Connexion — styles de scène dans landing.css (cadre SPACE STRO) */
+/* Sign-in — scene styles in landing.css (SPACE STRO frame) */
 .lead { color: var(--text-2); font-size: 1.0625rem; }
 .login-form { display: grid; gap: var(--s4); margin-top: var(--s2); }
 .field { display: grid; gap: 6px; }
@@ -735,7 +735,7 @@ a { color: inherit; text-decoration: none; }
 .dialog-brand { display: inline-flex; align-items: center; gap: 10px; }
 
 /* ================================================================== */
-/* v6 — trois tableaux de bord par rôle                                */
+/* v6 — three dashboards by role                                */
 /* ================================================================== */
 .lamp { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 8px; border-radius: var(--pill); font-weight: 600; font-size: .8125rem; white-space: nowrap; }
 .lamp b { font-weight: 600; }
@@ -754,7 +754,7 @@ a { color: inherit; text-decoration: none; }
 .btn[disabled] { opacity: .5; }
 .btn-row { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; }
 
-/* shell — navigation à gauche, séparée du contenu */
+/* shell — navigation on the left, separated from the content */
 .r-shell { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: var(--s4); padding: var(--s4); height: 100dvh; min-height: 100dvh; align-items: stretch; box-sizing: border-box; }
 .r-side { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: var(--s3); width: 220px; height: 100%; min-height: 0; padding: var(--s3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-xl); overflow: hidden; }
 .r-top { grid-column: 2; grid-row: 1; display: flex; align-items: center; gap: 0; padding: 0; border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 10; min-height: 0; }
@@ -981,7 +981,7 @@ a { color: inherit; text-decoration: none; }
 .facts div { display: flex; justify-content: space-between; gap: var(--s3); padding: 10px 0; border-bottom: 1px solid var(--line); }
 .facts dt { color: var(--text-2); }
 .facts dd { margin: 0; font-weight: 600; text-align: right; display: inline-flex; gap: 6px; align-items: center; }
-/* Checklist « Avant de commencer » (écho étape 1) */
+/* "Before you start" checklist (echo step 1) */
 .echo-prep {
   list-style: none; margin: 0; padding: 0;
   display: grid; gap: var(--s3);
@@ -1029,7 +1029,7 @@ a { color: inherit; text-decoration: none; }
 .log { list-style: none; padding: 0; margin: 0; display: grid; }
 .log li { display: flex; gap: var(--s3); align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .9375rem; }
 .log li .mono { color: var(--text-3); min-width: 72px; font-size: .8125rem; }
-/* Routine : pastilles alignées sur un axe horizontal, reliées par un trait. */
+/* Routine: markers aligned on a horizontal axis, joined by a line. */
 .timeline { list-style: none; padding: var(--s2) 0 0; margin: 0; display: flex; align-items: flex-start; }
 .timeline li { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--s2); position: relative; padding: 0 var(--s1); }
 .timeline li::before { content: ""; position: absolute; z-index: 0; top: 15px; left: calc(50% + 16px); width: calc(100% - 32px); height: 2px; background: var(--line-strong); }
@@ -1240,7 +1240,7 @@ a { color: inherit; text-decoration: none; }
 .thumbs .echo-img, .thumbs figure { border-radius: var(--radius); overflow: hidden; margin: 0; }
 .thumbs figcaption { font-size: .75rem; color: var(--text-3); margin-top: 4px; font-family: var(--font-mono); }
 
-/* NASA — trois panneaux dans la scène, avec un intervalle entre eux */
+/* NASA — three panels in the scene, with a gap between them */
 .r-nasa .r-main { padding: var(--s4); gap: var(--s4); min-height: 0; height: 100%; overflow: hidden; }
 .nasa-layout { display: grid; grid-template-columns: minmax(240px, 300px) minmax(0, 1fr) minmax(220px, 260px); gap: var(--s4); min-height: 0; height: 100%; align-items: stretch; }
 .rep-list { border-right: 1px solid var(--line); padding: var(--s4); display: grid; gap: var(--s3); align-content: start; background: var(--surface); min-width: 0; min-height: 0; overflow: auto; }
@@ -1304,7 +1304,7 @@ a { color: inherit; text-decoration: none; }
 .win { padding: var(--s4); border: 1px solid var(--line); border-radius: var(--radius-lg); display: grid; gap: 4px; }
 .win.now { border-color: var(--ok); background: var(--ok-bg); color: var(--ok); }
 
-/* responsive : portrait tablette, infirmerie, double écran */
+/* responsive: tablet portrait, infirmary, dual screen */
 @media (max-width: 1100px) {
   .astro-grid { grid-template-columns: 1fr 1fr; }
   .astro-grid .span-rows { grid-row: auto; grid-column: 1 / -1; }
@@ -1323,7 +1323,7 @@ a { color: inherit; text-decoration: none; }
 }
 @media (min-width: 1700px) {
   .r-main { padding: var(--s6) var(--s7); }
-  /* liste densifiée HUD — pas de grille 4 cartes */
+  /* dense HUD list — no 4-card grid */
   .crew-grid { grid-template-columns: 1fr; }
   .cmo-layout { grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr); }
   .cmo-side { grid-template-columns: 1fr; }
@@ -1361,7 +1361,7 @@ a { color: inherit; text-decoration: none; }
 .view-seg button { min-height: 36px; min-width: 52px; padding: 0 12px; border-radius: var(--pill); font-size: .8125rem; font-weight: 600; color: var(--text-2); }
 .view-seg button[aria-checked="true"] { background: var(--band); color: var(--accent); }
 .body3d-hint { position: absolute; top: 4px; right: 8px; font: 500 .6875rem var(--font-mono); color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; pointer-events: none; }
-/* v6.1 — silhouette 3D + règles UX (cibles ≥ 48 px, exceptions d’abord, divulgation progressive) */
+/* v6.1 — 3D silhouette + UX rules (targets ≥ 48 px, exceptions first, progressive disclosure) */
 .body-fig { position: relative; width: 100%; max-width: 360px; aspect-ratio: 2 / 3; margin: 0 auto; }
 .body-fig .body3d { position: absolute; inset: 0; min-height: 0; }
 .body3d.still img { width: 100%; height: 100%; object-fit: contain; display: block; user-select: none; }
@@ -1377,7 +1377,7 @@ button.linkish { display: inline; padding: 0; border: 0; background: none; color
 .zone-chips button { min-height: 48px; padding: 0 14px; border-radius: var(--pill); border: 1px solid var(--line); font-size: .875rem; font-weight: 600; color: var(--text-2); }
 .zone-chips button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--band); }
 .seg2 button, .role-switch button, .stepper button, .rep-filter button, .view-seg button, .crew-tabs button { min-height: 48px; }
-/* hauteur barre : définie dans hud.css (56 px) pour rester cohérent mobile/desktop */
+/* bar height: defined in hud.css (56 px) so it stays consistent on mobile and desktop */
 .status-line { border: 1px solid color-mix(in srgb, var(--medium) 38%, var(--hairline, var(--line))); background: color-mix(in srgb, var(--medium-bg) 45%, var(--surface)); border-radius: var(--radius-lg); padding: 0 var(--s4); }
 .status-line summary { min-height: 48px; display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; flex-wrap: wrap; }
 .status-line summary .icon { color: var(--medium); }
@@ -1397,7 +1397,7 @@ button.linkish { display: inline; padding: 0; border: 0; background: none; color
 
 .cmo-body { display: none; }
 
-/* planche Silhouette 3D */
+/* 3D Silhouette board */
 .still-set { background: #050608; color: #f2f4f7; min-height: 100vh; padding: 56px 64px; display: grid; gap: 36px; align-content: start; }
 .still-set header { display: flex; gap: 20px; align-items: center; }
 .still-set h1 { font-size: 2.5rem; margin: 4px 0; } .still-set .sub { color: #9aa0a8; margin: 0; font-size: 1.05rem; }
@@ -1418,7 +1418,7 @@ button.linkish { display: inline; padding: 0; border: 0; background: none; color
 .hot3d.abs.lft { flex-direction: row-reverse; padding-left: 0; padding-right: 15px; transform: translate(calc(-100% + 22px), -50%); }
 
 /* ================================================================== */
-/* Auth (v6 projet) : utilisateur connecté, déconnexion, connexion      */
+/* Auth (v6 project): signed-in user, sign-out, sign-in      */
 /* ================================================================== */
 .r-brand { color: inherit; text-decoration: none; }
 .r-user { display: flex; align-items: center; gap: 8px; margin-left: 0; padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--radius); color: var(--text-2); min-width: 0; background: var(--bg); }
@@ -1449,7 +1449,7 @@ button.linkish { display: inline; padding: 0; border: 0; background: none; color
 .welcome-roles li { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--line); border-radius: var(--pill); font-size: .8125rem; color: var(--text-2); }
 .welcome-roles .icon { color: var(--text-3); }
 
-/* ---------- graphiques temps réel (Recharts) ---------- */
+/* ---------- real-time charts (Recharts) ---------- */
 .live-chart { display: grid; gap: var(--s3); }
 .live-now { display: flex; gap: var(--s5); flex-wrap: wrap; }
 .live-now dt { font-size: .75rem; color: var(--text-3); }
@@ -1467,7 +1467,7 @@ button.linkish { display: inline; padding: 0; border: 0; background: none; color
 .alert-list p { color: var(--text-2); font-size: .875rem; }
 .alert-list small { color: var(--text-3); font-family: var(--font-mono); font-size: .75rem; }
 
-/* ---------- notifications d’action ---------- */
+/* ---------- action notifications ---------- */
 .notice-host { position: fixed; z-index: 90; right: var(--s4); bottom: var(--s4); display: flex; flex-direction: column; gap: var(--s2); width: min(26rem, calc(100vw - var(--s6))); }
 .notice { display: grid; grid-template-columns: auto 1fr auto; gap: var(--s3); align-items: start; padding: var(--s3) var(--s3) var(--s3) var(--s4); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-lg); color: var(--text); }
 .notice strong { display: block; font-size: .9375rem; }

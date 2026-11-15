@@ -1,4 +1,4 @@
-/* Bandeau d’action : confirmation locale, ou rappel qu’il faut le backend. */
+/* Action banner: local confirmation, or a reminder that the backend is required. */
 import { useSyncExternalStore } from "react";
 
 export type NoticeKind = "ok" | "backend";
@@ -27,7 +27,7 @@ export function pushNotice(n: { kind: NoticeKind; title: string; detail: string 
   return item.id;
 }
 
-/** L’action ne peut pas aboutir sans l’API (liaison, sonde, capteur distant). */
+/** The action cannot complete without the API (link, probe, remote sensor). */
 export function notifyBackend(action: string) {
   pushNotice({
     kind: "backend",
@@ -36,7 +36,7 @@ export function notifyBackend(action: string) {
   });
 }
 
-/** L’action est faite dans le navigateur, en attendant le serveur. */
+/** The action is done in the browser, pending the server. */
 export function notifyOk(title: string, detail: string) {
   pushNotice({ kind: "ok", title, detail });
 }

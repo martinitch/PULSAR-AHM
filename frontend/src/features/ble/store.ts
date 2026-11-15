@@ -1,4 +1,4 @@
-/* Dernière mesure reçue d’un appareil BLE, partagée entre la montre et les kits. */
+/* Latest reading received from a BLE device, shared between the watch and the kits. */
 import { useSyncExternalStore } from "react";
 import type { BleReading } from "./gatt";
 

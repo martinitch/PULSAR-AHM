@@ -1,14 +1,14 @@
-/* Conducteur de temps (inspiré du « Time Conductor » de NASA Open MCT, sans reprise de code) :
-   - Temps réel : fenêtre glissante qui se termine à « maintenant » (1, 2 ou 5 min), rafraîchie en continu.
-   - Fixe : fenêtre figée [début, fin] que l’on peut décaler ; plus de rafraîchissement.
-   Un seul conducteur pilote toutes les courbes temps réel d’un écran (contexte React). */
+/* Time conductor (inspired by NASA Open MCT’s « Time Conductor », no code reused):
+   - Real time: sliding window ending at “now” (1, 2, or 5 min), refreshed continuously.
+   - Fixed: frozen window [start, end] that can be shifted; no further refresh.
+   A single conductor drives every real-time curve on a screen (React context). */
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Icon } from "@/components/ui";
 import { useLang } from "@/i18n";
 
 export type ConductorMode = "realtime" | "fixed";
 export type Conductor = { mode: ConductorMode; spanSec: number; end: number | null; setMode: (m: ConductorMode) => void; setSpan: (s: number) => void; shift: (sec: number) => void };
-const STEP = 2; // pas d’échantillonnage de la télémétrie (s)
+const STEP = 2; // telemetry sampling step (s)
 const Ctx = createContext<Conductor | null>(null);
 
 export function ConductorProvider({ children, span = 120 }: { children: ReactNode; span?: number }) {
@@ -24,7 +24,7 @@ export function ConductorProvider({ children, span = 120 }: { children: ReactNod
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
-/** Paramètres de requête pour useTelemetry selon le conducteur (ou temps réel 2 min par défaut). */
+/** Query parameters for useTelemetry from the conductor (or 2 min real time by default). */
 export function useConductorQuery() {
   const c = useContext(Ctx);
   const spanSec = c?.spanSec ?? 120;

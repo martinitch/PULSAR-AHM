@@ -1,5 +1,5 @@
-/* Appairage : la radio liste les appareils réellement à portée, puis ouvre la liaison.
-   Persistance localStorage par astronaute. L’état « en cours » reste local. */
+/* Pairing: the radio lists devices actually in range, then opens the link.
+   localStorage persistence per astronaut. The "in progress" state stays local. */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { disconnect as disconnectBle, hasWebBluetooth, holdDevice, listen, requestNearbyDevice, takeDevice } from "@/features/ble/gatt";
 import { connectRadio, disconnectRadio, followRadioLink, radioDevices, radioLink, radioStatus, startRadioScan, stopRadioScan } from "@/features/ble/radio";

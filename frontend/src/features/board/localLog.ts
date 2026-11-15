@@ -1,5 +1,5 @@
-/* Journal médical local (cet appareil), en attendant l’API.
-   L’astronaute y écrit ; le médecin de bord le lit dans le même navigateur. */
+/* Local medical log (this device), until the API is ready.
+   The astronaut writes to it; the onboard physician reads it in the same browser. */
 import { useSyncExternalStore } from "react";
 import type { Light } from "@/data/types";
 import { localizeEvents, useLang } from "@/i18n";
@@ -32,7 +32,7 @@ function subscribe(fn: () => void) {
   return () => { window.removeEventListener(EVT, fn); window.removeEventListener("storage", fn); };
 }
 
-/** Événements de cet appareil, puis la journée de démo. */
+/** Events from this device, then the demo day. */
 export function useJournal(): BoardLine[] {
   const { lang } = useLang();
   const snap = useSyncExternalStore(subscribe, () => localStorage.getItem(KEY) ?? "", () => "");

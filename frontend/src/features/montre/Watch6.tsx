@@ -1,7 +1,7 @@
 import "./watch.css";
-/* v6 — Montre PULSAR : écrans carrés 198×242 (watchOS) et ronds 454×454 (Wear OS).
-   Principes : un regard (< 2 s), une info principale + une action, fond noir OLED,
-   état = couleur + icône + mot (NASA-STD-3001 C&W), cibles ≥ 44 pt / 48 dp, retour haptique décrit. */
+/* v6 — PULSAR Watch: square screens 198×242 (watchOS) and round 454×454 (Wear OS).
+   Principles: one glance (< 2 s), one primary info + one action, black OLED background,
+   state = color + icon + word (NASA-STD-3001 C&W), targets ≥ 44 pt / 48 dp, haptic feedback described. */
 import { useEffect, useState } from "react";
 import { Icon, Emblem, type IconName } from "@/components/ui";
 import { notifyBackend, notifyOk } from "@/components/ui/noticeStore";
@@ -10,13 +10,13 @@ import { useLang } from "@/i18n";
 
 export type WShape = "square" | "round";
 export type WView = "home" | "caution" | "warning" | "reminder" | "breathe" | "sync" | "offline" | "body" | "goals";
-/** Complication gamification (CDC § 5.9) : série de régularité + objectif d’équipage. null = désactivée. */
+/** Gamification complication (CDC § 5.9): regularity streak + crew goal. null = disabled. */
 export type WGoals = { streak: number; crew: number } | null;
 export const W_VIEWS: [WView, string][] = [
   ["home", "Cadran · accueil"], ["body", "Mini silhouette"], ["caution", "Alerte orange"], ["warning", "Alerte rouge"],
   ["reminder", "Rappel de mesure"], ["breathe", "Respiration"], ["sync", "Synchro tablette"], ["offline", "Hors ligne"], ["goals", "Objectifs (complication)"],
 ];
-const HYP = [2, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 2]; // profondeur de sommeil (DÉMO) — barres alignées en bas
+const HYP = [2, 3, 2, 1, 2, 3, 3, 2, 1, 2, 3, 2]; // sleep depth (DEMO) — bars aligned at the bottom
 
 function Top({ icon, label, tone, time = "09:41" }: { icon?: IconName; label: string; tone?: "ok" | "caution" | "warning" | "muted" | "accent"; time?: string }) {
   return <div className="wt-top"><span className={`wt-lab t-${tone ?? "muted"}`}>{icon && <Icon name={icon} size={12} />}{label}</span><span className="wt-time">{time}</span></div>;
@@ -45,7 +45,7 @@ function Mini({ big }: { big?: boolean }) {
 
 export function Watch6({ shape, view: initial = "home", frozen = false, goals }: { shape: WShape; view?: WView; frozen?: boolean; goals?: WGoals }) {
   const { tr } = useLang();
-  const gl = goals === undefined ? { streak: 12, crew: 70 } : goals; // galerie : valeurs DÉMO
+  const gl = goals === undefined ? { streak: 12, crew: 70 } : goals; // gallery: DEMO values
   const [view, setView] = useState<WView>(initial);
   const [sec, setSec] = useState(42);
   const [flash, setFlash] = useState<string | null>(null);
@@ -161,7 +161,7 @@ export function Watch6({ shape, view: initial = "home", frozen = false, goals }:
   );
 }
 
-/* galerie : toutes les vues, deux formats */
+/* gallery: every view, two formats */
 export function WatchGallery() {
   const { tr } = useLang();
   return (

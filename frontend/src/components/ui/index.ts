@@ -1,4 +1,4 @@
-/* Composants UI partagés — importer depuis "@/components/ui". */
+/* Shared UI components — import from "@/components/ui". */
 export { Icon, type IconName } from "./Icon";
 export { FigmaIcon } from "./FigmaIcon";
 export { Emblem, Logo } from "./Brand";

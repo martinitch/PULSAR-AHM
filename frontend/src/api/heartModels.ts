@@ -1,6 +1,6 @@
-/* Mêmes trois modèles que le backend (repli DÉMO si l’API est injoignable) :
-   XGBoost (boosting de second ordre + tendance), LSTM saisonnier, Prophet (Fourier).
-   Série de démonstration. Aide à la décision, pas un diagnostic. */
+/* Same three models as the backend (DÉMO fallback if the API is unreachable):
+   XGBoost (second-order boosting + trend), seasonal LSTM, Prophet (Fourier).
+   Demonstration series. Decision support, not a diagnosis. */
 import type { ForecastPoint, HeartLiveForecast } from "./types";
 
 const H = 4;

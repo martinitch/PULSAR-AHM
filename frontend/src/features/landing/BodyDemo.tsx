@@ -1,4 +1,4 @@
-/* Silhouette 3D de la page d’accueil (chargée à la demande) : cliquer une zone affiche sa fonction. */
+/* 3D silhouette of the home page (loaded on demand): clicking a zone shows its function. */
 import { BodyFigure, statesFor, useZoneZoom, zoneBrief } from "@/components/body3d";
 import { REGIONS } from "@/data/demo/regions";
 

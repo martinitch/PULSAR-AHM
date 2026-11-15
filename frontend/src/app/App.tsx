@@ -1,10 +1,10 @@
-/* Routeur principal.
-   /                     → page d’accueil publique (présentation de PULSAR)
-   /connexion            → connexion (identifiant personnel + code) ; /login redirige ici
-   /astronaute/*         → tableau de bord Astronaute (rôle « astronaute »)
-   /medecin-bord/*       → tableau de bord Médecin de bord (rôle « medecin-bord »)
-   /nasa/*               → tableau de bord NASA Houston (rôle « nasa »)
-   Chaque espace est protégé par <RequireRole> et chargé à la demande (code splitting). */
+/* Main router.
+   /                     → public home page (PULSAR presentation)
+   /connexion            → sign-in (personal id + code); /login redirects here
+   /astronaute/*         → Astronaut dashboard (role « astronaute »)
+   /medecin-bord/*       → Crew medical officer dashboard (role « medecin-bord »)
+   /nasa/*               → NASA Houston dashboard (role « nasa »)
+   Each area is protected by <RequireRole> and loaded on demand (code splitting). */
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { MotionConfig } from "motion/react";

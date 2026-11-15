@@ -1,12 +1,14 @@
-/* Intro une fois par visite : logo PULSAR en zoom (~1 s) puis tracé ECG ; skippable d’un clic. */
+/* Intro once per visit: PULSAR logo zoom (~1 s) then ECG trace; skippable with a click. */
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Logo } from "@/components/ui";
+import { useLang } from "@/i18n";
 
 const KEY = "pulsar.landing.intro";
 
 export function LandingIntro({ onDone }: { onDone: () => void }) {
   const calm = useReducedMotion();
+  const { tr } = useLang();
   const [phase, setPhase] = useState<"logo" | "ecg" | "done">("logo");
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export function LandingIntro({ onDone }: { onDone: () => void }) {
   if (phase === "done") return null;
 
   return (
-    <button type="button" className="lp-intro" onClick={skip} aria-label="Passer l’introduction">
+    <button type="button" className="lp-intro" onClick={skip} aria-label={tr("Passer l’introduction", "Skip the introduction")}>
       <motion.div
         className="lp-intro-logo"
         initial={{ scale: 1.35, opacity: 0.35 }}
@@ -62,7 +64,7 @@ export function LandingIntro({ onDone }: { onDone: () => void }) {
           />
         </svg>
       )}
-      <span className="lp-intro-skip muted small">Cliquer pour passer</span>
+      <span className="lp-intro-skip muted small">{tr("Cliquer pour passer", "Click to skip")}</span>
     </button>
   );
 }

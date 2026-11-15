@@ -1,4 +1,4 @@
-/* Entrée — même scène spatiale que la landing (étoiles + limbe). Choix du rôle, sans identifiant. */
+/* Entry — same space scene as the landing (stars + limb). Role choice, without an identifier. */
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";

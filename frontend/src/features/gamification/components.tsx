@@ -1,5 +1,5 @@
-/* Gamification coopérative (CDC § 5.9) : série de régularité, missions du jour, objectif d’équipage, badges.
-   Sobre : pas de confettis, pas de glow ; animations Motion discrètes (respect de prefers-reduced-motion). */
+/* Cooperative gamification (CDC § 5.9): regularity streak, daily missions, crew goal, badges.
+   Quiet: no confetti, no glow; short Motion animations (honors prefers-reduced-motion). */
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion, useReducedMotion } from "motion/react";
@@ -18,7 +18,7 @@ type G = ReturnType<typeof useGamification>;
 const WEEKDAY = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
 const XP_PER_MISSION = 25;
 
-/** Calendrier hebdomadaire (7 jours) : coché / en cours / manqué — régularité uniquement. */
+/** Weekly calendar (7 days): done / in progress / missed — regularity only. */
 export function StreakWeek({ g }: { g: G }) {
   const today = new Date();
   const days = Array.from({ length: 7 }, (_, i) => {
@@ -52,7 +52,7 @@ export function StreakWeek({ g }: { g: G }) {
   );
 }
 
-/** Historique compact 14 jours (sous le calendrier). */
+/** Compact 14-day history (under the calendar). */
 export function StreakDays({ g }: { g: G }) {
   const days = Array.from({ length: 14 }, (_, i) => 13 - i);
   return (
@@ -87,7 +87,7 @@ export function StreakCard({ g, className }: { g: G; className?: string }) {
   );
 }
 
-/** Tuiles bento de régularité — jamais de valeurs de santé (EF-42). */
+/** Regularity bento tiles — never health values (EF-42). */
 export function RegularityTiles({ g }: { g: G }) {
   const missionsDone = g.missions.filter((m) => m.done).length;
   const badgesGot = g.badgesEarned;
@@ -147,20 +147,22 @@ export function MissionsCard({ g, className }: { g: G; className?: string }) {
 }
 
 export function CrewGoalBar({ pct }: { pct: number }) {
-  return <span className="goal-bar" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label="Objectif d’équipage"><motion.i initial={false} animate={{ width: `${pct}%` }} transition={{ duration: 0.35, ease: "easeOut" }} /></span>;
+  const { tr } = useLang();
+  return <span className="goal-bar" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label={tr("Objectif d’équipage", "Crew goal")}><motion.i initial={false} animate={{ width: `${pct}%` }} transition={{ duration: 0.35, ease: "easeOut" }} /></span>;
 }
 
 export function CrewGoalCard({ g }: { g: G }) {
+  const { tr } = useLang();
   return (
-    <Card title="Objectif d’équipage" glyph={<GameIcon name="crew" />}>
-      <p className="goal-line"><b className="mono">{g.crew.pct} %</b> des mesures du jour faites par l’équipage <span className="muted mono">({g.crew.done}/{g.crew.total})</span></p>
+    <Card title={tr("Objectif d’équipage", "Crew goal")} glyph={<GameIcon name="crew" />}>
+      <p className="goal-line"><b className="mono">{g.crew.pct} %</b> {tr("des mesures du jour faites par l’équipage", "of today’s measures done by the crew")} <span className="muted mono">({g.crew.done}/{g.crew.total})</span></p>
       <CrewGoalBar pct={g.crew.pct} />
-      <p className="r-note">Objectif commun : 100 % avant 21:00. Chacun y contribue ; aucun classement individuel.</p>
+      <p className="r-note">{tr("Objectif commun : 100 % avant 21:00. Chacun y contribue ; aucun classement individuel.", "Shared goal: 100% before 21:00. Everyone contributes; no individual ranking.")}</p>
     </Card>
   );
 }
 
-/** Médaille plate : disque + ruban. Le symbole passe en encre d’accent quand l’insigne est obtenu. */
+/** Flat medal: disc + ribbon. The mark uses accent ink once the badge is earned. */
 function Medal({ name, goal, showCount }: { name: GameIconName; goal: number; earned: boolean; showCount: boolean }) {
   return (
     <span className="bd-medal">
@@ -236,7 +238,7 @@ function useTick(ms = 90) {
   return calm ? 0 : tick;
 }
 
-/** Compte 0 → cible à l’ouverture (0,9 s), puis suit les changements en 0,28 s. */
+/** Counts from 0 to the target on open (0.9 s), then follows changes in 0.28 s. */
 function useCountUp(target: number, ms = 900) {
   const calm = useReducedMotion();
   const [n, setN] = useState(target);
@@ -268,7 +270,7 @@ function useCountUp(target: number, ms = 900) {
   return n;
 }
 
-/** Échantillon 0–1. Le gain (0–1) ne fait varier que l’amplitude de régularité. */
+/** Sample 0–1. Gain (0–1) only changes the regularity amplitude. */
 function sample(i: number, mode: TraceMode, gain: number) {
   const amp = 0.25 + Math.max(0, Math.min(1, gain)) * 0.7;
   if (mode === "pulse") {
@@ -294,7 +296,7 @@ function traceSeries(tick: number, mode: TraceMode, gain: number) {
   return pts;
 }
 
-/** Courbe qui se trace une fois, point en tête, barres sous le trait. Ensuite elle défile. */
+/** Curve draws once, with a leading dot and bars under the line. Then it scrolls. */
 function LiveTrace({ tick, mode, gain, label }: { tick: number; mode: TraceMode; gain: number; label: string }) {
   const calm = useReducedMotion();
   const pts = traceSeries(tick, mode, gain);
@@ -316,7 +318,7 @@ function LiveTrace({ tick, mode, gain, label }: { tick: number; mode: TraceMode;
   );
 }
 
-/** Écran de séance : bouton Exercice, corps 3D teinté en direct, traces de régularité. */
+/** Session screen: Exercise button, live-tinted 3D body, regularity traces. */
 export function MissionHud({ g }: { g: G }) {
   const { tr } = useLang();
   const tick = useTick();
@@ -396,7 +398,7 @@ export function MissionHud({ g }: { g: G }) {
   );
 }
 
-/** Bandeau compact pour l’accueil astronaute. */
+/** Compact strip for the astronaut home. */
 export function GoalsStrip({ g }: { g: G }) {
   const { tr } = useLang();
   const tick = useTick(110);

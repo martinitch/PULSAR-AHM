@@ -1,5 +1,5 @@
-/* FR / EN — textes de la page d’accueil uniquement. */
-export type Lang = "fr" | "en";
+/* EN / FR — landing page copy only. English is the default. */
+export type Lang = "en" | "fr";
 
 export const LANG_KEY = "pulsar.lang";
 
@@ -210,5 +210,5 @@ export function readLang(): Lang {
     const v = localStorage.getItem(LANG_KEY);
     if (v === "en" || v === "fr") return v;
   } catch { /* ignore */ }
-  return "fr";
+  return "en";
 }

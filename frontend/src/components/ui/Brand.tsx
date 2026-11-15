@@ -1,5 +1,5 @@
-/* Marque PULSAR — monogramme clinique (cercle + orbite + ECG), couleurs = tokens.
-   Pas de PNG « glossy », pas d’étoiles décoratives. Assets export : public/brand/. */
+/* PULSAR brand — clinical monogram (circle + orbit + ECG), colors = tokens.
+   No « glossy » PNG, no decorative stars. Export assets: public/brand/. */
 export function Emblem({ size = 28, className }: { size?: number; className?: string }) {
   const sw = size < 40 ? 1.6 : 1.4;
   return (

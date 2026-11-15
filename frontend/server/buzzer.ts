@@ -1,5 +1,5 @@
-/* Relais vers le buzzer ESP32 : POST http://<ip>/bip (timeout 2 s).
-   L’IP vient de l’environnement du serveur de dev, jamais du navigateur. */
+/* Relay to the ESP32 buzzer: POST http://<ip>/bip (2 s timeout).
+   The IP comes from the dev server environment, never from the browser. */
 
 const IPV4 = /^(?:\d{1,3}\.){3}\d{1,3}$/;
 const DEFAULT_IP = "192.168.137.11";
@@ -14,7 +14,7 @@ export function buzzerIp(raw: string | undefined): string {
   return ok ? ip : DEFAULT_IP;
 }
 
-/** Salve : plusieurs POST /bip d’affilée. Le firmware n’a pas de volume, la répétition porte plus fort. */
+/** Burst: several POST /bip in a row. The firmware has no volume, so repetition carries louder. */
 export async function bipFort(ip: string, times = 8): Promise<{ ok: boolean; text?: string; error?: string; beeps: number }> {
   let beeps = 0;
   let last: { ok: boolean; text?: string; error?: string } = { ok: false, error: "ESP32 injoignable" };

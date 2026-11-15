@@ -1,4 +1,4 @@
-/* Routes NASA — nav courte : Rapports · Réponse · Liaison (détail via la liste). */
+/* NASA routes — short nav: Reports · Reply · Link (detail via the list). */
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import { RoleLayout, type NavGroup } from "@/app/RoleLayout";
 import { NotFound } from "@/app/NotFound";

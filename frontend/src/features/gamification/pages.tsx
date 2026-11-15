@@ -1,6 +1,6 @@
-/* Pages astronaute : /astronaute/objectifs (équipage + XP) et /astronaute/reglages.
-   Carte médecin : participation équipage (sans classement).
-   Layout bento desktop — régularité uniquement (CDC EF-42/43/44), tokens PULSAR. */
+/* Astronaut pages: /astronaute/objectifs (crew + XP) and /astronaute/reglages.
+   Physician card: crew participation (no ranking).
+   Desktop bento layout — regularity only (CDC EF-42/43/44), PULSAR tokens. */
 import { Navigate } from "react-router";
 import { Card, Icon, PageHead as Head, Avatar, Demo } from "@/components/ui";
 import { GameIcon } from "./glyphs";
@@ -136,7 +136,7 @@ export function AstroSettings() {
   );
 }
 
-/** Médecin de bord : participation équipage + XP (sans classement). */
+/** Crew surgeon: crew participation + XP (no ranking). */
 export function CrewParticipationCard() {
   const { tr, lang } = useLang();
   const { goal, members, poolXp } = useCrewGamificationSnapshot();

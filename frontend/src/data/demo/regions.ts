@@ -1,4 +1,4 @@
-/* Zones du corps ↔ risques du NASA Human Research Program (HRP). Textes affichés par la silhouette santé. */
+/* Body zones ↔ NASA Human Research Program (HRP) risks. Texts shown by the health silhouette. */
 import type { IconName } from "@/components/ui";
 
 export type Posture = { pos: string; action: string };

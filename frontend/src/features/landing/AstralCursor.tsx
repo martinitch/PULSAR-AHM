@@ -1,4 +1,4 @@
-﻿/* Curseur astral : flèche par défaut, main assortie sur les zones cliquables. */
+﻿/* Astral cursor: default arrow, matching hand on clickable areas. */
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 
@@ -60,7 +60,7 @@ export function AstralCursor({ on }: { on: boolean }) {
     };
   }, [on]);
 
-  /* Recaler le hotspot quand on passe flèche ↔ main */
+  /* Realign the hotspot when switching arrow ↔ hand */
   useEffect(() => {
     if (!ok) return;
     mx.set(client.x - asset.tipX);
@@ -90,7 +90,7 @@ export function AstralCursor({ on }: { on: boolean }) {
   );
 }
 
-/** Micro-vibration (si le navigateur le permet). */
+/** Micro-vibration (if the browser allows it). */
 export function tap(ms = 10) {
   try {
     navigator.vibrate?.(ms);

@@ -1,5 +1,5 @@
-/* Astronaute — tablette personnelle (cabine). Maquettes Figma : page « Astronaute » (1:3), écrans A01–A14.
-   L’astronaute ne voit QUE ses propres données : `useMe()` renvoie le membre d’équipage de l’utilisateur connecté. */
+/* Astronaut — personal tablet (cabin). Figma mockups: page « Astronaute » (1:3), screens A01–A14.
+   The astronaut sees ONLY their own data: `useMe()` returns the crew member of the signed-in user. */
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { Icon, type IconName, Emblem, Demo, Card, Lamp, PageHead as Head, WorkflowBadge, HudDial, CrewPhotoButton } from "@/components/ui";
@@ -28,7 +28,7 @@ import type { Go } from "@/app/types";
 import { bpLights, glucoseLight, heartRateLight, moodLight, sleepLight, spo2Light, temperatureLight, THRESHOLDS as TH } from "@/data/thresholds";
 import { useLang } from "@/i18n";
 
-/** Accueil A01 — télémétrie SaaS clinique : vitaux + corps 3D + aide + frise + donut régularité. */
+/** Home A01 — clinical SaaS telemetry: vitals + 3D body + guidance + timeline + regularity donut. */
 export function AstroHome({ go }: { go: Go }) {
   const { t, tr } = useLang();
   const ME = useMe();
@@ -566,7 +566,7 @@ export function AstroReminders({ go }: { go: Go }) {
     </>
   );
 }
-/* Mode bras (sortie / EVA) : 4 actions géantes, utilisables avec des gants */
+/* Arm mode (spacewalk / EVA): 4 giant actions, usable with gloves */
 export function ArmMode({ go }: { go: Go }) {
   const { tr } = useLang();
   const ME = useMe();

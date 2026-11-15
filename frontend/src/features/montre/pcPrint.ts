@@ -1,4 +1,4 @@
-/* Appel du lecteur d'empreinte du PC via le serveur de développement. */
+/* Call to the PC fingerprint reader via the development server. */
 
 export type PrintCode =
   | "ready"

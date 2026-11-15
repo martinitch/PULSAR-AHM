@@ -1,6 +1,6 @@
-/* Seuils indicatifs — cahier des charges §7 et §8.
-   backend/app/thresholds.json reprend les mêmes nombres (le serveur Python n’est pas dans ce dépôt).
-   Ce n’est pas un diagnostic. Un médecin doit valider ces repères. */
+/* Indicative thresholds — requirements document §7 and §8.
+   backend/app/thresholds.json uses the same numbers (the Python server is not in this repo).
+   This is not a diagnosis. A physician must validate these reference points. */
 import type { Light } from "./types";
 
 export const THRESHOLDS = {
@@ -10,12 +10,12 @@ export const THRESHOLDS = {
   bp_diastolic: { orange: 85, rouge: 100 },
   glucose_fasting: { orangeHigh: 99, rougeHigh: 126, orangeLow: 70, rougeLow: 54 },
   glucose_post: { orangeHigh: 140, rougeHigh: 180, orangeLow: 70, rougeLow: 54 },
-  /** Prévisions sans contexte de repas : côté haut seulement. */
+  /** Forecasts without meal context: high side only. */
   glucose_forecast: { orange: 126, rouge: 180 },
   temperature: { orangeHigh: 37.5, rougeHigh: 38, orangeLow: 36.1, rougeLow: 35 },
-  /** CDC : 7 h ou plus. Attention sous 6 h, alerte à 5 h ou moins (§8, nuits courtes). */
+  /** CDC: 7 h or more. Caution under 6 h, alert at 5 h or less (§8, short nights). */
   sleep: { orange: 6, rouge: 5 },
-  /** Pas de norme CDC : 1 = alerte, 2 = attention, 3 à 5 = nominal. */
+  /** No CDC standard: 1 = alert, 2 = caution, 3 to 5 = nominal. */
   mood: { orange: 2, rouge: 1 },
   radiation: { orange: 40, rouge: 100 },
 } as const;

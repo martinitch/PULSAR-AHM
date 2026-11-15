@@ -1,6 +1,6 @@
-/* Simulateur (DÉMO) des prévisions, anomalies et solutions proposées.
-   Déterministe : mêmes résultats pour un astronaute et une heure donnés. Aucune vraie donnée médicale.
-   Le vrai backend (Isolation Forest / autoencodeur LSTM + modèle de prévision) devra renvoyer les mêmes formes
+/* Simulator (DÉMO) for forecasts, anomalies, and proposed solutions.
+   Deterministic: same results for a given astronaut and hour. No real medical data.
+   The real backend (Isolation Forest / LSTM autoencoder + forecast model) must return the same shapes
    (docs/API-CONTRACT.md). */
 import type { AlertLevel, Anomaly, ForecastPoint, Horizon, MetricForecast, Prediction, PredictionMetric, Recommendation, RecommendationUpdate } from "./types";
 import { applyHeartModels } from "./heartModels";
@@ -31,7 +31,7 @@ const METRIC_EN: Record<PredictionMetric, string> = {
   heart_rate: "Resting HR", spo2: "SpO₂", bp_systolic: "Systolic pressure", skin_temp: "Temperature",
   glucose: "Glucose", sleep: "Sleep", radiation: "Dose rate",
 };
-// base, pente par heure (horizon 24 h), pente par jour (horizon 7 j) — scénarios de démo par astronaute
+// base, hourly slope (24 h horizon), daily slope (7 d horizon) — demo scenarios per astronaut
 type P = [number, number, number];
 const CREW_SPEC: Record<string, Partial<Record<PredictionMetric, P>> & { event?: Spec["event"] }> = {
   LK: { heart_rate: [94, 0.6, 1.6], spo2: [97, -0.01, -0.1], bp_systolic: [128, 0.22, 1.2], skin_temp: [37.1, 0.008, 0.04], glucose: [98, 0.1, 0.6], sleep: [5.3, 0, -0.08], radiation: [19.2, 0, 0.1] },
@@ -50,7 +50,7 @@ function forecast(id: string, metric: PredictionMetric, horizon: Horizon, now: n
   const daily = d.daily || horizon === "7d";
   const step = daily ? DAY : HOUR, past = daily ? 7 : 24, fut = daily ? (horizon === "7d" ? 7 : 3) : 24;
   const t0 = Math.floor(now / step) * step, k = hash(id + metric);
-  const val = (i: number) => { // i = pas relatif à maintenant (négatif = passé)
+  const val = (i: number) => { // i = step relative to now (negative = past)
     const h = (i * step) / HOUR;
     const trend = daily ? slopeD * i : slopeH * i;
     const circ = daily ? 0 : d.amp * Math.sin(((new Date(t0 + i * step).getUTCHours() - 4) / 24) * 2 * Math.PI);
@@ -68,7 +68,7 @@ function forecast(id: string, metric: PredictionMetric, horizon: Horizon, now: n
   const futs = points.filter((p) => p.predicted !== undefined);
   let tth: number | null = null, tl: AlertLevel | undefined;
   for (const lvl of ["orange", "rouge"] as const) {
-    if (crosses(futs[0].predicted!, d.thr, lvl)) continue; // déjà franchi
+    if (crosses(futs[0].predicted!, d.thr, lvl)) continue; // already crossed
     const hit = futs.findIndex((p) => crosses(p.predicted!, d.thr, lvl));
     if (hit > 0) { tth = Math.round(((Date.parse(futs[hit].timestamp) - now) / HOUR) * 10) / 10; tl = lvl; break; }
   }
@@ -128,7 +128,7 @@ const RECS: Record<string, Omit<Recommendation, "status" | "updatedAt" | "update
   NO: [],
 };
 
-/* état des recommandations (mock) : gardé dans le navigateur pour que les actions survivent au rechargement */
+/* recommendation state (mock): kept in the browser so actions survive reload */
 const STORE = "pulsar.mock.recommendations";
 type St = Pick<Recommendation, "status" | "updatedAt" | "updatedBy" | "note" | "replacementTitle">;
 const load = (): Record<string, St> => { try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { return {}; } };

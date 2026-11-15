@@ -1,8 +1,8 @@
-/* Drapeaux de développement. Actifs seulement en `npm run dev` (ou build avec VITE_DEV_TOOLS=true).
-   - ?capture=1 : silhouette en image fixe (captures Figma / tests visuels, pas de WebGL)
-   - ?stillset  : planche Silhouette 3D (face, ¾, dos) — maquette Figma A14
-   - ?wtgrid    : galerie de tous les écrans montre ; ?wt=square|round&v=home… : un écran montre seul
-   - ?still=front|34|side|back&theme=dark|light : rendu plein écran pour régénérer public/body3d/*.png */
+/* Development flags. Active only in `npm run dev` (or a build with VITE_DEV_TOOLS=true).
+   - ?capture=1: silhouette as a still image (Figma captures / visual tests, no WebGL)
+   - ?stillset  : Silhouette 3D board (front, ¾, back) — Figma mockup A14
+   - ?wtgrid    : gallery of every watch screen; ?wt=square|round&v=home… : a single watch screen
+   - ?still=front|34|side|back&theme=dark|light: full-screen render to regenerate public/body3d/*.png */
 const q = new URLSearchParams(window.location.search);
 const enabled = import.meta.env.DEV || import.meta.env.VITE_DEV_TOOLS === "true";
 export const devFlags = {
@@ -16,5 +16,5 @@ export const devFlags = {
   still: enabled ? q.get("still") : null,
   scan: enabled ? q.get("scan") : null,
 };
-/** Une page de dev est-elle demandée ? (évite de charger son code sinon) */
+/** Is a dev page requested? (avoids loading its code otherwise) */
 export const hasDevPage = devFlags.enabled && (devFlags.stillset || devFlags.wtgrid || !!devFlags.wt || !!devFlags.still);

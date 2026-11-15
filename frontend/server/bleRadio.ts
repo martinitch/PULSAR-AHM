@@ -1,6 +1,6 @@
-/* Recherche Bluetooth réelle pour le serveur de développement Vite.
-   Windows : bleak (radio de la machine, noms annoncés). Linux : bluetoothctl.
-   Absent de `vite preview` et des tests. */
+/* Real Bluetooth search for the Vite development server.
+   Windows: bleak (machine radio, advertised names). Linux: bluetoothctl.
+   Absent from `vite preview` and from tests. */
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { spawn, spawnSync, type ChildProcess } from "node:child_process";
@@ -111,7 +111,7 @@ function remember(id: string, name: string, named: boolean, rssi: number, esp: b
   devices.set(id, cur);
 }
 
-/** Interprète une ligne bluetoothctl (codes couleur déjà retirés). */
+/** Parses a bluetoothctl line (color codes already stripped). */
 export function ingestLine(line: string) {
   const text = line.replace(ANSI, "").trim();
   const hit = text.match(/^\[(NEW|CHG)\] Device ([0-9A-F:]{17}) (.*)$/i);

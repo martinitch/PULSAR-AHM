@@ -1,4 +1,4 @@
-/* Garde de route : pas de session → /connexion ; mauvais rôle → son propre tableau de bord. */
+/* Route guard: no session → /connexion; wrong role → their own dashboard. */
 import type { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
 import type { Role } from "@/data/types";

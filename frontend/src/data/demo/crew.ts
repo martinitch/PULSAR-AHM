@@ -1,5 +1,5 @@
-/* Données de DÉMONSTRATION de l’équipage (mission Artemis VI, jour 127). Aucune vraie mesure.
-   À remplacer par l’API (voir src/features/auth/authService.ts pour le modèle « service »). */
+/* DEMONSTRATION crew data (Artemis VI mission, day 127). No real measurement.
+   To be replaced by the API (see src/features/auth/authService.ts for the « service » model). */
 import type { EchoStudy, Light, Member, Report } from "@/data/types";
 export const CREW: Member[] = [
   { id: "AM", name: "Alex Morgan", role: "Commandant", light: "ok", reason: "Constantes dans les plages", hr: 68, bp: "118/76", spo2: 98, temp: "36,7", sleep: "7h42", mood: 4, fatigue: "Faible", sync: "il y a 2 min", cabin: "Cabine 1" },

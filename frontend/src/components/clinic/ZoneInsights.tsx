@@ -1,4 +1,4 @@
-/* Puces biomarqueurs par zone anatomique — autour de la silhouette 3D. */
+/* Biomarker chips per anatomical zone — around the 3D silhouette. */
 import { Icon, Lamp } from "@/components/ui";
 import type { Light } from "@/data/types";
 import { ZONES3D, type ZoneState } from "@/components/body3d";

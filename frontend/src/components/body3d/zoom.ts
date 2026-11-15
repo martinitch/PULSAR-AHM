@@ -1,4 +1,4 @@
-/* Zoom de zone partagé : même geste sur tous les tableaux de bord. */
+/* Shared zone zoom: the same gesture on every dashboard. */
 import { useState } from "react";
 import type { ZoneState } from "./zones";
 import { localizeRegions, readLang, useLang, type Lang } from "@/i18n";

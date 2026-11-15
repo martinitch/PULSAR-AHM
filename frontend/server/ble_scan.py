@@ -1,6 +1,6 @@
-"""Recherche et liaison Bluetooth réelles pour le serveur de développement.
+"""Real Bluetooth scan and link for the development server.
 
-Stdout : une ligne JSON par événement. Stdin : « stop » pour terminer.
+Stdout: one JSON line per event. Stdin: "stop" to finish.
   python ble_scan.py scan
   python ble_scan.py connect AA:BB:CC:DD:EE:FF
 """
@@ -18,7 +18,7 @@ from bleak.backends.device import BLEDevice
 from bleak.backends.scanner import AdvertisementData
 
 ESPRESSIF = 0x02E5
-# Caractéristiques standard lues si l’ESP (ou un autre appareil) les expose.
+# Standard characteristics read when the ESP (or another device) exposes them.
 CHARS = {
     "00002a37-0000-1000-8000-00805f9b34fb": "hr",
     "00002a35-0000-1000-8000-00805f9b34fb": "bp",

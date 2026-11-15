@@ -1,9 +1,9 @@
-/* Dictionnaire FR / EN — coque app + landing + connexion + navigation. */
+/* EN / FR dictionary — app shell, landing, sign-in, and navigation. English is the default. */
 import type { Role } from "@/data/types";
 import type { LandingCopy } from "@/features/landing/locale";
 import { COPY as LANDING } from "@/features/landing/locale";
 
-export type Lang = "fr" | "en";
+export type Lang = "en" | "fr";
 export const LANG_KEY = "pulsar.lang";
 
 export type AppMessages = {
@@ -226,5 +226,5 @@ export function readLang(): Lang {
     const v = localStorage.getItem(LANG_KEY);
     if (v === "en" || v === "fr") return v;
   } catch { /* ignore */ }
-  return "fr";
+  return "en";
 }

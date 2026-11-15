@@ -1,4 +1,4 @@
-/* Bandeau fixe : confirmation, ou « Backend requis ». Icône + mots, jamais la couleur seule. */
+/* Fixed banner: confirmation, or « Backend requis ». Icon + words, never color alone. */
 import { Icon } from "./Icon";
 import { dismissNotice, useNotices } from "./noticeStore";
 import { useLang } from "@/i18n";

@@ -1,4 +1,4 @@
-/* Dernières valeurs disponibles d’un astronaute (tableau LAD) : capteurs temps réel + dernières mesures de kit. */
+/* Latest available values for an astronaut (LAD table): realtime sensors + latest kit measurements. */
 import { usePredictions, useTelemetry } from "@/api";
 import { LadTable, type LadRow } from "@/components/telemetry";
 import { THRESHOLDS as TH } from "@/data/thresholds";

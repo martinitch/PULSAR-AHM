@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Icon, type IconName } from "./Icon";
-/* Carte de tableau de bord : titre + icône + (option) aside à droite, ex. <Demo />. */
+/* Dashboard card: title + icon + (optional) aside on the right, e.g. <Demo />. */
 export function Card({ title, icon, glyph, aside, children, className }: { title: string; icon?: IconName; glyph?: ReactNode; aside?: ReactNode; children: ReactNode; className?: string }) {
   return (
     <section className={`r-card ${className ?? ""}`}>

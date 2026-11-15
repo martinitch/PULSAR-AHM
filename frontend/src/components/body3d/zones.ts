@@ -1,10 +1,10 @@
-/* Zones de la silhouette 3D — partagées sans charger three.js. */
-/** `active` = zone sollicitée par la séance d’exercice (contre-mesure), pas un état clinique. */
+/* 3D silhouette zones — shared without loading three.js. */
+/** `active` = zone worked by the exercise session (countermeasure), not a clinical state. */
 export type ZoneState = "nominal" | "medium" | "high" | "none" | "active";
 export type View = "front" | "34" | "side" | "back";
 export const VIEW_ANGLE: Record<View, number> = { front: 0, "34": -Math.PI / 4, side: -Math.PI / 2, back: Math.PI };
 export const VIEW_LABEL: Record<View, string> = { front: "Face", "34": "¾", side: "Profil", back: "Dos" };
-/** Ancres anatomiques (m, corps de 1,75 m, face vers +z, gauche du sujet = +x). dir: côté d’où l’on projette sur la peau. r: rayon de teinte. */
+/** Anatomical anchors (m, 1.75 m body, face toward +z, subject’s left = +x). dir: side from which we project onto the skin. r: tint radius. */
 export const ZONES3D: { id: string; label: string; p: [number, number]; dir: 1 | -1; r: number; z?: number }[] = [
   { id: "brain", label: "Cerveau", p: [0, 1.715], dir: 1, r: 0.11 },
   { id: "eyes", label: "Yeux", p: [0.033, 1.624], dir: 1, r: 0.045 },

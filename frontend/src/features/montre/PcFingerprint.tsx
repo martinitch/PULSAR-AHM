@@ -1,4 +1,4 @@
-/* L'empreinte est celle du lecteur du PC (Windows Hello), pas un bouton factice. */
+/* The fingerprint is the PC reader's (Windows Hello), not a fake button. */
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui";
 import { useLang } from "@/i18n";

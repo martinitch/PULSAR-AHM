@@ -1,4 +1,4 @@
-/* Voyants NASA C&W : TOUJOURS icône + mot (jamais la couleur seule). Couleur uniquement hors nominal. */
+/* NASA C&W lamps: ALWAYS icon + word (never color alone). Color only outside nominal. */
 import { Icon } from "./Icon";
 import { usePortrait } from "./CrewPhoto";
 import type { Light } from "@/data/types";

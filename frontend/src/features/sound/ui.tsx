@@ -1,4 +1,4 @@
-/* Interface du son : bandeau d’alarmes (visuel toujours présent), panneau de réglages (dans l’app / bandeau — pas d’icône chrome). */
+/* Sound UI: alarm banner (always visible) and settings panel (in the app / banner — no chrome icon). */
 import { useEffect, useId, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@/components/ui";
@@ -39,7 +39,7 @@ function AlarmRow({ a }: { a: Alarm }) {
   );
 }
 
-/** Bandeau compact (1 alerte prioritaire + compteur) — style patient monitor / MCC. */
+/** Compact banner (1 priority alarm + count) — patient-monitor / MCC style. */
 export function AlarmBanner() {
   const { tr } = useLang();
   const { alarms, unlocked } = useSound();
@@ -79,7 +79,7 @@ export function AlarmBanner() {
   );
 }
 
-/** Panneau de réglages du son (persistant) — pages Réglages ou bandeau. */
+/** Persistent sound settings panel — Settings pages or the banner. */
 const CATEGORY_EN: Record<SoundCategory, string> = {
   alarmHigh: "Red / extreme alert (only active sound)",
   alarmMedium: "Orange alert (silent)",
@@ -137,7 +137,7 @@ export function SoundSettingsPanel({ demo = true }: { demo?: boolean }) {
   );
 }
 
-/** Accès aux réglages son depuis la barre d’outils (état muet visible). */
+/** Sound settings from the toolbar (mute state stays visible). */
 export function SoundMenu() {
   const { tr } = useLang();
   const { settings } = useSound();
@@ -177,7 +177,7 @@ export function SoundMenu() {
           <motion.div
             className="sound-menu-pop"
             role="dialog"
-            aria-label="Réglages du son"
+            aria-label={tr("Réglages du son", "Sound settings")}
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
@@ -185,8 +185,8 @@ export function SoundMenu() {
             <header className="sound-menu-pop__head">
               <Icon name="volume_up" size={18} />
               <div>
-                <b>Réglages du son</b>
-                <p>Alarmes IEC · la rouge reste active</p>
+                <b>{tr("Réglages du son", "Sound settings")}</b>
+                <p>{tr("Alarmes IEC · la rouge reste active", "IEC alarms · red stays active")}</p>
               </div>
             </header>
             <SoundSettingsPanel />
@@ -197,7 +197,7 @@ export function SoundMenu() {
   );
 }
 
-/** Bouton qui joue un son d’événement au clic. */
+/** Button that plays an event sound on click. */
 export function SoundButton({ sound, onClick, children, ...rest }: React.ButtonHTMLAttributes<HTMLButtonElement> & { sound: SoundId }) {
   const { play } = useSound();
   return <button {...rest} onClick={(e) => { play(sound); onClick?.(e); }}>{children}</button>;

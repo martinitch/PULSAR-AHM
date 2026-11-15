@@ -1,4 +1,4 @@
-/* Text Showcase — roll sobre + stats. */
+/* Text Showcase — restrained roll + stats. */
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { CountUp } from "./CountUp";

@@ -1,10 +1,10 @@
-/* Taux SIMULÉS, déterministes à la seconde (même principe que api/mock.ts).
-   Le backend les remplacera : même forme de résultat, plus de sinusoïde locale.
-   Pas un diagnostic. */
+/* SIMULATED rates, deterministic to the second (same principle as api/mock.ts).
+   The backend will replace them: same result shape, no more local sine wave.
+   Not a diagnosis. */
 
 const wave = (sec: number, period: number, phase = 0) => Math.sin((sec / period) * Math.PI * 2 + phase);
 
-/** Oscille autour d’une base. `amp` est l’écart maximal. */
+/** Oscillates around a baseline. `amp` is the maximum deviation. */
 export function wobble(base: number, amp: number, periodSec: number, t = Date.now()) {
   const sec = t / 1000;
   return Math.round(base + amp * wave(sec, periodSec));
@@ -13,9 +13,9 @@ export function wobble(base: number, amp: number, periodSec: number, t = Date.no
 export type FatigueLevel = "faible" | "moderee" | "elevee";
 
 export type ScanSample = {
-  /** Fermeture des paupières, % au-dessus de la référence personnelle. */
+  /** Eyelid closure, % above the personal reference. */
   eyelids: number;
-  /** Clignements par minute. */
+  /** Blinks per minute. */
   blinks: number;
   fatigue: FatigueLevel;
 };

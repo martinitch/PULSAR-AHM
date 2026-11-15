@@ -1,9 +1,9 @@
-/* Noms de fichiers sûrs pour les SVG mis en cache depuis Figma.
-   Partagé par le script Node (scripts/figma/icons.ts) et par <FigmaIcon>. */
+/* Safe file names for SVGs cached from Figma.
+   Shared by the Node script (scripts/figma/icons.ts) and by <FigmaIcon>. */
 
 const SAFE_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-/** Nom de fichier (sans extension) : minuscules, tirets, pas de chemin. */
+/** File name (without extension): lowercase, hyphens, no path. */
 export function safeIconName(raw: string): string | null {
   const name = raw
     .replace(/\u0153|\u0152/g, "oe")
@@ -18,7 +18,7 @@ export function safeIconName(raw: string): string | null {
   return SAFE_NAME.test(name) ? name : null;
 }
 
-/** Identifiant de nœud Figma `12:34`, ou forme d’URL `12-34`. */
+/** Figma node id `12:34`, or URL form `12-34`. */
 export function figmaNodeId(raw: string): string | null {
   const trimmed = raw.trim();
   const id = /^\d+:\d+$/.test(trimmed) ? trimmed : /^\d+-\d+$/.test(trimmed) ? trimmed.replace("-", ":") : null;

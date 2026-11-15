@@ -1,5 +1,5 @@
-/* Lecture échographique côté Houston : identité, coupe et mesure sur la même pièce,
-   pour ne pas confondre un clip, un autre astronaute ou une autre zone. */
+/* Ultrasound reading on the Houston side: identity, view and measurement on the same frame,
+   so a clip, another astronaut, or another zone cannot be mixed up. */
 import { Demo, Lamp, Avatar } from "@/components/ui";
 import type { EchoStudy, Light } from "@/data/types";
 import { CREW } from "@/data/demo/crew";
@@ -146,7 +146,7 @@ function StudyOpen({ study }: { study: EchoStudy }) {
   );
 }
 
-/** Rappel verrouillé avant la recommandation du rapport R-127-03. */
+/** Locked reminder before the recommendation of report R-127-03. */
 export function EchoConfirm({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
   const { tr } = useLang();
   const report = useReports().find((r) => r.id === "R-127-03");

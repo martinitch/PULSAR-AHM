@@ -1,5 +1,5 @@
-/* M12 · Prédictions de l’équipage (médecin de bord) : vue d’ensemble + détail par astronaute
-   (modèles, scores, signaux contributeurs), validation ou remplacement des solutions proposées. */
+/* M12 · Crew predictions (crew surgeon): overview + per-astronaut detail
+   (models, scores, contributing signals), validation or replacement of proposed solutions. */
 import { LEVEL_TO_LIGHT, fmtH, useCrewPredictions } from "@/api";
 import { Avatar, Lamp, PageHead as Head } from "@/components/ui";
 import { PredictionPanel, DriftMeter } from "@/features/predictions";

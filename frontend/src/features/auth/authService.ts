@@ -1,20 +1,20 @@
-/* Service d’authentification — POINT DE BRANCHEMENT DU BACKEND.
-   L’interface `AuthService` est la seule chose dont dépend l’interface utilisateur.
-   - DemoAuthService : comptes de démo locaux (src/data/demo/users.ts), session dans localStorage.  ← actif par défaut
-   - HttpAuthService : squelette pour une vraie API (activé si VITE_AUTH_API_URL est défini).
-   Pour passer en production : implémenter HttpAuthService côté serveur (POST /auth/login, POST /auth/logout,
-   GET /auth/me), supprimer src/data/demo/users.ts, et renvoyer un message d’erreur générique
-   (« Identifiant ou code incorrect ») pour ne pas révéler quels identifiants existent. */
+/* Authentication service — BACKEND HOOK-UP POINT.
+   The `AuthService` interface is the only thing the user interface depends on.
+   - DemoAuthService: local demo accounts (src/data/demo/users.ts), session in localStorage.  ← active by default
+   - HttpAuthService: skeleton for a real API (enabled when VITE_AUTH_API_URL is set).
+   To go to production: implement HttpAuthService on the server (POST /auth/login, POST /auth/logout,
+   GET /auth/me), remove src/data/demo/users.ts, and return a generic error message
+   (« Identifiant ou code incorrect ») so existing identifiers are not revealed. */
 import { DEMO_USERS, ROLE_ENTRY } from "@/data/demo/users";
 import type { Role } from "@/data/types";
 import { AuthError, type AuthUser, type Session } from "./types";
 import { roleFromId } from "./roles";
 
 export interface AuthService {
-  /** Vérifie identifiant + code. Lève AuthError en cas d’échec. */
+  /** Checks identifier + code. Throws AuthError on failure. */
   login(identifier: string, code: string): Promise<Session>;
   logout(): Promise<void>;
-  /** Session mémorisée encore valide, sinon null (appelé au démarrage). */
+  /** Stored session still valid, otherwise null (called at startup). */
   restore(): Session | null;
 }
 
@@ -41,7 +41,7 @@ function read(): Session | null {
 }
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-/** ⚠️ DÉMO — vérification locale, aucune sécurité réelle (le code source contient les codes). */
+/** ⚠️ DEMO — local check, no real security (the source code contains the codes). */
 export class DemoAuthService implements AuthService {
   private fails = 0;
   private lockedUntil = 0;
@@ -54,7 +54,7 @@ export class DemoAuthService implements AuthService {
     if (!role) throw new AuthError("BAD_FORMAT", "Format d’identifiant inattendu. Exemple : AST-001, CMO-001 ou NASA-FS-001 (voir votre badge).");
     const left = Math.ceil((this.lockedUntil - Date.now()) / 1000);
     if (left > 0) throw new AuthError("LOCKED", `Trop d’essais. Réessayez dans ${left} s.`, left);
-    await delay(350); // latence réseau simulée
+    await delay(350); // simulated network latency
     const u = DEMO_USERS.find((x) => x.id === id);
     if (!u || u.code !== c) {
       this.fails += 1;
@@ -70,7 +70,7 @@ export class DemoAuthService implements AuthService {
   restore() { return read(); }
 }
 
-/** Squelette pour la vraie API (non utilisé tant que VITE_AUTH_API_URL n’est pas défini). */
+/** Skeleton for the real API (unused until VITE_AUTH_API_URL is set). */
 export class HttpAuthService implements AuthService {
   constructor(private baseUrl: string) {}
   async login(identifier: string, code: string): Promise<Session> {
@@ -92,7 +92,7 @@ const API = import.meta.env.VITE_AUTH_API_URL as string | undefined;
 export const authService: AuthService = API ? new HttpAuthService(API) : new DemoAuthService();
 export const IS_DEMO_AUTH = !API;
 
-/** Ouvre l’interface d’un rôle sans identifiant ni code. Réservé à la démo. */
+/** Opens a role interface without an identifier or code. Reserved for the demo. */
 export async function enterDemoRole(role: Role): Promise<Session> {
   if (API) throw new AuthError("NETWORK", "Le choix de rôle n’est pas disponible avec l’authentification serveur.");
   const u = DEMO_USERS.find((x) => x.id === ROLE_ENTRY[role] && x.role === role);

@@ -1,5 +1,5 @@
-/* Médecins NASA (flight surgeons) — Mission Control Center, Houston. Rapports reçus par liaison satellite.
-   Maquettes Figma : page « NASA Houston » (1:5), écrans N01–N06. */
+/* NASA physicians (flight surgeons) — Mission Control Center, Houston. Reports received over the satellite link.
+   Figma mockups: "NASA Houston" page (1:5), screens N01–N06. */
 import { useState } from "react";
 import { Icon, Demo, Card, Lamp, Avatar, Spark, PageHead as Head, WorkflowBadge } from "@/components/ui";
 import { notifyBackend, notifyOk } from "@/components/ui/noticeStore";

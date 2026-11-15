@@ -1,23 +1,23 @@
-/* ⚠️ COMPTES DE DÉMONSTRATION — FRONT-END UNIQUEMENT.
-   Les codes sont en clair ici pour la démo NASA Space Apps. En production, ce fichier DISPARAÎT :
-   les identifiants sont vérifiés par le serveur (voir src/features/auth/authService.ts → HttpAuthService),
-   les codes sont hachés côté serveur et jamais livrés au navigateur. */
+/* ⚠️ DEMONSTRATION ACCOUNTS — FRONT-END ONLY.
+   Codes are in clear text here for the NASA Space Apps demo. In production, this file IS REMOVED:
+   identifiers are checked by the server (see src/features/auth/authService.ts → HttpAuthService),
+   codes are hashed server-side and never delivered to the browser. */
 import type { Role } from "@/data/types";
 
 export type DemoUser = {
-  /** Identifiant personnel saisi à la connexion (badge). */
+  /** Personal id entered at sign-in (badge). */
   id: string;
-  /** Code personnel de démonstration (6 chiffres). */
+  /** Personal demonstration code (6 digits). */
   code: string;
   role: Role;
   displayName: string;
-  /** Fonction affichée sous le nom. */
+  /** Job title shown under the name. */
   title: string;
-  /** Lien vers le dossier de l’équipage (src/data/demo/crew.ts) — astronautes et médecin de bord. */
+  /** Link to the crew record (src/data/demo/crew.ts) — astronauts and crew medical officer. */
   crewId?: string;
 };
 
-/** Compte canonique ouvert quand on choisit un rôle, sans identifiant ni code. */
+/** Canonical account opened when a role is chosen, without id or code. */
 export const ROLE_ENTRY: Record<Role, string> = {
   astronaute: "AST-001",
   "medecin-bord": "CMO-001",

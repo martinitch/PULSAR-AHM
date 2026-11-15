@@ -1,4 +1,4 @@
-/* Silhouette : toucher une zone zoome, une flèche dit le besoin, le tableau donne la position. */
+/* Silhouette: touching a zone zooms in, an arrow states the need, the table gives the position. */
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Icon, Demo, Lamp, PageHead as Head, WorkflowBadge } from "@/components/ui";

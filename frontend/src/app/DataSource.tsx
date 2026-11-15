@@ -1,9 +1,9 @@
-/* Indique d’où viennent les données affichées : API FastAPI ou simulateur local (DÉMO). */
+/* Shows where the displayed data comes from: FastAPI API or local simulator (DÉMO). */
 import { useDataSource } from "@/api";
 import { Demo, Icon } from "@/components/ui";
 import { useLang } from "@/i18n";
 
-/** Étiquette à côté d’un titre de carte : « DÉMO » si les données viennent du simulateur. */
+/** Label next to a card title: « DÉMO » if the data comes from the simulator. */
 export function DataTag() {
   const src = useDataSource();
   const { tr } = useLang();

@@ -1,4 +1,4 @@
-/* Textes de démo et libellés partagés, basculés avec la langue de l’app. */
+/* Demo texts and shared labels, switched with the app language. */
 import { useMemo } from "react";
 import { CREW, ECHO_STEPS, ECHO_ZONES, EVENTS, REPORTS, TRENDS } from "@/data/demo/crew";
 import { REGIONS } from "@/data/demo/regions";
@@ -359,7 +359,7 @@ const PHRASE_EN: Record<string, string> = {
   "Passage anomalie de l’Atlantique Sud : débit de dose transitoire, cumul dans la plage.": "South Atlantic Anomaly pass: transient dose rate, cumulative dose within range.",
 };
 
-/** Traduit une chaîne connue (erreurs, messages d’alerte). Laisse le texte tel quel sinon. */
+/** Translates a known string (errors, alert messages). Leaves the text unchanged otherwise. */
 export function phrase(lang: Lang, text: string): string {
   if (lang !== "en") return text;
   return PHRASE_EN[text] ?? text;

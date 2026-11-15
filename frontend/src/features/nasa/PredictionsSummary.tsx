@@ -1,4 +1,4 @@
-/* Section de rapport NASA : synthèse des prédictions, anomalies et solutions de chaque astronaute (lecture seule). */
+/* NASA report section: summary of each astronaut's predictions, anomalies and solutions (read-only). */
 import { LEVEL_TO_LIGHT, fmtH, useCrewPredictions, useRecommendations } from "@/api";
 import { Avatar, Icon, Lamp } from "@/components/ui";
 import { Disclaimer, modelWord, statusLabel } from "@/features/predictions";

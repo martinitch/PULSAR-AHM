@@ -1,5 +1,5 @@
-/* Client du pont Bluetooth servi par Vite en développement (`/__ble/*`).
-   La radio de l’ordinateur liste les noms réellement annoncés, puis ouvre la liaison. */
+/* Client for the Bluetooth bridge served by Vite in development (`/__ble/*`).
+   The computer's radio lists the names actually advertised, then opens the link. */
 import type { BleReading } from "./gatt";
 
 export type RadioDevice = { id: string; name: string; rssi: number; esp: boolean };
@@ -85,7 +85,7 @@ export async function disconnectRadio(): Promise<void> {
   await readJson("/__ble/disconnect", { method: "POST" });
 }
 
-/** Suit la liaison ouverte par la radio de l’ordinateur. */
+/** Follows the link opened by the computer's radio. */
 export function followRadioLink(onLink: (link: RadioLink) => void): () => void {
   let stop = false;
   const tick = () => {

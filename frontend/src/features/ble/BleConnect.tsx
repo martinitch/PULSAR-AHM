@@ -1,4 +1,4 @@
-/* Bouton qui lance une vraie recherche Bluetooth (BlueZ) ou le sélecteur du navigateur. */
+/* Button that starts a real Bluetooth search (BlueZ) or the browser picker. */
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui";
 import { useLang } from "@/i18n";

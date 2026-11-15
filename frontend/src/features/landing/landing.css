@@ -1,6 +1,6 @@
-/* Landing PULSAR v7 — clinique sombre, hero centré, cosmos.
-   Tokens uniquement. Pas de glow / verre / blur.
-   Surfaces hero = opaques (color-mix discret) pour éviter les artefacts photo. */
+/* Landing PULSAR v7 — dark clinical, centered hero, cosmos.
+   Tokens only. No glow / glass / blur.
+   Hero surfaces = opaque (subtle color-mix) to avoid photo artifacts. */
 
 .lp {
   background: var(--bg);
@@ -28,7 +28,7 @@
   min-width: 0;
 }
 
-/* Plein écran, bord à bord */
+/* Full screen, edge to edge */
 .lp-stage {
   position: relative;
   min-height: 100dvh;
@@ -40,7 +40,7 @@
   overflow-x: clip;
 }
 
-/* Nav — transparente sur le cosmos, solide après scroll */
+/* Nav — transparent over the cosmos, solid after scroll */
 .lp-nav {
   position: absolute; top: 0; left: 0; right: 0; z-index: 20;
   display: flex; align-items: center; gap: var(--s4);
@@ -114,7 +114,7 @@
 .lp-intro-ecg { width: min(320px, 80vw); height: 48px; }
 .lp-intro-skip { position: absolute; bottom: var(--s6); }
 
-/* Hero — plein écran */
+/* Hero — full screen */
 .lp-hero {
   position: relative;
   min-height: 100dvh;
@@ -196,7 +196,7 @@
   display: grid; gap: var(--s3);
   justify-items: start; text-align: left;
   max-width: 28rem;
-  /* texte libre sur la scène — pas de panneau / carré derrière */
+  /* free text on the scene — no panel / square behind */
   background: transparent;
   border: 0;
   padding: 0;
@@ -231,7 +231,7 @@
   margin: 0;
 }
 
-/* Text showcase — roll + stats, sans carré derrière */
+/* Text showcase — roll + stats, no square behind */
 .lp-showcase {
   display: grid;
   gap: var(--s4);
@@ -310,7 +310,7 @@
   flex-wrap: wrap;
 }
 
-/* Pont hero → contenu */
+/* Bridge from hero to content */
 .lp-bridge {
   width: min(1040px, 100% - 64px);
   margin: 0 auto;
@@ -318,7 +318,7 @@
   background: var(--lp-hairline);
 }
 
-/* Sections — éditorial Space Grotesk */
+/* Sections — Space Grotesk editorial */
 .lp-sec {
   width: min(1040px, 100% - 64px);
   margin: 0 auto;
@@ -701,7 +701,7 @@
 }
 .lp-foot-nav a:hover { color: var(--accent); }
 
-/* Connexion — même scène inscrite */
+/* Sign-in — same inset scene */
 .login {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
@@ -794,7 +794,7 @@
   height: 52px; padding: 0 18px;
   background: var(--surface);
 }
-/* Œil du code : calé dans le coin du champ, un seul filet, même arrondi. */
+/* Code-field eye: tucked into the corner of the field, a single stroke, the same corner radius. */
 .login .field-pass input { padding-right: 58px; }
 .login .field-pass .icon-btn {
   top: 1px;
@@ -822,7 +822,7 @@
   outline-offset: -3px;
 }
 
-/* Tablette large : 2 colonnes avant le stack complet */
+/* Large tablet: 2 columns before the full stack */
 @media (max-width: 1100px) {
   .lp-need-list,
   .lp-roles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -865,7 +865,7 @@
     padding-bottom: max(var(--s5), env(safe-area-inset-bottom, 0px));
   }
   .login-main { max-width: none; width: 100%; }
-  .login .field input { font-size: 16px; } /* évite zoom iOS */
+  .login .field input { font-size: 16px; } /* avoids iOS zoom */
   .login .btn { width: 100%; min-height: 48px; }
   .login-top { gap: var(--s2); }
 }
@@ -919,7 +919,7 @@
   .login-main h1 { font-size: clamp(1.75rem, 8vw, 2.25rem); }
 }
 
-/* Landscape téléphone : réduire le hero, garder le contenu lisible */
+/* Phone landscape: shrink the hero, keep the content readable */
 @media (max-height: 480px) and (orientation: landscape) {
   .lp-hero { min-height: auto; padding-top: calc(56px + var(--s4)); padding-bottom: var(--s4); }
   .lp-hero h1 { font-size: clamp(2rem, 12vh, 3.5rem); }

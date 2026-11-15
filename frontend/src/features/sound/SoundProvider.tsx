@@ -1,5 +1,5 @@
-/* Service son : déblocage audio seulement si connecté ; alerte rouge = UN seul bip (pas de boucle).
-   Visuel (bandeau) inchangé. Hors session = silence total. */
+/* Sound service: audio unlock only when signed in; red alert = ONE beep (no loop).
+   Visual (banner) unchanged. Outside a session = total silence. */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useAuth } from "@/features/auth/AuthProvider";
 import { DEFAULT_SETTINGS, effectiveVolume, isSnoozed, loadSettings, saveSettings, shouldPlay, snoozeUntil, type SoundSettings } from "./settings";
@@ -16,9 +16,9 @@ export type Alarm = {
   acknowledged: boolean;
   snoozedUntil: number | null;
   seen: boolean;
-  /** Son déjà émis une fois pour cette alarme. */
+  /** Sound already emitted once for this alarm. */
   sounded: boolean;
-  /** Motif à jouer (défaut : sirène du niveau). Le scan visage extrême utilise le pim. */
+  /** Pattern to play (default: the level's siren). The extreme face scan uses the pim. */
   sound?: SoundId;
 };
 const LEVEL_SOUND: Record<AlarmLevel, SoundId> = { rouge: "alarmHigh", orange: "alarmMedium", info: "alarmLow" };
@@ -50,7 +50,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   const aRef = useRef(alarms); aRef.current = alarms;
   const armedRef = useRef(armed); armedRef.current = armed;
 
-  /** Déblocage audio uniquement une fois connecté (pas sur l’accueil public). */
+  /** Audio unlock only once signed in (not on the public home page). */
   useEffect(() => {
     if (!armed) return;
     const go = async () => { if (await unlock()) { setUnlocked(true); off(); } };
@@ -90,7 +90,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  /** Une seule émission sonore par alarme rouge (jamais de boucle). */
+  /** A single sound emission per red alarm (never a loop). */
   useEffect(() => {
     if (!armed) return;
     const tick = () => {
@@ -113,7 +113,7 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     return () => window.clearInterval(i);
   }, [alarms, unlocked, armed]);
 
-  /** Déconnexion → silence et plus d’alarmes en mémoire UI. */
+  /** Sign-out → silence and no more alarms in UI memory. */
   useEffect(() => {
     if (armed) return;
     setAlarms([]);

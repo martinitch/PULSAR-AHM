@@ -1,4 +1,4 @@
-/* Donut de répartition d’état (équipage / journée) — Recharts, tokens uniquement. */
+/* State-distribution donut (crew / day) — Recharts, tokens only. */
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Icon } from "@/components/ui";
 

@@ -1,8 +1,8 @@
-/* Viseur caméra : demande d’autorisation, flux local, carré de cadrage.
-   Les taux de fatigue sont simulés (scanSim) tant que le backend n’analyse pas l’image.
-   L’image n’est jamais enregistrée ni envoyée.
-   Son : visage cadré ou scan lancé → salve forte (buzzer + haut-parleur).
-   Fatigue élevée en fin de scan → même salve. Fatigue faible → silence. */
+/* Camera viewfinder: permission request, local stream, framing square.
+   Fatigue rates are simulated (scanSim) until the backend analyzes the image.
+   The image is never recorded or sent.
+   Sound: face framed or scan started → strong burst (buzzer + speaker).
+   High fatigue at the end of the scan → same burst. Low fatigue → silence. */
 import { useEffect, useRef, useState } from "react";
 import { Demo, Icon, Lamp, Card } from "@/components/ui";
 import type { Go } from "@/app/types";
@@ -57,7 +57,7 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
     if (framed.current) return;
     framed.current = true;
     loudFace();
-  }, [box]); // eslint-disable-line react-hooks/exhaustive-deps -- une salve au premier visage cadré
+  }, [box]); // eslint-disable-line react-hooks/exhaustive-deps -- one burst on the first framed face
 
   useEffect(() => {
     const video = videoRef.current;
@@ -81,7 +81,7 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
     return () => window.clearTimeout(t);
   }, [step]);
 
-  /** Une fois le scan terminé : élevée → salve forte. Faible ou modérée → pas de son. */
+  /** Once the scan is finished: high → strong burst. Low or moderate → no sound. */
   useEffect(() => {
     if (step !== "done" || sample.fatigue !== "elevee") return;
     raise({
@@ -91,7 +91,7 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
       detail: `${name} · ${crewId}`,
       sound: "fatiguePim",
     });
-  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps -- une fois, au passage à « done »
+  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps -- once, on the transition to « done »
 
   useEffect(() => {
     if (!live) return;
@@ -116,7 +116,7 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
               h: (b.height / vh) * 100,
             });
           }
-        } catch { /* le carré fixe reste affiché */ }
+        } catch { /* the fixed square stays on screen */ }
       }
       if (!stop) timer = window.setTimeout(tick, 220);
     };

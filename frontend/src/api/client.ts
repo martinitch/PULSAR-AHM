@@ -1,7 +1,7 @@
-/* Client HTTP typé de l’API PULSAR (FastAPI). Base : VITE_API_URL (défaut http://localhost:8000).
-   - VITE_USE_MOCK=true → simulateur local (mock.ts) uniquement.
-   - Sinon : vraie API ; si elle est injoignable, bascule automatique sur le simulateur pendant 30 s puis réessaie.
-   Contrat JSON : docs/API-CONTRACT.md. */
+/* Typed HTTP client for the PULSAR API (FastAPI). Base: VITE_API_URL (default http://localhost:8000).
+   - VITE_USE_MOCK=true → local simulator (mock.ts) only.
+   - Otherwise: real API; if it is unreachable, automatic failover to the simulator for 30 s, then retry.
+   JSON contract: docs/API-CONTRACT.md. */
 import type { Alert, AlertLevel, Astronaut, DataSource, HeartLiveForecast, Horizon, Prediction, Recommendation, RecommendationUpdate, TelemetrySample } from "./types";
 import { camelize, snakeize, toAlert, toAstronaut, toSample } from "./mapping";
 
@@ -14,7 +14,7 @@ export interface PulsarApi {
   alerts(q?: AlertsQuery): Promise<Alert[]>;
   /** GET /predictions/{astronaut_id}?horizon=24h|7d */
   predictions(astronautId: string, horizon?: Horizon): Promise<Prediction>;
-  /** GET /heart-rate/live — prévision courte XGBoost, LSTM et Prophet. */
+  /** GET /heart-rate/live — short XGBoost, LSTM, and Prophet forecast. */
   heartForecast(q: { astronautId: string; until?: string }): Promise<HeartLiveForecast>;
   /** GET /recommendations/{astronaut_id} */
   recommendations(astronautId: string): Promise<Recommendation[]>;
@@ -22,7 +22,7 @@ export interface PulsarApi {
   updateRecommendation(astronautId: string, id: string, u: RecommendationUpdate): Promise<Recommendation>;
 }
 
-/** API sur le même hôte que la page : localhost reste localhost, une IP (Wi-Fi) parle au serveur sur cette IP. */
+/** API on the same host as the page: localhost stays localhost; an IP (Wi-Fi) talks to the server on that IP. */
 function apiBase(): string {
   const configured = import.meta.env.VITE_API_URL;
   if (configured) return configured.replace(/\/$/, "");
@@ -39,14 +39,14 @@ export const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 export class ApiError extends Error { constructor(public status: number, message: string) { super(message); this.name = "ApiError"; } }
 export class NetworkError extends Error { constructor(message: string) { super(message); this.name = "NetworkError"; } }
 
-/** Identifiant déjà en session (pas une clé d'API). Le serveur filtre le rôle. */
+/** Id already in the session (not an API key). The server filters by role. */
 function sessionUserHeader(): Record<string, string> {
   try {
     if (typeof localStorage === "undefined") return {};
     const raw = localStorage.getItem("pulsar.session");
     const id = raw ? (JSON.parse(raw) as { user?: { id?: string } }).user?.id : undefined;
     if (typeof id === "string" && id) return { "X-User-Id": id };
-  } catch { /* session illisible : le serveur répond comme une lecture de démo sans identité */ }
+  } catch { /* unreadable session: the server responds as a demo read without an identity */ }
   return {};
 }
 

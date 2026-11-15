@@ -1,4 +1,4 @@
-/* Conversions JSON (snake_case, backend Python) ↔ types TS (camelCase) + niveau ↔ voyant UI. */
+/* JSON conversions (snake_case, Python backend) ↔ TS types (camelCase) + level ↔ UI status lamp. */
 import type { Light } from "@/data/types";
 import type { Alert, AlertLevel, Astronaut, TelemetrySample } from "./types";
 
@@ -25,7 +25,7 @@ export const toAlert = (j: J): Alert => ({
 export const LEVEL_TO_LIGHT: Record<AlertLevel, Light> = { vert: "ok", orange: "caution", rouge: "warning" };
 export const LIGHT_TO_LEVEL: Record<Light, AlertLevel> = { ok: "vert", caution: "orange", warning: "rouge" };
 
-/* Conversion générique des clés (prédictions, recommandations) : snake_case ↔ camelCase, en profondeur. */
+/* Generic key conversion (predictions, recommendations): snake_case ↔ camelCase, recursively. */
 const toCamel = (k: string) => k.replace(/_([a-z0-9])/g, (_, c: string) => c.toUpperCase());
 const toSnake = (k: string) => k.replace(/[A-Z]/g, (c) => "_" + c.toLowerCase());
 function deepKeys(v: unknown, f: (k: string) => string): unknown {

@@ -1,5 +1,5 @@
-/* Thème clair / sombre — mémorisé (localStorage « pulsar-theme »), sinon préférence système.
-   Affichage : bascule « modes » (Espace / Clinique) dans la barre d’outils. */
+/* Light / dark theme — remembered (localStorage « pulsar-theme »), otherwise system preference.
+   Display: « modes » toggle (Espace / Clinique) in the toolbar. */
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { Icon } from "./Icon";
 import { useLang } from "@/i18n";
@@ -41,7 +41,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 }
 export const useTheme = () => useContext(Ctx);
 
-/** Bascule visuelle : icônes seules (sombre / clair). */
+/** Visual toggle: icons only (dark / light). */
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const { tr } = useLang();

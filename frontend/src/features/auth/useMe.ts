@@ -1,4 +1,4 @@
-/* Astronaute connecté → SON dossier d’équipage uniquement (jamais celui des autres). */
+/* Signed-in astronaut → their own crew record only (never anyone else's). */
 import { CREW } from "@/data/demo/crew";
 import type { Member } from "@/data/types";
 import { localizeMember, useLang } from "@/i18n";

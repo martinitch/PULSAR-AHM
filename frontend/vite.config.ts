@@ -52,7 +52,7 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: { include: ["three", "@react-three/fiber", "@react-three/drei"] },
     server: { host: true, port: 5173, strictPort: false },
     preview: { port: 4173 },
-    // three.js (~1 Mo) n’est chargé qu’à l’affichage de la silhouette 3D (import dynamique dans BodyFigure).
+    // three.js (~1 MB) loads only when the 3D silhouette is shown (dynamic import in BodyFigure).
     build: { chunkSizeWarningLimit: 1200 },
   };
 });

@@ -13,12 +13,12 @@ export type KpiItem = {
   spark?: number[];
   light?: Light;
   lamp?: Light;
-  /** Information (cyan spatial), distinct d’un voyant médical. */
+  /** Information (space cyan), distinct from a medical lamp. */
   info?: boolean;
   icon?: IconName;
 };
 
-/** Bandeau KPI clinique : gros chiffre mono + spark optionnelle + état hors nominal. */
+/** Clinical KPI strip: large mono figure + optional spark + state outside nominal. */
 export function KpiStrip({ items, label = "Indicateurs", className }: { items: KpiItem[]; label?: string; className?: string }) {
   return (
     <div className={`kpi-strip${className ? ` ${className}` : ""}`} aria-label={label}>

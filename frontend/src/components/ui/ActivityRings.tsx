@@ -1,4 +1,4 @@
-/* Anneaux d’activité (style Xbox / fitness) — sélection, tendance, tokens uniquement. */
+/* Activity rings (Xbox / fitness style) — selection, trend, tokens only. */
 import { useState } from "react";
 import { Lamp } from "./Status";
 import type { Light } from "@/data/types";

@@ -1,4 +1,4 @@
-/* Scène spatiale : vues NASA enchaînées (4 s) + étoiles. Landing + connexion. */
+/* Space scene: NASA views sequenced (4 s) + stars. Landing + sign-in. */
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { useTheme } from "@/components/ui";
@@ -11,7 +11,7 @@ type Props = {
   variant?: "hero" | "panel";
   interactive?: boolean;
   credit?: boolean;
-  /** Si true (défaut hero), enchaîne les vues toutes les 4 s. */
+  /** If true (hero default), sequences the views every 4 s. */
   cycle?: boolean;
 };
 
@@ -35,7 +35,7 @@ export function SpaceFilm({
     return () => window.clearInterval(id);
   }, [cycle, still, shots.length]);
 
-  /* Préchargement des vues suivantes */
+  /* Preload of the following views */
   useEffect(() => {
     shots.forEach((s) => {
       const img = new Image();

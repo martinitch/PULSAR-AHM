@@ -1,6 +1,6 @@
-/* Bloc « Prédictions » d’un astronaute : risque global, délai avant seuil, courbes prévu/observé,
-   anomalies détectées (signaux contributeurs) et solutions proposées.
-   mode "simple" = astronaute (langage simple) ; "detail" = médecin de bord (modèles, scores, contributions). */
+/* An astronaut's "Predictions" block: overall risk, time to threshold, forecast/observed curves,
+   detected anomalies (contributing signals) and proposed solutions.
+   mode "simple" = astronaut (plain language); "detail" = crew surgeon (models, scores, contributions). */
 import { useState } from "react";
 import { motion } from "motion/react";
 import { fmtH, LEVEL_TO_LIGHT, usePredictions, type Anomaly, type Horizon, type Prediction } from "@/api";
@@ -93,7 +93,7 @@ export function AnomalyList({ items, simple, selected, onSelect }: { items: Anom
 
 type Sel = { kind: "forecast"; id: string } | { kind: "anomaly"; id: string } | null;
 
-/** Panneau « Inspecteur » (médecin de bord) : propriétés de l’élément sélectionné (prévision ou anomalie). */
+/** "Inspector" panel (crew surgeon): properties of the selected item (forecast or anomaly). */
 function Inspector({ p, sel }: { p: Prediction; sel: Sel }) {
   const { tr, lang } = useLang();
   const f = sel?.kind === "forecast" ? p.forecasts.find((x) => x.metric === sel.id) : undefined;

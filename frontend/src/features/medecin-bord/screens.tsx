@@ -1,5 +1,5 @@
-/* Médecin de bord — tablette médicale / écran d’infirmerie + sonde d’échographie.
-   Maquettes Figma : page « Médecin de bord » (1:4), écrans M01–M11. Voit TOUT l’équipage. */
+/* Crew surgeon — medical tablet / sickbay screen + ultrasound probe.
+   Figma mockups: "Crew surgeon" page (1:4), screens M01–M11. Sees the WHOLE crew. */
 import { useEffect, useRef, useState } from "react";
 import { Icon, type IconName, Demo, Card, Lamp, Spark, Avatar, PageHead as Head, WorkflowBadge, HudDial, CrewPhotoButton } from "@/components/ui";
 import { notifyBackend, notifyOk } from "@/components/ui/noticeStore";

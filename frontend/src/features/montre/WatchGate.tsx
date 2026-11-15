@@ -1,4 +1,4 @@
-/* Montre du compte : déjà reliée en Wi-Fi à l’ESP32-C3. Pas de recherche Bluetooth. */
+/* Account watch: already linked over Wi-Fi to the ESP32-C3. No Bluetooth scan. */
 import type { ReactNode } from "react";
 
 export type WifiWatch = {

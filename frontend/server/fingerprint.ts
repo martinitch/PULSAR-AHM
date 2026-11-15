@@ -1,4 +1,4 @@
-/* Lecteur d'empreinte du PC (Windows Hello). Uniquement le serveur de dev Vite. */
+/* PC fingerprint reader (Windows Hello). Vite dev server only. */
 import { spawn } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

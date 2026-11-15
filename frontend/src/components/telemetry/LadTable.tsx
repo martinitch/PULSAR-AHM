@@ -1,6 +1,6 @@
-/* Tableau « dernière valeur disponible » (LAD), inspiré d’Open MCT (sans reprise de code) :
-   une ligne par indicateur : nom · heure · valeur · unité · seuils ; ligne colorée UNIQUEMENT hors limite
-   (jaune = attention, rouge = alerte), toujours avec icône + flèche de sens (au-dessus / au-dessous). Valeur périmée signalée. */
+/* “Last available value” table (LAD), inspired by Open MCT (no code reused):
+   one row per metric: name · time · value · unit · thresholds; row colored ONLY outside limits
+   (yellow = caution, red = alert), always with icon + direction arrow (above / below). Stale value indicated. */
 import { Icon } from "@/components/ui";
 import { useLang } from "@/i18n";
 

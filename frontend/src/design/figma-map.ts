@@ -1,6 +1,6 @@
-/* Correspondance écran ↔ maquette Figma v6 (généré depuis le fichier Figma, nov. 2026).
-   Avant de créer/modifier un écran : appeler l’outil MCP Figma `get_design_context` avec `nodeId` (maquette)
-   et `fileKey` ci-dessous. Le nœud « proto » est le même écran dans la page Prototype (liens cliquables). */
+/* Screen ↔ Figma v6 mockup map (generated from the Figma file, Nov. 2026).
+   Before creating/editing a screen: call the Figma MCP tool `get_design_context` with `nodeId` (mockup)
+   and `fileKey` below. The « proto » node is the same screen on the Prototype page (clickable links). */
 export const FIGMA_FILE_KEY = "cj96CiSofo2y0mDSpre7J1";
 export const FIGMA_FILE_URL = "https://www.figma.com/design/cj96CiSofo2y0mDSpre7J1/PULSAR-AHM-v6";
 export const FIGMA_PAGES = { couverture: "0:1", vueEnsemble: "1:2", astronaute: "1:3", montre: "41:2", medecinBord: "1:4", nasa: "1:5", prototype: "1:6", prototypeIndex: "36:4" } as const;

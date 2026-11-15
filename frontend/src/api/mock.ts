@@ -1,5 +1,5 @@
-/* Adaptateur SIMULÉ (DÉMO) : mêmes signatures que le client HTTP, données générées à partir de l’équipage de démo.
-   Utilisé si VITE_USE_MOCK=true ou si l’API est injoignable. Valeurs fictives, déterministes par seconde. */
+/* SIMULATED adapter (DÉMO): same signatures as the HTTP client, data generated from the demo crew.
+   Used if VITE_USE_MOCK=true or if the API is unreachable. Fictitious values, deterministic per second. */
 import { CREW } from "@/data/demo/crew";
 import { phrase, readLang } from "@/i18n";
 import type { Alert, Astronaut, TelemetrySample } from "./types";
@@ -8,12 +8,12 @@ import type { PulsarApi, TelemetryQuery, AlertsQuery } from "./client";
 import { mockHeartLive } from "./heartModels";
 import { mockPredictions, mockRecommendations, mockUpdateRecommendation } from "./predictMock";
 
-const MISSION_START = Date.UTC(2026, 6, 10); // J1 de la mission (démo)
+const MISSION_START = Date.UTC(2026, 6, 10); // mission day 1 (demo)
 const BASE: Record<string, { hr: number; spo2: number; rate: number; drift: number }> = {
   AM: { hr: 68, spo2: 98, rate: 18.5, drift: 0.12 }, LK: { hr: 94, spo2: 97, rate: 19.2, drift: 0.58 },
   NO: { hr: 62, spo2: 99, rate: 18.1, drift: 0.09 }, SR: { hr: 71, spo2: 98, rate: 18.8, drift: 0.21 },
 };
-// bruit pseudo-aléatoire stable (pas de Math.random : rendu reproductible)
+// stable pseudo-random noise (no Math.random: reproducible render)
 const noise = (seed: number) => { const x = Math.sin(seed * 12.9898) * 43758.5453; return x - Math.floor(x) - 0.5; };
 const hash = (id: string) => [...id].reduce((a, c) => a + c.charCodeAt(0), 0);
 
@@ -21,7 +21,7 @@ function sampleAt(id: string, t: number): TelemetrySample {
   const b = BASE[id] ?? BASE.AM, k = hash(id), sec = Math.floor(t / 1000);
   const hr = Math.round(b.hr + 3 * Math.sin(sec / 9 + k) + 2 * noise(sec + k));
   const spo2 = Math.round((b.spo2 + 0.6 * noise(sec * 3 + k)) * 10) / 10;
-  const rate = Math.round((b.rate + 1.2 * noise(sec * 7 + k) + (sec % 300 < 20 ? 6 : 0)) * 10) / 10; // pic SAA simulé
+  const rate = Math.round((b.rate + 1.2 * noise(sec * 7 + k) + (sec % 300 < 20 ? 6 : 0)) * 10) / 10; // simulated SAA peak
   const days = (t - MISSION_START) / 86_400_000;
   return {
     astronautId: id, timestamp: new Date(sec * 1000).toISOString(), heartRate: hr, spo2: Math.min(100, spo2),

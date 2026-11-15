@@ -1,4 +1,4 @@
-/* Coque : navigation à gauche (marque + groupes) et barre d’outils au-dessus du contenu. */
+/* Shell: navigation on the left (brand + groups) and toolbar above the content. */
 import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
 import { motion, useReducedMotion } from "motion/react";
@@ -10,9 +10,9 @@ import type { Role } from "@/data/types";
 import { LangToggle, useLang } from "@/i18n";
 import { AlarmBanner, AlarmWatcher, SoundMenu } from "@/features/sound";
 
-/** Lien de navigation : [chemin, libellé, icône, exact ?] */
+/** Navigation link: [path, label, icon, exact?] */
 export type NavItem = [string, string, IconName, boolean?];
-/** Groupe métier dans la barre (séparateur + libellé optionnel). */
+/** Domain group in the bar (separator + optional label). */
 export type NavGroup = { label: string; items: NavItem[] };
 
 const CSS_ROLE: Record<Role, string> = { astronaute: "astro", "medecin-bord": "cmo", nasa: "nasa" };
@@ -23,7 +23,7 @@ function initialNavOpen() {
   try {
     const saved = localStorage.getItem(NAV_KEY);
     if (saved === "open" || saved === "closed") return saved === "open";
-  } catch { /* préférence indisponible */ }
+  } catch { /* preference unavailable */ }
   return window.matchMedia("(min-width: 900px)").matches;
 }
 
@@ -47,7 +47,7 @@ export function RoleLayout({
   const denied = (loc.state as { denied?: string } | null)?.denied;
   const [navOpen, setNavOpen] = useState(initialNavOpen);
   useEffect(() => {
-    try { localStorage.setItem(NAV_KEY, navOpen ? "open" : "closed"); } catch { /* préférence indisponible */ }
+    try { localStorage.setItem(NAV_KEY, navOpen ? "open" : "closed"); } catch { /* preference unavailable */ }
   }, [navOpen]);
 
   return (

@@ -1,4 +1,4 @@
-/* Cadran télémétrie — arc de valeur et graduations intérieures. */
+/* Telemetry dial — value arc and inner tick marks. */
 import type { Light } from "@/data/types";
 
 const R = 44;
@@ -7,7 +7,7 @@ const ARC = C * 0.72; // ~260°
 const SWEEP = Math.PI * 2 * 0.72;
 const TICKS = 11;
 
-/** Traits radiaux espacés, plus longs un sur deux, zone limite en fin d’échelle. */
+/** Radial ticks, every other one longer, limit zone at the end of the scale. */
 const TICK_LINES = Array.from({ length: TICKS }, (_, i) => {
   const ang = (i / (TICKS - 1)) * SWEEP;
   const major = i % 2 === 0;

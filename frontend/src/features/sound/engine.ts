@@ -1,9 +1,9 @@
-/* Moteur audio : sons SYNTHÉTISÉS avec la Web Audio API (aucun fichier, aucun droit d’auteur).
-   Motifs d’alarme inspirés d’IEC 60601-1-8 :
-   - haute priorité (rouge) : salve de 10 impulsions « x-x-x — x-x  ·  x-x-x — x-x », répétée tant que non acquittée ;
-   - moyenne (orange) : 3 impulsions « x-x-x », répétée plus lentement ;
-   - basse (info) : 1 carillon doux.
-   Impulsions = fondamentale + 3 harmoniques (repérables dans le bruit), attaque/relâche courtes (pas de clic). */
+/* Audio engine: sounds SYNTHESIZED with the Web Audio API (no file, no copyright).
+   Alarm patterns inspired by IEC 60601-1-8:
+   - high priority (red): burst of 10 pulses "x-x-x — x-x  ·  x-x-x — x-x", repeated until acknowledged;
+   - medium (orange): 3 pulses "x-x-x", repeated more slowly;
+   - low (info): 1 soft chime.
+   Pulses = fundamental + 3 harmonics (distinguishable in noise), short attack/release (no click). */
 import type { SoundCategory } from "./settings";
 
 export type SoundId =
@@ -24,13 +24,13 @@ export const SOUND_LABEL: Record<SoundId, string> = {
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
 
-/** Journal des sons émis (utile pour les tests et le débogage). */
+/** Log of emitted sounds (useful for tests and debugging). */
 export const soundLog: { id: SoundId; at: number }[] = [];
 declare global { interface Window { __pulsarSoundLog?: typeof soundLog } }
 if (typeof window !== "undefined") window.__pulsarSoundLog = soundLog;
 
 export const isUnlocked = () => !!ctx && ctx.state === "running";
-/** À appeler lors d’un geste utilisateur (politique d’autoplay des navigateurs). */
+/** Call on a user gesture (browser autoplay policy). */
 export async function unlock(): Promise<boolean> {
   try {
     if (!ctx) {
@@ -65,7 +65,7 @@ function pulse(t0: number, freq: number, dur: number, gain: number, harmonics = 
     o.stop(t0 + dur + 0.02);
   });
 }
-/** Bip court type piezo Arduino (`tone()` / buzzer) — onde carrée, attaque nette. */
+/** Short Arduino piezo beep (`tone()` / buzzer) — square wave, sharp attack. */
 function piezo(t0: number, freq: number, dur: number, gain: number) {
   if (!ctx || !master) return;
   const o = ctx.createOscillator(), g = ctx.createGain();
@@ -90,9 +90,9 @@ function sweep(t0: number, f1: number, f2: number, dur: number, gain: number) {
   o.start(t0); o.stop(t0 + dur + 0.02);
 }
 
-/** Durée (s) de chaque motif, pour la planification des répétitions. */
+/** Duration (s) of each pattern, for scheduling repetitions. */
 const PATTERNS: Record<SoundId, (t: number, v: number) => void> = {
-  alarmHigh: (t, v) => { // 10 impulsions : 3 + 2, pause, 3 + 2
+  alarmHigh: (t, v) => { // 10 pulses: 3 + 2, pause, 3 + 2
     const f = 660, d = 0.12, s = 0.07; let x = t;
     for (const group of [3, 2, 3, 2]) { for (let i = 0; i < group; i++) { pulse(x, f, d, v); x += d + s; } x += group === 2 ? 0.35 : 0.12; }
   },
@@ -102,28 +102,28 @@ const PATTERNS: Record<SoundId, (t: number, v: number) => void> = {
   reportIn: (t, v) => { pulse(t, 587, 0.12, v * 0.45, [1, 0.3]); pulse(t + 0.15, 880, 0.2, v * 0.45, [1, 0.3]); },
   reportOut: (t, v) => { [523, 659, 784].forEach((f, i) => pulse(t + i * 0.11, f, 0.1, v * 0.4, [1, 0.2])); },
   escalation: (t, v) => { sweep(t, 440, 880, 0.32, v * 0.4); pulse(t + 0.34, 880, 0.12, v * 0.4, [1, 0.3]); },
-  /** Scan visage : salve carrée au gain max (le volume du curseur ne l’adoucit pas). */
+  /** Face scan: square burst at max gain (the slider volume does not soften it). */
   fatiguePim: (t) => {
     for (let i = 0; i < 8; i++) piezo(t + i * 0.18, i % 2 === 0 ? 880 : 1320, 0.15, 1);
   },
-  /** Un « pim » piezo — répété plus vite quand le risque fatigue monte. */
+  /** One piezo "pim" — repeated faster as fatigue risk rises. */
   sensorTick: (t, v) => { piezo(t, 2100, 0.05, v * 0.22); },
-  /** Salve qui accélère (risque élevé / montée). */
+  /** Burst that speeds up (high risk / rising). */
   sensorRise: (t, v) => {
     const gaps = [0, 0.22, 0.4, 0.54, 0.66, 0.76];
     gaps.forEach((g, i) => piezo(t + g, 1800 + i * 120, 0.045, v * (0.16 + i * 0.02)));
   },
-  /** Bip d’arrêt (pouls en hausse → on stoppe l’exercice), type Arduino. */
+  /** Stop beep (pulse rising → exercise stops), Arduino style. */
   sensorStop: (t, v) => { piezo(t, 2400, 0.08, v * 0.28); piezo(t + 0.12, 1600, 0.12, v * 0.22); },
   login: (t, v) => { pulse(t, 523, 0.3, v * 0.3, [1, 0.2]); pulse(t + 0.08, 659, 0.3, v * 0.25, [1, 0.2]); pulse(t + 0.16, 784, 0.35, v * 0.22, [1, 0.2]); },
   badge: (t, v) => { pulse(t, 1319, 0.12, v * 0.12, [1]); },
   watchTick: (t, v) => { pulse(t, 1800, 0.025, v * 0.18, [1, 0.4]); },
   hover: (t, v) => { pulse(t, 1568, 0.04, v * 0.06, [1]); },
 };
-/** Plus de répétition : une notification = un seul motif, puis silence. */
+/** No more repetition: one notification = a single pattern, then silence. */
 export const REPEAT_MS: Partial<Record<SoundId, number>> = {};
 
-/** Joue un motif au volume `v` (0–1). Toujours journalisé, même si l’audio n’est pas encore débloqué. */
+/** Plays a pattern at volume `v` (0–1). Always logged, even if audio is not unlocked yet. */
 export function playPattern(id: SoundId, v: number) {
   soundLog.push({ id, at: Date.now() });
   if (soundLog.length > 200) soundLog.shift();

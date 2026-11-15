@@ -1,5 +1,5 @@
-/* Silhouette santé 3D (MakeHuman CC0). Rendu WebGL interactif (Body3D, chargé à la demande) ;
-   en mode capture (Figma / captures d’écran, ?capture=1 en dev) : image fixe pré-rendue + zones HTML. */
+/* 3D health silhouette (MakeHuman CC0). Interactive WebGL render (Body3D, loaded on demand);
+   in capture mode (Figma / screenshots, ?capture=1 in dev): prerendered still + HTML zones. */
 import { lazy, Suspense, useEffect, useState } from "react";
 import { devFlags } from "@/app/dev/flags";
 import { ZONES3D, VIEW_LABEL, type View, type ZoneState, type Proj } from "./zones";

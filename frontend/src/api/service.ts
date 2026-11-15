@@ -1,4 +1,4 @@
-/* `api` : vraie API FastAPI ou simulateur (DÉMO) avec bascule automatique. */
+/* `api`: real FastAPI API or simulator (DÉMO) with automatic failover. */
 import { mockApi } from "./mock";
 import { httpApi, NetworkError, USE_MOCK, type PulsarApi } from "./client";
 import type { DataSource } from "./types";
@@ -10,7 +10,7 @@ const setSource = (s: DataSource) => { if (s !== lastSource) { lastSource = s; l
 export const onSourceChange = (f: (s: DataSource) => void) => { listeners.add(f); return () => { listeners.delete(f); }; };
 export const currentSource = () => lastSource;
 
-/** Appelle la vraie API ; en cas d’API injoignable, utilise le simulateur (DÉMO) pendant 30 s. */
+/** Calls the real API; if the API is unreachable, uses the simulator (DÉMO) for 30 s. */
 async function withFallback<T>(call: (a: PulsarApi) => Promise<T>): Promise<T> {
   if (USE_MOCK || Date.now() < offlineUntil) { setSource("mock"); return call(mockApi); }
   try { const r = await call(httpApi); setSource("api"); return r; }

@@ -1,17 +1,17 @@
 import type { Role } from "@/data/types";
 
-/** Utilisateur connecté (jamais de code/mot de passe ici). */
+/** Signed-in user (never a code/password here). */
 export type AuthUser = {
-  id: string;            // identifiant personnel, ex. "AST-001"
+  id: string;            // personal identifier, e.g. "AST-001"
   role: Role;
   displayName: string;
   title: string;
-  crewId?: string;       // lien vers le dossier d’équipage (astronautes, médecin de bord)
+  crewId?: string;       // link to the crew record (astronauts, onboard physician)
 };
 
 export type Session = {
   user: AuthUser;
-  token: string;         // jeton opaque (démo : aléatoire ; prod : renvoyé par l’API)
+  token: string;         // opaque token (demo: random; prod: returned by the API)
   issuedAt: number;      // epoch ms
   expiresAt: number;     // epoch ms
 };

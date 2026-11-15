@@ -1,5 +1,5 @@
-/* Échelle d’un taux : le curseur se place entre min et max.
-   La couleur n’apparaît qu’hors nominal (attention / alerte), avec le mot à côté. */
+/* Scale for a rate: the marker sits between min and max.
+   Color appears only outside nominal (caution / alert), with the word beside it. */
 
 type Direction = "above" | "below";
 

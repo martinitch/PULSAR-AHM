@@ -1,4 +1,4 @@
-/* Couche données PULSAR — importer depuis "@/api". */
+/* PULSAR data layer — import from "@/api". */
 export { api, currentSource, onSourceChange } from "./service";
 export * from "./types";
 export * from "./hooks";

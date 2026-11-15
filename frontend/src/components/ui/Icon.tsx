@@ -1,7 +1,7 @@
-/* Icônes : lucide-react (ISC). Trait fin 1,75, taille 20 par défaut, couleur = currentColor (sobre, pas d’effet).
-   On garde des NOMS SÉMANTIQUES stables (hérités des maquettes Figma v6, ex. "monitor_heart", "satellite_alt")
-   → l’icône lucide correspondante est choisie ici, à un seul endroit.
-   Ajouter une icône : importer le composant depuis "lucide-react" et ajouter une ligne dans ICONS. */
+/* Icons: lucide-react (ISC). Fine stroke 1.75, size 20 by default, color = currentColor (plain, no effect).
+   We keep stable SEMANTIC NAMES (inherited from the Figma v6 mockups, e.g. "monitor_heart", "satellite_alt")
+   → the matching lucide icon is chosen here, in one place.
+   To add an icon: import the component from "lucide-react" and add a line in ICONS. */
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,

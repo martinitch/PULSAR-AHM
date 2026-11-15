@@ -1,10 +1,10 @@
-/* Pont Figma REST → cache SVG local.
-   Node uniquement (`npm run figma:icons`). Ne pas importer ce fichier depuis React :
-   le jeton FIGMA_ACCESS_TOKEN ne doit jamais porter le préfixe VITE_.
+/* Figma REST bridge → local SVG cache.
+   Node only (`npm run figma:icons`). Do not import this file from React:
+   the FIGMA_ACCESS_TOKEN token must never carry the VITE_ prefix.
 
-   Export : GET /v1/images/:file_key?ids=…&format=svg
-   Composants publiés : GET /v1/files/:file_key/components
-   Les SVG sont écrits dans public/figma-icons/ et lus par <FigmaIcon name="…" />. */
+   Export: GET /v1/images/:file_key?ids=…&format=svg
+   Published components: GET /v1/files/:file_key/components
+   SVGs are written to public/figma-icons/ and read by <FigmaIcon name="…" />. */
 
 import { createHash } from "node:crypto";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
@@ -89,7 +89,7 @@ function redact(text: string, secret: string): string {
   return hidden.replace(/figd_[A-Za-z0-9_-]+/g, "…").slice(0, 180);
 }
 
-/** Refuse un SVG actif (script, gestionnaire, lien externe). Retourne le texte. */
+/** Rejects an active SVG (script, handler, external link). Returns the text. */
 export function assertSafeSvg(bytes: Uint8Array): string {
   if (bytes.byteLength === 0 || bytes.byteLength > MAX_SVG_BYTES) {
     throw new FigmaError("cache", "SVG vide ou trop volumineux.");
@@ -113,7 +113,7 @@ function assertInside(root: string, target: string): void {
   if (rel.startsWith("..") || path.isAbsolute(rel)) throw new FigmaError("cache", "Chemin de cache refusé.");
 }
 
-/** Applique les lignes KEY=VALUE. N’écrase une clé déjà posée que si override est vrai. */
+/** Applies KEY=VALUE lines. Overwrites a key already set only when override is true. */
 export function applyEnvFile(text: string, env: { [key: string]: string | undefined }, override: boolean): void {
   for (const line of text.split(/\r?\n/)) {
     const trimmed = line.trim();
@@ -214,7 +214,7 @@ async function figmaJson<T>(url: string, token: string, attempt = 0): Promise<T>
   }
 }
 
-/** URLs temporaires d’export SVG, indexées par identifiant de nœud. `null` si Figma ne peut pas rendre le nœud. */
+/** Temporary SVG export URLs, indexed by node id. `null` if Figma cannot render the node. */
 export async function fetchSvgExportUrls(config: FigmaConfig, nodeIds: readonly string[]): Promise<Record<string, string | null>> {
   const out: Record<string, string | null> = {};
   for (let i = 0; i < nodeIds.length; i += BATCH) {
@@ -243,7 +243,7 @@ function nextCursor(cursor: unknown): string | undefined {
   return undefined;
 }
 
-/** Composants publiés du fichier (node id + nom). */
+/** Published components of the file (node id + name). */
 export async function listPublishedComponents(config: FigmaConfig): Promise<IconSource[]> {
   const found: IconSource[] = [];
   const seen = new Set<string>();
@@ -464,7 +464,7 @@ export async function pullFigmaIcons(options: {
   names?: Readonly<Record<string, string>>;
   components?: boolean;
   force?: boolean;
-  /** Lire nodes.json et FIGMA_NODE_IDS. Défaut : true. */
+  /** Read nodes.json and FIGMA_NODE_IDS. Default: true. */
   fromProject?: boolean;
 } = {}): Promise<CacheResult> {
   await loadProjectEnv();

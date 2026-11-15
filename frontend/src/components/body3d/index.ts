@@ -1,5 +1,5 @@
-/* Silhouette santé 3D — importer depuis "@/components/body3d".
-   Body3D (three.js) est chargé à la demande par BodyFigure : ne pas l’importer directement dans un écran. */
+/* 3D health silhouette — import from "@/components/body3d".
+   Body3D (three.js) is loaded on demand by BodyFigure: do not import it directly in a screen. */
 export { BodyFigure, BodyStill, ZoneLegend, curTheme } from "./BodyFigure";
 export { VitalFloats, type VitalFloatItem } from "./VitalFloats";
 export { zoneBrief, useZoneZoom } from "./zoom";

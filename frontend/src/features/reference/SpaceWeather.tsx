@@ -1,5 +1,5 @@
-/* Météo spatiale de référence (DONKI). L'appel NASA reste dans le back end.
-   Si le serveur ne répond pas : fichier local, étiqueté Hors ligne. Jamais d'erreur bloquante. */
+/* Reference space weather (DONKI). The NASA call stays in the back end.
+   If the server does not respond: local file, labeled « Hors ligne ». Never a blocking error. */
 import { useEffect, useState } from "react";
 import { API_URL } from "@/api";
 import { Card } from "@/components/ui";

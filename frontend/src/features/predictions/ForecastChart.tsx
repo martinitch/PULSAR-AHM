@@ -1,5 +1,5 @@
-/* Courbe de prévision (Recharts) : observé (trait plein) + prévu (tirets) + intervalle de confiance (bande pâle),
-   lignes de seuil orange/rouge, repère « maintenant ». Résumé texte + tableau pour lecteurs d’écran (CDC EF-47). */
+/* Forecast curve (Recharts): observed (solid stroke) + forecast (dashes) + confidence interval (pale band),
+   orange/red threshold lines, "now" marker. Text summary + table for screen readers (CDC EF-47). */
 import { Area, CartesianGrid, ComposedChart, Line, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { fmtH, LEVEL_TO_LIGHT, type MetricForecast } from "@/api";
 import { Icon, Lamp } from "@/components/ui";

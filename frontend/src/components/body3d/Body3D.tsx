@@ -1,5 +1,5 @@
-/* Silhouette santé 3D — maillage MakeHuman « base.obj » (CC0 1.0), rendu three.js / react-three-fiber.
-   Corps gris mat légèrement translucide, contour fin, sans halo. Zones cliquables = vrais <button> (clavier OK). */
+/* 3D health silhouette — MakeHuman mesh « base.obj » (CC0 1.0), three.js / react-three-fiber render.
+   Slightly translucent matte gray body, fine outline, no halo. Clickable zones = real <button> elements (keyboard OK). */
 import { Suspense, useEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Outlines, useGLTF } from "@react-three/drei";
@@ -148,7 +148,7 @@ export function Body3D({ states, sel, onPick, view = "front", onView, hotspots =
 useGLTF.preload("/body3d/body.glb");
 
 
-/** DEV : rendu plein écran d’une vue (sert à régénérer public/body3d/body-*.png). URL : /?still=front|34|side|back&theme=dark|light */
+/** DEV: full-screen render of a view (used to regenerate public/body3d/body-*.png). URL: /?still=front|34|side|back&theme=dark|light */
 export function StillPage({ view, theme, states }: { view: View; theme: "dark" | "light"; states: Record<string, ZoneState> }) {
   return <div style={{ width: "100vw", height: "100vh", background: "transparent" }}><Body3D states={states} view={view} hotspots={false} theme={theme} onProject={(p) => { (window as unknown as { __hot: unknown }).__hot = p; }} /></div>;
 }

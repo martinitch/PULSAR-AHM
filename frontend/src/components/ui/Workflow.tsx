@@ -1,4 +1,4 @@
-/* Cycle de vie commun : Nouveau → Vu → Pris en charge → Résolu / Escaladé + responsable visible. */
+/* Shared lifecycle: New → Seen → In progress → Resolved / Escalated + visible owner. */
 import { Icon, type IconName } from "./Icon";
 import { useLang } from "@/i18n";
 
@@ -28,7 +28,7 @@ const WORKFLOW_ICON: Record<WorkflowStatus, IconName> = {
   escalade: "arrow_upward",
 };
 
-/** Affiche l’état + le responsable (identifiant ou libellé). */
+/** Shows the state + the owner (id or label). */
 export function WorkflowBadge({ status, assignee }: { status: WorkflowStatus; assignee?: string | null }) {
   const { lang } = useLang();
   const word = lang === "en" ? WORKFLOW_EN[status] : WORKFLOW_LABEL[status];
@@ -42,7 +42,7 @@ export function WorkflowBadge({ status, assignee }: { status: WorkflowStatus; as
   );
 }
 
-/** Mappe le statut API des solutions vers le cycle UI unifié. */
+/** Maps solution API status onto the unified UI lifecycle. */
 export function workflowFromRecommendationStatus(status: string): WorkflowStatus {
   switch (status) {
     case "appliquee":
@@ -60,7 +60,7 @@ export function workflowFromRecommendationStatus(status: string): WorkflowStatus
   }
 }
 
-/** Alerte : ack → résolu ; sinon vu si seenAt ; sinon nouveau. Escalade via workflowStatus explicite. */
+/** Alert: ack → resolved; otherwise seen if seenAt; otherwise new. Escalation via explicit workflowStatus. */
 export function workflowFromAlert(a: { acknowledged: boolean; seenAt?: string | null; workflowStatus?: WorkflowStatus | null }): WorkflowStatus {
   if (a.workflowStatus === "escalade") return "escalade";
   if (a.acknowledged || a.workflowStatus === "resolu") return "resolu";

@@ -1,32 +1,32 @@
-/* Types du domaine PULSAR (partagés par les données de démo et, plus tard, l’API). */
+/* PULSAR domain types (shared by demo data and, later, the API). */
 
-/** Voyant d’état NASA C&W : ok = nominal, caution = attention (orange/jaune), warning = alerte (rouge). */
+/** NASA C&W status lamp: ok = nominal, caution = « Attention » (orange/yellow), warning = « Alerte » (red). */
 export type Light = "ok" | "caution" | "warning";
 
-/** Membre d’équipage (les valeurs de démo sont marquées DÉMO à l’écran). */
+/** Crew member (demo values are marked DÉMO on screen). */
 export type Member = {
   id: string; name: string; role: string; light: Light; reason: string;
   hr: number; bp: string; spo2: number; temp: string; sleep: string; mood: number; fatigue: string; sync: string; cabin: string;
 };
 
-/** Mesure lue sur une échographie, avec l’intervalle qui permet de ne pas se tromper. */
+/** Measurement read on an ultrasound, with the range that keeps the reading from being misread. */
 export type EchoMeasure = {
   label: string;
   value: string;
   unit: string;
-  /** Intervalle de lecture, ex. « 3,5–5,6 cm ». */
+  /** Reading range, e.g. « 3,5–5,6 cm ». */
   range: string;
   light: Light;
-  /** « Dans les limites » ou « Hors limites ». */
+  /** « Dans les limites » or « Hors limites ». */
   verdict: string;
 };
 
-/** Pièce jointe échographique d’un rapport sol. Une image et un clip ne portent pas la même lecture. */
+/** Ultrasound attachment on a ground report. A still and a clip are not read the same way. */
 export type EchoStudy = {
   id: string;
   astronautId: string;
   zone: "heart" | "eye";
-  /** Nom de la coupe, sans abréviation. */
+  /** View name, without abbreviation. */
   view: string;
   kind: "still" | "clip";
   captured: string;
@@ -36,28 +36,28 @@ export type EchoStudy = {
   gain: string;
   quality: Light;
   qualityLabel: string;
-  /** Durée du clip, ex. « 6 s ». */
+  /** Clip duration, e.g. « 6 s ». */
   duration?: string;
   annotated: boolean;
-  /** Texte court brûlé sur le caliper, ex. « VG 4,1 cm ». */
+  /** Short text burned onto the caliper, e.g. « VG 4,1 cm ». */
   mark?: string;
   finding: string;
   measures: EchoMeasure[];
-  /** Ce que le trait jaune désigne. Absent s’il n’y a pas de caliper. */
+  /** What the yellow line marks. Absent if there is no caliper. */
   legend?: string;
 };
 
-/** Rapport médical envoyé au sol par liaison satellite. */
+/** Medical report sent to the ground over the satellite link. */
 export type Report = {
   id: string; kind: "scheduled" | "red"; title: string; generated: string; received: string; age: string; size: string;
   lights: Record<string, Light>; images: number; notes: string; unread: boolean;
-  /** Responsable sol / bord. */
+  /** Ground / onboard owner. */
   assignee?: string;
-  /** Nouveau | Vu | Pris en charge | Résolu | Escaladé */
+  /** New | Seen | In progress | Resolved | Escalated */
   workflowStatus?: "nouveau" | "vu" | "pris_en_charge" | "resolu" | "escalade";
-  /** Images et clips réellement joints. Vide si le rapport n’a pas d’échographie. */
+  /** Images and clips actually attached. Empty if the report has no ultrasound. */
   studies?: EchoStudy[];
 };
 
-/** Rôles applicatifs = un tableau de bord chacun. */
+/** Application roles = one dashboard each. */
 export type Role = "astronaute" | "medecin-bord" | "nasa";

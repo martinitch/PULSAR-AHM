@@ -1,4 +1,4 @@
-/* Mini-courbe de tendance (Recharts), sans axe ni dégradé. Couleur : accent, ou couleur d’état hors nominal. */
+/* Mini trend curve (Recharts), no axis and no gradient. Color: accent, or status color outside nominal. */
 import { Line, LineChart, YAxis } from "recharts";
 import type { Light } from "@/data/types";
 

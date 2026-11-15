@@ -1,4 +1,4 @@
-/* Alertes produites par le backend (Isolation Forest / autoencodeur LSTM / règles), niveau vert/orange/rouge + workflow. */
+/* Alerts produced by the backend (Isolation Forest / LSTM autoencoder / rules), green/orange/red level + workflow. */
 import { useAlerts, LEVEL_TO_LIGHT } from "@/api";
 import { Lamp, WorkflowBadge, workflowFromAlert } from "@/components/ui";
 

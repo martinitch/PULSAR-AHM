@@ -1,6 +1,6 @@
-/* Icône SVG exportée depuis Figma (cache local `public/figma-icons/`).
-   Le jeton ne passe pas par ici : lancer `npm run figma:icons` pour remplir le cache.
-   Les icônes d’interface restent dans <Icon> (lucide). */
+/* SVG icon exported from Figma (local cache `public/figma-icons/`).
+   The token does not pass through here: run `npm run figma:icons` to fill the cache.
+   Interface icons stay in <Icon> (lucide). */
 import { useState } from "react";
 import { safeIconName } from "@/figma/iconName";
 
@@ -11,7 +11,7 @@ export function FigmaIcon({
   size = 20,
 }: {
   name: string;
-  /** Texte alternatif. Vide si l’icône est décorative. */
+  /** Alternative text. Empty if the icon is decorative. */
   label?: string;
   className?: string;
   size?: number;

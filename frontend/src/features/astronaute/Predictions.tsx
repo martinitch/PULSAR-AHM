@@ -1,4 +1,4 @@
-/* A15 · Prévisions (astronaute) : SES prévisions et solutions uniquement, en langage simple. */
+/* A15 · Forecasts (astronaut): their own forecasts and solutions only, in plain language. */
 import { PageHead as Head } from "@/components/ui";
 import { useMe } from "@/features/auth/useMe";
 import { PredictionPanel } from "@/features/predictions";

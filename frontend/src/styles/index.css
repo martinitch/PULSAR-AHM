@@ -1,4 +1,4 @@
-/* Ordre : Tailwind (thème + utilitaires, sans preflight) → jetons → styles des écrans */
+/* Order: Tailwind (theme + utilities, no preflight) → tokens → screen styles */
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);

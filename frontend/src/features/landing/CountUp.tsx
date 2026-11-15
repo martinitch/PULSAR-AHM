@@ -1,4 +1,4 @@
-/* Compteur animé au scroll — style « text showcase » / chiffres en mouvement. */
+/* Counter animated on scroll — "text showcase" style / figures in motion. */
 import { useEffect, useRef, useState } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 

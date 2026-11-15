@@ -1,5 +1,5 @@
-/* Champ d’étoiles calme (canvas) : points fins, dérive très lente, aucune lueur.
-   prefers-reduced-motion : image fixe. Pause quand l’onglet est caché ou la section hors écran. */
+/* Calm star field (canvas): fine points, very slow drift, no glow.
+   prefers-reduced-motion: still image. Pause when the tab is hidden or the section is off screen. */
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
 

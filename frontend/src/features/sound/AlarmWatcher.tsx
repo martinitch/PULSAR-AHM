@@ -1,5 +1,5 @@
-/* Surveille les alertes du backend (ou du simulateur) et lève les alarmes.
-   Son : uniquement niveau ROUGE / extrême. Orange = bandeau silencieux. NASA : pas de bip à l’arrivée. */
+/* Watches backend alerts (or the simulator) and raises alarms.
+   Sound: RED / extreme level only. Orange = silent banner. NASA: no beep on arrival. */
 import { useEffect } from "react";
 import { useAlerts } from "@/api";
 import { CREW } from "@/data/demo/crew";

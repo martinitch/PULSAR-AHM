@@ -1,4 +1,4 @@
-/* Séance d’exercice partagée : Objectifs / Bien-être la lancent ; Accueil et Silhouette suivent les zones. */
+/* Shared exercise session: Goals / Well-being start it; Home and Silhouette follow the zones. */
 import { useSyncExternalStore } from "react";
 import type { ZoneState } from "@/components/body3d";
 
@@ -41,7 +41,7 @@ export function useExerciseSession() {
   );
 }
 
-/** Zone de la silhouette correspondant à la partie travaillée en ce moment. */
+/** Silhouette zone matching the body part being worked right now. */
 export function exerciseFocus(session: Snap) {
   if (!session.running) return "";
   return BODY_PARTS[session.step % BODY_PARTS.length].zone;
@@ -52,7 +52,7 @@ export function exercisePart(session: Snap) {
   return BODY_PARTS[session.step % BODY_PARTS.length];
 }
 
-/** Zones déjà passées dans la séance (y compris celle en cours). */
+/** Zones already covered in the session (including the current one). */
 export function exerciseCovered(session: Snap): string[] {
   if (!session.running && session.step === 0) return [];
   const n = session.running ? Math.min(BODY_PARTS.length, session.step + 1) : Math.min(BODY_PARTS.length, session.step);
@@ -62,8 +62,8 @@ export function exerciseCovered(session: Snap): string[] {
 }
 
 /**
- * Teinte le corps pendant la séance : zones sollicitées en `active` (vert),
- * sans écraser une alerte clinique déjà présente (medium / high).
+ * Tints the body during the session: worked zones as `active` (green),
+ * without overriding a clinical alert already present (medium / high).
  */
 export function applyExerciseStates(base: Record<string, ZoneState>, session: Snap): Record<string, ZoneState> {
   if (!session.running) return base;

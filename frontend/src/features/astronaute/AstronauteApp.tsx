@@ -1,4 +1,4 @@
-/* Routes astronaute — nav : Suivi · Mesures (scan visage inclus) · Compte. */
+/* Astronaut routes — nav: Monitoring · Measurements (face scan included) · Account. */
 import { Route, Routes, useNavigate } from "react-router";
 import { Icon } from "@/components/ui";
 import { RoleLayout, type NavGroup, type NavItem } from "@/app/RoleLayout";

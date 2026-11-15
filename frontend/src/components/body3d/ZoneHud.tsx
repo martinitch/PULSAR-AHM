@@ -1,4 +1,4 @@
-/* Flèche de besoin : crochets + trait + chevron. Repère clinique, sans halo. */
+/* Need arrow: brackets + line + chevron. Clinical marker, no halo. */
 import type { ZoneState } from "./zones";
 
 export type HudHandles = {

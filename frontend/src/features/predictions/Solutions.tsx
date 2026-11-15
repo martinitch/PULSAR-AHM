@@ -1,7 +1,7 @@
-/* Solutions proposées pour chaque anomalie : actions concrètes, NON diagnostiques.
-   Astronaute : Appliquer / Marquer fait / Escalader au médecin de bord.
-   Médecin de bord : Valider / Remplacer (nouvelle consigne + note) / Marquer fait / Escalader au flight surgeon.
-   NASA : lecture seule. */
+/* Proposed solutions for each anomaly: concrete actions, NOT diagnostic.
+   Astronaut: Apply / Mark done / Escalate to the crew surgeon.
+   Crew surgeon: Validate / Replace (new instruction + note) / Mark done / Escalate to the flight surgeon.
+   NASA: read-only. */
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRecommendations, useUpdateRecommendation, type Recommendation, type RecommendationCategory, type RecommendationStatus, type Priority, type Anomaly } from "@/api";

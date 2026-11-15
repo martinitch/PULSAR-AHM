@@ -1,7 +1,7 @@
 /**
- * PULSAR AHM v7 — jetons de design en TypeScript (miroir exact de tokens.css).
- * Utiliser pour three.js (teintes de la silhouette), SVG, graphiques, tests.
- * En CSS/JSX : préférer var(--token) ou les classes Tailwind (bg-surface, text-medium…).
+ * PULSAR AHM v7 — design tokens in TypeScript (exact mirror of tokens.css).
+ * Use for three.js (silhouette tints), SVG, charts, tests.
+ * In CSS/JSX: prefer var(--token) or Tailwind classes (bg-surface, text-medium…).
  */
 export const font = {
   head: '"Space Grotesk", system-ui, sans-serif',
@@ -29,14 +29,14 @@ export const color = {
   },
 } as const;
 
-/** Silhouette 3D (MakeHuman) : corps gris mat + teinte discrète par zone selon l'état. */
+/** 3D silhouette (MakeHuman): matte gray body + discreet tint per zone according to state. */
 export const body3d = { base: "#a4abb4", nominal: "#3bb8f5", medium: "#f0a020", high: "#ef4444", active: "#22c55e" } as const;
 
-/** Voyants NASA C&W : mot + icône (lucide-react), jamais la couleur seule. */
+/** NASA C&W lamps: word + icon (lucide-react), never color alone. */
 export const statusWord = { ok: "Nominal", caution: "Attention", warning: "Alerte" } as const;
 export const statusIcon = { ok: "check_circle", caution: "warning", warning: "error" } as const;
 
-/** Formats d'écran des maquettes Figma v6. */
+/** Figma v6 mockup screen formats. */
 export const devices = {
   tabletLandscape: { w: 1194, h: 834 }, tabletPortrait: { w: 834, h: 1194 }, infirmary: { w: 1920, h: 1080 },
   mcc: { w: 2560, h: 1440 }, laptop: { w: 1440, h: 900 }, watchSquare: { w: 198, h: 242 }, watchRound: { w: 454, h: 454 },

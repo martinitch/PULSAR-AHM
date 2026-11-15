@@ -1,4 +1,4 @@
-/* Contexte d’authentification : session courante + login/logout. Ne parle qu’à `authService`. */
+/* Authentication context: current session + login/logout. Talks only to `authService`. */
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import type { Role } from "@/data/types";
 import { authService, enterDemoRole, type AuthService } from "./authService";
@@ -8,7 +8,7 @@ type AuthCtx = {
   user: AuthUser | null;
   session: Session | null;
   login: (identifier: string, code: string) => Promise<AuthUser>;
-  /** Ouvre l’interface du rôle sans le protocole identifiant + code. */
+  /** Opens the role interface without the identifier + code protocol. */
   enterRole: (role: Role) => Promise<AuthUser>;
   logout: () => Promise<void>;
 };

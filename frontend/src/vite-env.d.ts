@@ -1,16 +1,16 @@
 /// <reference types="vite/client" />
 interface ImportMetaEnv {
-  /** "true" pour activer les planches de dev (?stillset, ?wtgrid, ?wt, ?still) dans un build de production. */
+  /** "true" to enable the dev boards (?stillset, ?wtgrid, ?wt, ?still) in a production build. */
   readonly VITE_DEV_TOOLS?: string;
 }
 interface ImportMeta { readonly env: ImportMetaEnv }
 interface ImportMetaEnv {
-  /** URL de l’API d’authentification réelle. Absente → comptes de démo (DemoAuthService). */
+  /** Real authentication API URL. Absent → demo accounts (DemoAuthService). */
   readonly VITE_AUTH_API_URL?: string;
 }
 interface ImportMetaEnv {
-  /** URL du backend FastAPI (défaut http://localhost:8000). */
+  /** FastAPI backend URL (default http://localhost:8000). */
   readonly VITE_API_URL?: string;
-  /** "true" = simulateur local uniquement (aucun appel réseau). */
+  /** "true" = local simulator only (no network calls). */
   readonly VITE_USE_MOCK?: string;
 }

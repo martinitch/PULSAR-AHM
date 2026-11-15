@@ -1,4 +1,4 @@
-/* Anneau de progression (panneau droit type dashboard produit). */
+/* Progress ring (right-hand panel, product-dashboard style). */
 export function ProgressRing({
   value, total, label, sub,
 }: {

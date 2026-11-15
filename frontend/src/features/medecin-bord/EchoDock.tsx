@@ -1,4 +1,4 @@
-/* Barre de liaison sonde — visible sur tout l’examen, avant de passer à l’étape suivante. */
+/* Probe link bar — visible throughout the exam, before moving to the next step. */
 import { useRef, useState, type ReactNode } from "react";
 import { Demo, Icon } from "@/components/ui";
 
@@ -55,13 +55,13 @@ export function useEchoExam() {
     const next = { ...ref.current, ...partial };
     ref.current = next;
     setExam(next);
-    try { localStorage.setItem(KEY, JSON.stringify(next)); } catch { /* stockage indisponible */ }
+    try { localStorage.setItem(KEY, JSON.stringify(next)); } catch { /* storage unavailable */ }
   };
   const reset = () => patch({ ...FRESH, checks: [false, false, false] });
   return { exam, patch, reset };
 }
 
-/** Jauge de batterie sonde : barre + éclair + pourcentage. Pas de halo. */
+/** Probe battery gauge: bar + bolt + percentage. No halo. */
 export function ProbeBattery({ pct, linked }: { pct: number; linked: boolean }) {
   const level = !linked ? "off" : pct < 20 ? "low" : pct < 40 ? "mid" : "ok";
   const shown = linked ? pct : 0;

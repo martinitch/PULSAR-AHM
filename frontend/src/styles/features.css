@@ -1,8 +1,8 @@
-/* Styles des fonctionnalités : prédictions & solutions, télémétrie (conducteur de temps, tableau LAD, limites),
-   inspecteur, gamification. Télémétrie dense (LAD, fenêtre temps) — design PULSAR, sans cadrage Open MCT :
-   panneaux denses mais lisibles, couleur de limite UNIQUEMENT hors nominal + icône + sens, chiffres tabulaires. */
+/* Feature styles: predictions & solutions, telemetry (time conductor, LAD table, limits),
+   inspector, gamification. Dense telemetry (LAD, time window) — PULSAR design, without Open MCT framing:
+   dense but readable panels, limit color ONLY off-nominal + icon + direction, tabular figures. */
 
-/* ── commun ── */
+/* ── shared ── */
 .num { text-align: right; }
 .mono, .lad td, .insp-props dd { font-variant-numeric: tabular-nums; }
 .r-card.dense { padding: var(--s3) var(--s4); gap: var(--s2); }
@@ -12,12 +12,12 @@
 .disclaimer .icon { color: var(--low); margin-top: 2px; }
 .disclaimer b { color: var(--text); }
 
-/* ── conducteur de temps ── */
+/* ── time conductor ── */
 .conductor { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; padding: 6px 12px; border: 1px solid var(--hairline, var(--line)); border-radius: var(--radius-lg); background: var(--surface); }
 .conductor.is-fixed { border-color: var(--hairline, var(--line)); opacity: .92; }
 .conductor-range { font-size: .8125rem; color: var(--text-2); display: inline-flex; gap: 6px; align-items: center; }
 
-/* ── tableau LAD (dernière valeur disponible) ── */
+/* ── LAD table (last available value) ── */
 .lad { width: 100%; border-collapse: collapse; font-size: .8125rem; }
 .lad th, .lad td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
 .lad thead th { font-family: var(--font-mono); font-size: .6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); }
@@ -32,7 +32,7 @@
 .lad tr.is-stale td, .lad tr.is-stale th { font-style: italic; color: var(--text-3); }
 .lad-stale { font-size: .6875rem; }
 
-/* ── prédictions ── */
+/* ── predictions ── */
 .pred { display: grid; gap: var(--s4); min-width: 0; }
 .pred-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--s4); align-items: start; }
 .risk { display: grid; grid-template-columns: auto minmax(160px, 220px) 1fr; gap: var(--s5); align-items: start; }
@@ -106,7 +106,7 @@
 .pred-summary .disclaimer { margin: var(--s2) 0; }
 .nasa-recs { display: grid; gap: 2px; font-size: .8125rem; }
 
-/* ── inspecteur (médecin de bord) ── */
+/* ── inspector (onboard physician) ── */
 .inspector { position: sticky; top: 64px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); padding: var(--s3) var(--s4); display: grid; gap: var(--s3); max-height: calc(100dvh - 80px); overflow: auto; }
 .inspector header { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
 .inspector header h3 { font-size: .8125rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); }
@@ -117,7 +117,7 @@
 .insp-props dd { text-align: right; color: var(--text); }
 .insp-sum { font-size: .8125rem; color: var(--text-2); }
 
-/* ── gamification (bento desktop, régularité uniquement) ── */
+/* ── gamification (desktop bento, regularity only) ── */
 .goals-welcome {
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s4);
   align-items: flex-end; padding: var(--s4) var(--s5);
@@ -282,7 +282,7 @@
 .goals-strip .hud-plot svg { width: 72px; height: 22px; }
 .goals-strip .hud-tip { width: 4px; height: 4px; }
 
-/* Console de régularité — composition type écran de contrôle, jetons PULSAR (pas de lueur). */
+/* Regularity console — control-screen composition, PULSAR tokens (no glow). */
 .mission-hud {
   display: grid;
   margin-bottom: var(--s4);
@@ -422,7 +422,7 @@
   .mission-hud-grid > * + * { border-left: 0; border-top: 1px solid var(--line); }
 }
 .setting { display: flex; justify-content: space-between; gap: var(--s4); align-items: center; }
-/* Interrupteur fin (piste 36×20, pastille 16). La zone cliquable dépasse via ::before, sans grossir le dessin. */
+/* Slim switch (36×20 track, 16 px thumb). The hit area extends via ::before without enlarging the drawing. */
 .switch {
   position: relative;
   flex: none;
@@ -480,7 +480,7 @@
   .goals-metrics { grid-template-columns: 1fr 1fr; }
 }
 
-/* ── son : bandeau d’alarmes, menu, réglages ── */
+/* ── sound: alarm banner, menu, settings ── */
 .alarm-banner { position: sticky; top: 96px; z-index: 5; padding: 6px 0; background: var(--bg); display: grid; gap: 6px; }
 .alarm-banner ul { display: grid; gap: 6px; }
 .alarm { display: grid; grid-template-columns: auto 1fr auto auto; gap: var(--s3); align-items: center; padding: 8px 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); }
@@ -512,7 +512,7 @@
 .sound-menu-pop__head p { margin: 2px 0 0; font-size: .75rem; color: var(--text-3); }
 .sound-panel { display: grid; gap: var(--s4); }
 
-/* ── workflow (Nouveau → Escaladé) ── */
+/* ── workflow (New → Escalated) ── */
 .wf-badge { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .75rem; color: var(--text-2); margin-top: 6px; }
 .wf-badge b { font-weight: 600; color: var(--text); }
 .wf-badge .wf-who { font-size: .6875rem; }
@@ -524,7 +524,7 @@
 .alert-list .wf-badge { display: flex; }
 .sol-status { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 
-/* ── montre appairage + symptômes ── */
+/* ── watch pairing + symptoms ── */
 .watch-pair.is-inactive, .is-inactive .r-card, .r-card.is-inactive { opacity: .72; }
 .ble-panel { display: grid; gap: var(--s3); }
 .watch-scan-list { display: grid; gap: 8px; margin: var(--s3) 0; max-height: 420px; overflow: auto; }

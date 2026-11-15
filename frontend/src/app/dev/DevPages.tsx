@@ -1,4 +1,4 @@
-/* Pages de dev (hors parcours utilisateur) — voir flags.ts. Retourne null si aucun drapeau n’est actif. */
+/* Dev pages (outside the user flow) — see flags.ts. Returns null if no flag is active. */
 import { lazy, Suspense } from "react";
 import { devFlags } from "./flags";
 import { StillSet } from "./StillSet";

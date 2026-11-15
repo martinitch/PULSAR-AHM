@@ -1,5 +1,5 @@
-/* Buzzer de l’ESP32-C3, en Wi-Fi seulement (POST http://<ip>/bip).
-   Quand l’ESP32 confirme, un message et un son de validation. */
+/* ESP32-C3 buzzer, Wi-Fi only (POST http://<ip>/bip).
+   When the ESP32 confirms, a message and a confirmation sound. */
 import { notifyOk, pushNotice } from "@/components/ui/noticeStore";
 import { playPattern, unlock, type SoundId } from "./engine";
 
@@ -21,7 +21,7 @@ async function sendBip(path: "/__buzzer/fort" | "/__buzzer/bip"): Promise<void> 
   }
 }
 
-/** Salve vers l’ESP32-C3. À chaque mise de l’appareil digital. */
+/** Burst to the ESP32-C3. Each time the digital device is put on. */
 export function buzzEspFort(): void {
   void sendBip("/__buzzer/fort");
 }

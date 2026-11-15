@@ -1,5 +1,5 @@
-/* Panneau d’aide clinique (inspiré « Aria AI ») — alertes + insights.
-   Aide à la décision, pas un diagnostic. Pas de glass / glow. */
+/* Clinical assist panel (inspired by « Aria AI ») — alerts + insights.
+   Decision support, not a diagnosis. No glass / glow. */
 import type { ReactNode } from "react";
 import { Icon, Lamp, type IconName } from "@/components/ui";
 import type { Light } from "@/data/types";
