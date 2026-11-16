@@ -1,6 +1,10 @@
 /* Probe link bar — visible throughout the exam, before moving to the next step. */
 import { useRef, useState, type ReactNode } from "react";
 import { Demo, Icon } from "@/components/ui";
+import { useLang } from "@/i18n";
+
+export const ECHO_NOTE_FR = "Coupe 4 cavités. VG 4,1 cm. Pas d’épanchement visible. Avis du sol souhaité.";
+export const ECHO_NOTE_EN = "4-chamber view. LV 4.1 cm. No visible effusion. Ground opinion requested.";
 
 const KEY = "pulsar.echo.exam";
 
@@ -21,7 +25,7 @@ const FRESH: EchoExam = {
   reached: 1,
   zone: "heart",
   placed: false,
-  note: "Coupe 4 cavités. VG 4,1 cm. Pas d’épanchement visible. Avis du sol souhaité.",
+  note: ECHO_NOTE_FR,
 };
 
 function loadExam(): EchoExam {
@@ -63,6 +67,7 @@ export function useEchoExam() {
 
 /** Probe battery gauge: bar + bolt + percentage. No halo. */
 export function ProbeBattery({ pct, linked }: { pct: number; linked: boolean }) {
+  const { tr } = useLang();
   const level = !linked ? "off" : pct < 20 ? "low" : pct < 40 ? "mid" : "ok";
   const shown = linked ? pct : 0;
   return (
@@ -73,8 +78,8 @@ export function ProbeBattery({ pct, linked }: { pct: number; linked: boolean }) 
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={shown}
-      aria-valuetext={linked ? `${pct} pour cent` : "Sonde non reliée"}
-      aria-label="Batterie de la sonde"
+      aria-valuetext={linked ? tr(`${pct} pour cent`, `${pct} percent`) : tr("Sonde non reliée", "Probe not linked")}
+      aria-label={tr("Batterie de la sonde", "Probe battery")}
     >
       <span className="probe-bat-fill" />
       <span className="probe-bat-read">
@@ -98,22 +103,23 @@ export function EchoDock({
   onBack?: () => void;
   children: ReactNode;
 }) {
+  const { tr } = useLang();
   return (
-    <footer className="echo-dock" aria-label="Liaison de la sonde">
+    <footer className="echo-dock" aria-label={tr("Liaison de la sonde", "Probe link")}>
       <div className="echo-dock-status">
         <span className={`echo-dock-mark${linked ? " is-on" : ""}`} aria-hidden="true">
           <Icon name={linked ? "link" : "link_off"} size={18} />
         </span>
         <div>
-          <strong>{linked ? "Liaison sonde" : "Sonde non reliée"}</strong>
-          <span>{linked ? "USB-C · tablette médicale" : "En attente du branchement"}</span>
+          <strong>{linked ? tr("Liaison sonde", "Probe link") : tr("Sonde non reliée", "Probe not linked")}</strong>
+          <span>{linked ? tr("USB-C · tablette médicale", "USB-C · medical tablet") : tr("En attente du branchement", "Waiting for the connection")}</span>
         </div>
       </div>
       <ProbeBattery pct={battery} linked={linked} />
       {linked && <Demo />}
       <p className="echo-dock-hint" role="status">{hint}</p>
       <div className="echo-dock-actions">
-        {onBack && <button type="button" className="btn btn-secondary" onClick={onBack}>Retour</button>}
+        {onBack && <button type="button" className="btn btn-secondary" onClick={onBack}>{tr("Retour", "Back")}</button>}
         {children}
       </div>
     </footer>

@@ -17,7 +17,7 @@ import { PcFingerprint } from "@/features/montre/PcFingerprint";
 import { buzzEspFort } from "@/features/sound/hardwareBuzzer";
 import { useMe } from "@/features/auth/useMe";
 import { useGamification, GoalsStrip } from "@/features/gamification";
-import { applyExerciseStates, exerciseFocus, exercisePart, startExercise, stopExercise, useExerciseSession } from "@/features/gamification/exercise";
+import { applyExerciseStates, exerciseFocus, exercisePart, partLabel, startExercise, stopExercise, useExerciseSession } from "@/features/gamification/exercise";
 import { useSound } from "@/features/sound";
 import { GameIcon } from "@/features/gamification/glyphs";
 import { LiveVitalsChart, RadiationChart } from "@/components/charts";
@@ -30,7 +30,7 @@ import { useLang } from "@/i18n";
 
 /** Home A01 — clinical SaaS telemetry: vitals + 3D body + guidance + timeline + regularity donut. */
 export function AstroHome({ go }: { go: Go }) {
-  const { t, tr } = useLang();
+  const { t, tr, lang } = useLang();
   const ME = useMe();
   const gamif = useGamification(ME.id);
   const tel = useTelemetry(ME.id, { limit: 24, intervalMs: 2000 });
@@ -77,7 +77,7 @@ export function AstroHome({ go }: { go: Go }) {
         {gamif.enabled && <GoalsStrip g={gamif} />}
 
         <div className="ops-split a01-dial-row" aria-label={tr("Constantes", "Vitals")}>
-          <HudDial label={tr("Pouls", "Pulse")} value={hr} unit="bpm" pct={hr / 130} light={hrLight} delta={cautionHr ? "+12 / 3 j" : tr("stable", "stable")} onSelect={() => go("/astronaute/silhouette")} />
+          <HudDial label={tr("Pouls", "Pulse")} value={hr} unit="bpm" pct={hr / 130} light={hrLight} delta={cautionHr ? (lang === "en" ? "+12 / 3 d" : "+12 / 3 j") : tr("stable", "stable")} onSelect={() => go("/astronaute/silhouette")} />
           <HudDial label="SpO₂" value={spo2} unit="%" pct={spo2 / 100} light={spo2State} delta={spo2State === "ok" ? tr("nominal", "nominal") : tr("bas", "low")} onSelect={() => go("/astronaute/silhouette")} />
           <HudDial label={tr("Temp.", "Temp.")} value={ME.temp} unit="°C" pct={0.55} light="ok" delta={tr("nominal", "nominal")} onSelect={() => go("/astronaute/kits")} />
           <HudDial label={tr("Tension", "Pressure")} value={ME.bp} unit="mmHg" pct={sys / 180} light={bpState} delta={bpState === "ok" ? "ok" : tr("élevée", "high")} onSelect={() => go("/astronaute/kits")} />
@@ -88,7 +88,7 @@ export function AstroHome({ go }: { go: Go }) {
           <section className="a01-figure" aria-labelledby="a01-sil">
             <header className="a01-card-h">
               <h2 id="a01-sil"><Icon name="accessibility_new" size={18} /> {tr("Corps", "Body")}</h2>
-              {livePart ? <span className="mono small">Séance · {livePart.label}</span> : <Demo />}
+              {livePart ? <span className="mono small">{tr("Séance", "Session")} · {partLabel(livePart.id, livePart.label, lang)}</span> : <Demo />}
             </header>
             <div className="a01-figure-stage">
               <BodyFigure states={zones} sel={body.sel} onPick={body.pick} zoom={body.zoom} need={body.need} views={false} />

@@ -72,7 +72,7 @@ export function RadiationChart({ astronautId, height = 160 }: { astronautId: str
         <div><dt>{tr("Débit de dose", "Dose rate")}</dt><dd className="mono">{last.radiationDoseRate.toFixed(1)}<small> µSv/h</small></dd></div>
         <div><dt>{tr("Cumul mission", "Mission total")}</dt><dd className="mono">{last.radiationCumulative.toFixed(1)}<small> mSv</small></dd></div>
       </dl>
-      <div style={{ height }} role="img" aria-label={`Débit de dose ${last.radiationDoseRate.toFixed(1)} microsieverts par heure`}>
+      <div style={{ height }} role="img" aria-label={tr(`Débit de dose ${last.radiationDoseRate.toFixed(1)} microsieverts par heure`, `Dose rate ${last.radiationDoseRate.toFixed(1)} microsieverts per hour`)}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -8 }}>
             <CartesianGrid stroke="var(--line)" vertical={false} />

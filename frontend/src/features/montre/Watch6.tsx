@@ -25,8 +25,9 @@ function Haptic({ children }: { children: string }) {
   return <p className="wt-haptic"><Icon name="vibration" size={12} /> {children}</p>;
 }
 function Mini({ big }: { big?: boolean }) {
+  const { tr } = useLang();
   return (
-    <svg className={`wt-mini ${big ? "big" : ""}`} viewBox="0 0 60 120" role="img" aria-label="Silhouette : cœur et cerveau en attention, poumons nominaux">
+    <svg className={`wt-mini ${big ? "big" : ""}`} viewBox="0 0 60 120" role="img" aria-label={tr("Silhouette : cœur et cerveau en attention, poumons nominaux", "Silhouette: heart and brain in caution, lungs nominal")}>
       <g fill="#2b3036">
         <circle cx="30" cy="12" r="9" />
         <rect x="19" y="24" width="22" height="42" rx="9" />

@@ -11,15 +11,17 @@ import type { useGamification } from "./store";
 import { useSound } from "@/features/sound";
 import { FAMILY_EN, gradeHintFor, useLang } from "@/i18n";
 import { useMe } from "@/features/auth/useMe";
-import { applyExerciseStates, BODY_PARTS, exerciseFocus, exercisePart, startExercise, stopExercise, useExerciseSession } from "./exercise";
+import { applyExerciseStates, BODY_PARTS, exerciseFocus, exercisePart, partLabel, startExercise, stopExercise, useExerciseSession } from "./exercise";
 
 type G = ReturnType<typeof useGamification>;
 
 const WEEKDAY = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
+const WEEKDAY_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const XP_PER_MISSION = 25;
 
 /** Weekly calendar (7 days): done / in progress / missed — regularity only. */
 export function StreakWeek({ g }: { g: G }) {
+  const { tr, lang } = useLang();
   const today = new Date();
   const days = Array.from({ length: 7 }, (_, i) => {
     const ago = 6 - i;
@@ -28,23 +30,23 @@ export function StreakWeek({ g }: { g: G }) {
     const ok = ago === 0 ? g.measuresComplete : !g.missedDaysAgo.includes(ago) && ago <= g.streak;
     return {
       ago,
-      label: WEEKDAY[d.getDay()],
+      label: lang === "en" ? WEEKDAY_EN[d.getDay()] : WEEKDAY[d.getDay()],
       date: d.getDate(),
       ok,
       today: ago === 0,
     };
   });
   return (
-    <ol className="streak-week" aria-label="Régularité des 7 derniers jours">
+    <ol className="streak-week" aria-label={tr("Régularité des 7 derniers jours", "Regularity over the last 7 days")}>
       {days.map((d) => (
-        <li key={d.ago} className={d.ok ? "ok" : d.today ? "today" : "miss"} title={d.today ? "Aujourd’hui" : `Il y a ${d.ago} j`}>
+        <li key={d.ago} className={d.ok ? "ok" : d.today ? "today" : "miss"} title={d.today ? tr("Aujourd’hui", "Today") : tr(`Il y a ${d.ago} j`, `${d.ago} d ago`)}>
           <span className="sw-label">{d.label}</span>
           <span className="sw-mark" aria-hidden="true">
             {d.ok ? <Icon name="check" size={14} /> : d.today ? null : null}
           </span>
           <span className="sw-date mono">{d.date}</span>
           <span className="visually-hidden">
-            {d.today ? "Aujourd’hui" : `Il y a ${d.ago} jours`} : {d.ok ? "toutes les mesures faites" : d.today ? "en cours" : "incomplet"}
+            {d.today ? tr("Aujourd’hui", "Today") : tr(`Il y a ${d.ago} jours`, `${d.ago} days ago`)} : {d.ok ? tr("toutes les mesures faites", "all measures done") : d.today ? tr("en cours", "in progress") : tr("incomplet", "incomplete")}
           </span>
         </li>
       ))}
@@ -54,14 +56,15 @@ export function StreakWeek({ g }: { g: G }) {
 
 /** Compact 14-day history (under the calendar). */
 export function StreakDays({ g }: { g: G }) {
+  const { tr } = useLang();
   const days = Array.from({ length: 14 }, (_, i) => 13 - i);
   return (
-    <ol className="streak-days" aria-label="Régularité des 14 derniers jours">
+    <ol className="streak-days" aria-label={tr("Régularité des 14 derniers jours", "Regularity over the last 14 days")}>
       {days.map((d) => {
         const ok = d === 0 ? g.measuresComplete : !g.missedDaysAgo.includes(d) && d <= g.streak;
         return (
-          <li key={d} className={ok ? "ok" : d === 0 ? "today" : "miss"} title={d === 0 ? "Aujourd’hui" : `Il y a ${d} j`}>
-            <span className="visually-hidden">{d === 0 ? "Aujourd’hui" : `Il y a ${d} jours`} : {ok ? "toutes les mesures faites" : d === 0 ? "en cours" : "incomplet"}</span>
+          <li key={d} className={ok ? "ok" : d === 0 ? "today" : "miss"} title={d === 0 ? tr("Aujourd’hui", "Today") : tr(`Il y a ${d} j`, `${d} d ago`)}>
+            <span className="visually-hidden">{d === 0 ? tr("Aujourd’hui", "Today") : tr(`Il y a ${d} jours`, `${d} days ago`)} : {ok ? tr("toutes les mesures faites", "all measures done") : d === 0 ? tr("en cours", "in progress") : tr("incomplet", "incomplete")}</span>
           </li>
         );
       })}
@@ -89,16 +92,17 @@ export function StreakCard({ g, className }: { g: G; className?: string }) {
 
 /** Regularity bento tiles — never health values (EF-42). */
 export function RegularityTiles({ g }: { g: G }) {
+  const { tr } = useLang();
   const missionsDone = g.missions.filter((m) => m.done).length;
   const badgesGot = g.badgesEarned;
   const tiles = [
-    { id: "constancy", icon: <GameIcon name="gem" size={18} />, label: "Indice de constance", value: `${g.constancy}`, hint: "série · missions · insignes — pas un score clinique" },
-    { id: "missions", icon: <GameIcon name="missions" size={18} />, label: "Missions du jour", value: `${missionsDone}/${g.missions.length}`, hint: "mesures + routines" },
-    { id: "xp", icon: <GameIcon name="bolt" size={18} />, label: "XP régularité", value: `${g.xp}`, hint: "+25 / mission · +5 / jour de série" },
-    { id: "badges", icon: <GameIcon name="medal" size={18} />, label: "Insignes obtenus", value: `${badgesGot}/${g.badges.length}`, hint: "jalons de constance" },
+    { id: "constancy", icon: <GameIcon name="gem" size={18} />, label: tr("Indice de constance", "Constancy index"), value: `${g.constancy}`, hint: tr("série · missions · insignes — pas un score clinique", "streak · missions · badges — not a clinical score") },
+    { id: "missions", icon: <GameIcon name="missions" size={18} />, label: tr("Missions du jour", "Today’s missions"), value: `${missionsDone}/${g.missions.length}`, hint: tr("mesures + routines", "measures + routines") },
+    { id: "xp", icon: <GameIcon name="bolt" size={18} />, label: tr("XP régularité", "Regularity XP"), value: `${g.xp}`, hint: tr("+25 / mission · +5 / jour de série", "+25 / mission · +5 / streak day") },
+    { id: "badges", icon: <GameIcon name="medal" size={18} />, label: tr("Insignes obtenus", "Badges earned"), value: `${badgesGot}/${g.badges.length}`, hint: tr("jalons de constance", "constancy milestones") },
   ] as const;
   return (
-    <ul className="goals-metrics" aria-label="Indicateurs de régularité">
+    <ul className="goals-metrics" aria-label={tr("Indicateurs de régularité", "Regularity metrics")}>
       {tiles.map((t) => (
         <li key={t.id} className="goals-metric">
           <span className="gm-ico">{t.icon}</span>
@@ -185,7 +189,7 @@ export function BadgesCard({ g, className }: { g: G; className?: string }) {
       <div className="grade-block">
         <p className="grade-now">{tr("Niveau", "Level")} <b>{g.grade.current.label}</b> · {tr("constance", "constancy")} <b className="mono">{g.constancy}</b></p>
         <p className="r-note">{gradeHintFor(g.grade, lang)} {tr("Les insignes obtenus sont en couleur ; les autres restent atténués.", "Earned badges are in color; the others stay muted.")}</p>
-        <ol className="grade-steps" aria-label="Niveaux de constance">
+        <ol className="grade-steps" aria-label={tr("Niveaux de constance", "Constancy levels")}>
           {g.grade.levels.map((level) => (
             <li key={level.id} className={g.grade.earned >= level.min ? "got" : ""} aria-current={level.id === g.grade.current.id ? "step" : undefined}>
               {level.label}
@@ -320,7 +324,7 @@ function LiveTrace({ tick, mode, gain, label }: { tick: number; mode: TraceMode;
 
 /** Session screen: Exercise button, live-tinted 3D body, regularity traces. */
 export function MissionHud({ g }: { g: G }) {
-  const { tr } = useLang();
+  const { tr, lang } = useLang();
   const tick = useTick();
   const ME = useMe();
   const { play } = useSound();
@@ -344,21 +348,21 @@ export function MissionHud({ g }: { g: G }) {
   };
 
   return (
-    <section className="mission-hud" aria-label="Séance d’exercice" data-testid="mission-hud">
+    <section className="mission-hud" aria-label={tr("Séance d’exercice", "Exercise session")} data-testid="mission-hud">
       <header className="mission-hud-head">
-        <span className="mono">Séance · corps en direct</span>
-        <span className="hud-live mono"><i /> {running ? "En direct" : "En attente"}</span>
+        <span className="mono">{tr("Séance · corps en direct", "Session · live body")}</span>
+        <span className="hud-live mono"><i /> {running ? tr("En direct", "Live") : tr("En attente", "Waiting")}</span>
       </header>
       <div className="mission-hud-grid mission-hud-grid--body">
         <div className="mission-hud-traces">
-          <LiveTrace tick={tick} mode="pulse" gain={running ? 0.9 : 0.15} label="Rythme" />
-          <LiveTrace tick={tick} mode="wave" gain={running ? 0.55 + gain * 0.45 : 0.1} label="Effort" />
-          <LiveTrace tick={tick} mode="crew" gain={gain} label="Zones" />
+          <LiveTrace tick={tick} mode="pulse" gain={running ? 0.9 : 0.15} label={tr("Rythme", "Pace")} />
+          <LiveTrace tick={tick} mode="wave" gain={running ? 0.55 + gain * 0.45 : 0.1} label={tr("Effort", "Effort")} />
+          <LiveTrace tick={tick} mode="crew" gain={gain} label={tr("Zones", "Zones")} />
           <ul className="hud-status">
             {BODY_PARTS.map((p, i) => (
               <li key={p.id} className={i < covered ? "is-done" : ""}>
-                <span>{p.label}</span>
-                <span className="mono">{i === current ? "en cours" : i < covered ? "sollicitée" : "—"}</span>
+                <span>{partLabel(p.id, p.label, lang)}</span>
+                <span className="mono">{i === current ? tr("en cours", "in progress") : i < covered ? tr("sollicitée", "worked") : "—"}</span>
               </li>
             ))}
           </ul>
@@ -366,7 +370,7 @@ export function MissionHud({ g }: { g: G }) {
         <div className="mission-hud-body">
           <p className="hud-readout">
             <b className="mono">{coveredNow}</b>
-            <span className="mono">{part ? tr(`${part.label} · sollicitée`, `${part.label} · worked`) : tr(`Zones · sur ${BODY_PARTS.length}`, `Zones · of ${BODY_PARTS.length}`)}</span>
+            <span className="mono">{part ? tr(`${partLabel(part.id, part.label, lang)} · sollicitée`, `${partLabel(part.id, part.label, lang)} · worked`) : tr(`Zones · sur ${BODY_PARTS.length}`, `Zones · of ${BODY_PARTS.length}`)}</span>
           </p>
           <div className="mission-hud-stage">
             <BodyFigure

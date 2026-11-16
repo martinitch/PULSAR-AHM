@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Lamp } from "./Status";
 import type { Light } from "@/data/types";
+import { useLang } from "@/i18n";
 
 export type ActivityMetric = {
   id: string;
@@ -49,6 +50,7 @@ export function ActivityRings({
   metrics: ActivityMetric[];
   onOpen?: (id: string) => void;
 }) {
+  const { tr } = useLang();
   const [sel, setSel] = useState(metrics[0]?.id ?? "");
   const current = metrics.find((m) => m.id === sel) ?? metrics[0];
   if (!current) return null;
@@ -56,7 +58,7 @@ export function ActivityRings({
   return (
     <div className="act-panel">
       <div className="act-rings-wrap">
-        <svg className="act-rings" viewBox="0 0 240 240" role="img" aria-label="Anneaux d’activité vitales">
+        <svg className="act-rings" viewBox="0 0 240 240" role="img" aria-label={tr("Anneaux d’activité vitales", "Vital activity rings")}>
           {metrics.slice(0, 3).map((m, i) => {
             const { r, w } = RINGS[i] ?? RINGS[2];
             const C = 2 * Math.PI * r;
@@ -103,7 +105,7 @@ export function ActivityRings({
           type="button"
           className="act-center"
           onClick={() => onOpen?.(current.id)}
-          aria-label={`Détail ${current.label}`}
+          aria-label={tr(`Détail ${current.label}`, `Detail ${current.label}`)}
         >
           <strong className="mono">{current.value}</strong>
           <span>{current.label}</span>
@@ -111,7 +113,7 @@ export function ActivityRings({
         </button>
       </div>
 
-      <ul className="act-legend" aria-label="Indicateurs">
+      <ul className="act-legend" aria-label={tr("Indicateurs", "Metrics")}>
         {metrics.slice(0, 3).map((m) => {
           const r = 14;
           const C = 2 * Math.PI * r;
@@ -152,13 +154,13 @@ export function ActivityRings({
         <p className="r-note">{current.detail}</p>
         {current.series && current.series.length > 1 && (
           <div className="act-trend">
-            <span>Tendance 7 j</span>
+            <span>{tr("Tendance 7 j", "7-day trend")}</span>
             <TrendSpark series={current.series} tone={current.tone} />
           </div>
         )}
         {onOpen && (
           <button type="button" className="btn btn-primary sm" onClick={() => onOpen(current.id)}>
-            Voir le détail
+            {tr("Voir le détail", "See the detail")}
           </button>
         )}
       </div>

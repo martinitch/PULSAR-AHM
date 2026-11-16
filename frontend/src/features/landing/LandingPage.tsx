@@ -96,16 +96,17 @@ function useLiveMock(id = "LK") {
 }
 
 function LivePanel({ live, foot }: { live: string; foot: string }) {
+  const { tr } = useLang();
   const d = useLiveMock();
   const last = d[d.length - 1];
   return (
     <div className="lp-live lp-frame" aria-label={live}>
       <div className="lp-live-head">
         <p className="lp-live-k"><span className="lp-live-dot" aria-hidden="true" /> {live}</p>
-        <span className="chip mono">DÉMO</span>
+        <span className="chip mono">{tr("DÉMO", "DEMO")}</span>
       </div>
       <dl className="lp-live-vals">
-        <div><dt>FC</dt><dd className="mono">{last?.heartRate ?? "—"}<small> bpm</small></dd></div>
+        <div><dt>{tr("FC", "HR")}</dt><dd className="mono">{last?.heartRate ?? "—"}<small> bpm</small></dd></div>
         <div><dt>SpO₂</dt><dd className="mono">{last?.spo2 ?? "—"}<small> %</small></dd></div>
         <div><dt>Dose</dt><dd className="mono">{last?.radiationDoseRate ?? "—"}<small> µSv/h</small></dd></div>
       </dl>

@@ -11,6 +11,14 @@ export const BODY_PARTS = [
   { id: "lungs", label: "Poumons", zone: "lungs" },
 ] as const;
 
+const PART_EN: Record<(typeof BODY_PARTS)[number]["id"], string> = {
+  legs: "Legs", arms: "Arms", core: "Core", spine: "Bone", heart: "Heart", lungs: "Lungs",
+};
+
+export function partLabel(id: string, label: string, lang: "fr" | "en") {
+  return lang === "en" ? PART_EN[id as keyof typeof PART_EN] ?? label : label;
+}
+
 type Snap = { running: boolean; step: number };
 let snap: Snap = { running: false, step: 0 };
 const listeners = new Set<() => void>();

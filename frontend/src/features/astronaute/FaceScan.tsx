@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { Demo, Icon, Lamp, Card } from "@/components/ui";
 import type { Go } from "@/app/types";
 import { useSound } from "@/features/sound";
+import { useLang } from "@/i18n";
 import { scanSample, parseSleepHours, type ScanSample } from "./scanSim";
 import { RateScale } from "./RateScale";
 
@@ -34,6 +35,7 @@ const FATIGUE: Record<ScanSample["fatigue"], { word: string; light: "ok" | "caut
 
 export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: string; sleep: string; go: Go }) {
   const { raise, play } = useSound();
+  const { tr } = useLang();
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [step, setStep] = useState<Step>("off");
@@ -87,7 +89,7 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
     raise({
       id: `FATIGUE-${crewId}-${Date.now()}`,
       level: "rouge",
-      title: "Fatigue élevée · scan visage",
+      title: tr("Fatigue élevée · scan visage", "High fatigue · face scan"),
       detail: `${name} · ${crewId}`,
       sound: "fatiguePim",
     });
@@ -129,7 +131,7 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
     setPending(true);
     setError(null);
     if (!navigator.mediaDevices?.getUserMedia) {
-      setError("Ce navigateur ne donne pas accès à la caméra.");
+      setError(tr("Ce navigateur ne donne pas accès à la caméra.", "This browser does not expose the camera."));
       setStep("off");
       setPending(false);
       return;
@@ -146,8 +148,8 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
     } catch (err) {
       const denied = err instanceof DOMException && (err.name === "NotAllowedError" || err.name === "SecurityError");
       setError(denied
-        ? "Autorisation refusée. Autorisez la caméra pour ce site, puis réessayez."
-        : "Caméra indisponible. Vérifiez qu’elle n’est pas utilisée par une autre application.");
+        ? tr("Autorisation refusée. Autorisez la caméra pour ce site, puis réessayez.", "Permission denied. Allow the camera for this site, then try again.")
+        : tr("Caméra indisponible. Vérifiez qu’elle n’est pas utilisée par une autre application.", "Camera unavailable. Check that another application is not using it."));
       setStep("off");
     } finally {
       setPending(false);
@@ -164,8 +166,9 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
     setNote(false);
   };
 
-  const status = step === "done" ? "1 correspondance" : step === "scan" ? "Analyse" : box ? "Visage cadré" : "Cadrage";
+  const status = step === "done" ? tr("1 correspondance", "1 match") : step === "scan" ? tr("Analyse", "Analysis") : box ? tr("Visage cadré", "Face framed") : tr("Cadrage", "Framing");
   const fatigue = FATIGUE[sample.fatigue];
+  const fatigueWord = tr(fatigue.word, sample.fatigue === "faible" ? "Low fatigue" : sample.fatigue === "moderee" ? "Moderate fatigue" : "High fatigue");
 
   return (
     <div className="two-col scan-board">
@@ -174,12 +177,12 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
           <div className="cam-note is-ask" role="region" aria-labelledby="cam-ask-title">
             <span className="cam-note-ico" aria-hidden="true"><Icon name="videocam" size={22} /></span>
             <div>
-              <p id="cam-ask-title"><strong>Autoriser la caméra ?</strong></p>
-              <p>PULSAR demande la caméra avant pour cadrer votre visage. L’image reste sur cette page et n’est pas enregistrée.</p>
+              <p id="cam-ask-title"><strong>{tr("Autoriser la caméra ?", "Allow the camera?")}</strong></p>
+              <p>{tr("PULSAR demande la caméra avant pour cadrer votre visage. L’image reste sur cette page et n’est pas enregistrée.", "PULSAR asks for the front camera to frame your face. The image stays on this page and is not recorded.")}</p>
             </div>
             <div className="btn-row">
-              <button type="button" className="btn btn-primary" disabled={pending} onClick={() => void openCamera()}>{pending ? "Ouverture…" : "Autoriser"}</button>
-              <button type="button" className="btn btn-ghost" onClick={() => setStep("off")}>Annuler</button>
+              <button type="button" className="btn btn-primary" disabled={pending} onClick={() => void openCamera()}>{pending ? tr("Ouverture…", "Opening…") : tr("Autoriser", "Allow")}</button>
+              <button type="button" className="btn btn-ghost" onClick={() => setStep("off")}>{tr("Annuler", "Cancel")}</button>
             </div>
           </div>
         )}
@@ -188,10 +191,10 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
           <div className="cam-note" role="status">
             <span className="cam-note-ico" aria-hidden="true"><Icon name="videocam" size={22} /></span>
             <div>
-              <p><strong>Caméra activée</strong></p>
-              <p>La caméra avant est allumée. Le flux reste local : rien n’est enregistré ni envoyé.</p>
+              <p><strong>{tr("Caméra activée", "Camera on")}</strong></p>
+              <p>{tr("La caméra avant est allumée. Le flux reste local : rien n’est enregistré ni envoyé.", "The front camera is on. The stream stays local: nothing is recorded or sent.")}</p>
             </div>
-            <button type="button" className="btn btn-ghost" onClick={() => setNote(false)} aria-label="Masquer la notification">
+            <button type="button" className="btn btn-ghost" onClick={() => setNote(false)} aria-label={tr("Masquer la notification", "Hide the notice")}>
               <Icon name="close" size={18} />
             </button>
           </div>
@@ -201,22 +204,22 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
             <>
               <div className="face-off">
                 <Icon name="videocam" size={28} />
-                <p>Caméra éteinte</p>
+                <p>{tr("Caméra éteinte", "Camera off")}</p>
               </div>
               <div className="vf-status">
-                <span className="vf-cam is-off"><i aria-hidden="true" /> Éteinte</span>
-                <span className="mono">En attente</span>
+                <span className="vf-cam is-off"><i aria-hidden="true" /> {tr("Éteinte", "Off")}</span>
+                <span className="mono">{tr("En attente", "Waiting")}</span>
               </div>
               <div className="vf-square is-fixed" aria-hidden="true">
                 <span /><span /><span /><span />
               </div>
-              <figcaption className="vf-caption">L’autorisation du navigateur est demandée avant l’ouverture.</figcaption>
+              <figcaption className="vf-caption">{tr("L’autorisation du navigateur est demandée avant l’ouverture.", "The browser asks for permission before the camera opens.")}</figcaption>
             </>
           ) : (
             <>
               <video ref={videoRef} className="face-video" autoPlay playsInline muted />
               <div className="vf-status">
-                <span className="vf-cam"><i aria-hidden="true" /> Direct</span>
+                <span className="vf-cam"><i aria-hidden="true" /> {tr("Direct", "Live")}</span>
                 <span className="mono">{status}</span>
               </div>
               <div
@@ -233,59 +236,59 @@ export function FaceScan({ name, crewId, sleep, go }: { name: string; crewId: st
                   <span className="mono">{crewId}</span>
                 </p>
               )}
-              <figcaption className="vf-caption">Placez le visage dans le carré</figcaption>
+              <figcaption className="vf-caption">{tr("Placez le visage dans le carré", "Place the face in the square")}</figcaption>
             </>
           )}
         </figure>
       </div>
 
-      <Card title={step === "done" || step === "scan" ? "Résultat" : "Préparation"} icon="face" aside={<Demo />}>
+      <Card title={step === "done" || step === "scan" ? tr("Résultat", "Result") : tr("Préparation", "Preparation")} icon="face" aside={<Demo />}>
         {step === "off" && (
           <>
             <ol className="kit-steps">
-              <li><b>1</b> Autorisez la caméra de la tablette</li>
-              <li><b>2</b> Visage dégagé, pas de visière, ~40 cm</li>
-              <li><b>3</b> Le carré se place sur le visage, puis le scan dure 3 s</li>
+              <li><b>1</b> {tr("Autorisez la caméra de la tablette", "Allow the tablet camera")}</li>
+              <li><b>2</b> {tr("Visage dégagé, pas de visière, ~40 cm", "Face clear, no visor, ~40 cm")}</li>
+              <li><b>3</b> {tr("Le carré se place sur le visage, puis le scan dure 3 s", "The square settles on the face, then the scan lasts 3 s")}</li>
             </ol>
             <button type="button" className="btn btn-primary lg" onClick={() => { setError(null); setStep("ask"); }}>
-              <Icon name="videocam" size={20} /> Activer la caméra
+              <Icon name="videocam" size={20} /> {tr("Activer la caméra", "Turn the camera on")}
             </button>
           </>
         )}
         {step === "ask" && (
-          <p className="r-note">En attente de votre autorisation. Le navigateur affichera ensuite sa propre demande.</p>
+          <p className="r-note">{tr("En attente de votre autorisation. Le navigateur affichera ensuite sa propre demande.", "Waiting for your permission. The browser will then show its own prompt.")}</p>
         )}
         {live && (
           <>
             {step === "done" && (
-              <div className="big-res"><Lamp l="ok" /><strong>1 correspondance</strong></div>
+              <div className="big-res"><Lamp l="ok" /><strong>{tr("1 correspondance", "1 match")}</strong></div>
             )}
-            <div className="big-res"><Lamp l={fatigue.light} /><strong>{fatigue.word}</strong></div>
-            <p className="r-note">{name} · {crewId}. Taux simulés, mis à jour chaque seconde. Le backend visage les remplacera. <Demo /></p>
+            <div className="big-res"><Lamp l={fatigue.light} /><strong>{fatigueWord}</strong></div>
+            <p className="r-note">{name} · {crewId}. {tr("Taux simulés, mis à jour chaque seconde. Le backend visage les remplacera.", "Simulated rates, updated every second. The face backend will replace them.")} <Demo /></p>
             <div className="rate-list">
-              <RateScale label="Fermeture des paupières" value={sample.eyelids} unit="% vs référence" min={0} max={40} caution={15} high={22} />
-              <RateScale label="Clignements" value={sample.blinks} unit="/ min" min={8} max={36} caution={12} high={10} direction="below" />
-              <RateScale label="Sommeil (montre)" value={parseSleepHours(sleep)} unit="h" min={0} max={9} caution={6} high={5} direction="below" />
+              <RateScale label={tr("Fermeture des paupières", "Eyelid closure")} value={sample.eyelids} unit={tr("% vs référence", "% vs reference")} min={0} max={40} caution={15} high={22} />
+              <RateScale label={tr("Clignements", "Blinks")} value={sample.blinks} unit={tr("/ min", "/ min")} min={8} max={36} caution={12} high={10} direction="below" />
+              <RateScale label={tr("Sommeil (montre)", "Sleep (watch)")} value={parseSleepHours(sleep)} unit="h" min={0} max={9} caution={6} high={5} direction="below" />
             </div>
             {step === "done" && fatigue.light !== "ok" && (
-              <p className="r-note">Conseil : pause 20 min, hydratation. Le médecin de bord (CMO-001) est notifié.</p>
+              <p className="r-note">{tr("Conseil : pause 20 min, hydratation. Le médecin de bord (CMO-001) est notifié.", "Advice: rest 20 min, hydrate. The crew surgeon (CMO-001) is notified.")}</p>
             )}
             <div className="btn-row">
               {step === "live" && (
                 <button type="button" className="btn btn-primary lg" onClick={() => { setStep("scan"); loudFace(); }}>
-                  <Icon name="photo_camera" size={20} /> Lancer le scan
+                  <Icon name="photo_camera" size={20} /> {tr("Lancer le scan", "Start the scan")}
                 </button>
               )}
               {step === "scan" && (
-                <button type="button" className="btn btn-primary lg" disabled>Analyse…</button>
+                <button type="button" className="btn btn-primary lg" disabled>{tr("Analyse…", "Analyzing…")}</button>
               )}
               {step === "done" && (
                 <>
-                  <button type="button" className="btn btn-primary" onClick={() => go("/astronaute/bien-etre")}>Exercice de récupération</button>
-                  <button type="button" className="btn btn-secondary" onClick={() => setStep("live")}>Refaire</button>
+                  <button type="button" className="btn btn-primary" onClick={() => go("/astronaute/bien-etre")}>{tr("Exercice de récupération", "Recovery exercise")}</button>
+                  <button type="button" className="btn btn-secondary" onClick={() => setStep("live")}>{tr("Refaire", "Redo")}</button>
                 </>
               )}
-              <button type="button" className="btn btn-ghost" onClick={closeCamera}>Éteindre la caméra</button>
+              <button type="button" className="btn btn-ghost" onClick={closeCamera}>{tr("Éteindre la caméra", "Turn the camera off")}</button>
             </div>
           </>
         )}

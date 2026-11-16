@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@/components/ui";
 import { useSound, type Alarm } from "./SoundProvider";
 import { CATEGORY_LABEL, LOCKED, SILENT, SNOOZE_MS, setCategory, type SoundCategory } from "./settings";
-import { SOUND_LABEL, type SoundId } from "./engine";
+import { type SoundId } from "./engine";
 import { useLang } from "@/i18n";
 
 const LVL = { rouge: { cls: "warning", icon: "error", word: "Alerte" }, orange: { cls: "caution", icon: "warning", word: "Attention" }, info: { cls: "info", icon: "info", word: "Info" } } as const;
@@ -17,7 +17,7 @@ function Countdown({ until }: { until: number }) {
 }
 
 function AlarmRow({ a }: { a: Alarm }) {
-  const { tr } = useLang();
+  const { tr, lang } = useLang();
   const { acknowledge, snooze, markSeen } = useSound();
   const l = LVL[a.level];
   const paused = a.snoozedUntil != null && a.snoozedUntil > Date.now();
@@ -25,7 +25,7 @@ function AlarmRow({ a }: { a: Alarm }) {
   useEffect(() => { if (!a.seen) markSeen(a.id); }, [a.id, a.seen, markSeen]);
   return (
     <motion.li layout initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className={`alarm alarm-${l.cls}`} data-level={a.level} data-seen={a.seen ? "1" : "0"} role={a.level === "rouge" ? "alert" : "status"}>
-      <span className={`lamp lamp-${l.cls === "info" ? "ok" : l.cls}`}><Icon name={l.icon} size={16} /><b>{l.word}</b></span>
+      <span className={`lamp lamp-${l.cls === "info" ? "ok" : l.cls}`}><Icon name={l.icon} size={16} /><b>{lang === "en" ? (a.level === "rouge" ? "Alert" : a.level === "orange" ? "Caution" : "Info") : l.word}</b></span>
       <span className="alarm-txt">
         <b>{a.title}</b>
         {a.detail && <small className="mono">{a.detail}</small>}
@@ -127,8 +127,8 @@ export function SoundSettingsPanel({ demo = true }: { demo?: boolean }) {
         <details className="sound-tests">
           <summary>{tr("Écouter l’alarme rouge", "Hear the red alarm")}</summary>
           <div className="btn-row">
-            <button type="button" className="btn btn-ghost sm" onClick={() => play("alarmHigh")}>{SOUND_LABEL.alarmHigh}</button>
-            <button type="button" className="btn btn-ghost sm" onClick={() => play("fatiguePim")}>{SOUND_LABEL.fatiguePim}</button>
+            <button type="button" className="btn btn-ghost sm" onClick={() => play("alarmHigh")}>{tr("Alerte rouge", "Red alert")}</button>
+            <button type="button" className="btn btn-ghost sm" onClick={() => play("fatiguePim")}>{tr("Pip alerte (scan)", "Alert pip (scan)")}</button>
             <button className="btn btn-secondary sm" data-testid="sound-test-red" onClick={() => raise({ id: `TEST-${Date.now()}`, level: "rouge", title: tr("Test d’alarme rouge", "Red alarm test"), detail: tr("Simulation (DÉMO) — acquittez pour arrêter", "Simulation (DEMO) — acknowledge to stop") })}><Icon name="error" size={16} /> {tr("Simuler une alarme rouge", "Simulate a red alarm")}</button>
           </div>
         </details>

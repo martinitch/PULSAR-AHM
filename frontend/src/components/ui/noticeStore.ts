@@ -1,5 +1,6 @@
 /* Action banner: local confirmation, or a reminder that the backend is required. */
 import { useSyncExternalStore } from "react";
+import { readLang } from "@/i18n/messages";
 
 export type NoticeKind = "ok" | "backend";
 export type Notice = { id: number; kind: NoticeKind; title: string; detail: string };
@@ -29,10 +30,13 @@ export function pushNotice(n: { kind: NoticeKind; title: string; detail: string 
 
 /** The action cannot complete without the API (link, probe, remote sensor). */
 export function notifyBackend(action: string) {
+  const en = readLang() === "en";
   pushNotice({
     kind: "backend",
-    title: "Backend requis",
-    detail: `${action}. Cette action a besoin du serveur. Elle fonctionnera quand l’API sera branchée.`,
+    title: en ? "Backend required" : "Backend requis",
+    detail: en
+      ? `${action}. This action needs the server. It will work once the API is connected.`
+      : `${action}. Cette action a besoin du serveur. Elle fonctionnera quand l’API sera branchée.`,
   });
 }
 

@@ -1,6 +1,7 @@
 /* SIMULATED ultrasound image (demo) — later replaced by the probe stream.
    SVG ids are unique: several probes on the same page do not mix. */
 import { useId } from "react";
+import { useLang } from "@/i18n";
 
 export function Probe({
   live = true,
@@ -25,12 +26,13 @@ export function Probe({
   label?: string;
 }) {
   const uid = useId().replace(/:/g, "");
+  const { tr, lang } = useLang();
   const cm = depthCm ?? (variant === "eye" ? 5 : 14);
-  const banner = depthLabel ?? (variant === "eye" ? "PROFONDEUR 5 cm · GAIN 48 %" : "PROFONDEUR 14 cm · GAIN 52 %");
-  const caliper = markLabel ?? (variant === "eye" ? "GNO 5,4 mm" : "VG 4,1 cm");
+  const banner = depthLabel ?? (variant === "eye" ? tr("PROFONDEUR 5 cm · GAIN 48 %", "DEPTH 5 cm · GAIN 48%") : tr("PROFONDEUR 14 cm · GAIN 52 %", "DEPTH 14 cm · GAIN 52%"));
+  const caliper = markLabel ?? (variant === "eye" ? tr("GNO 5,4 mm", "ONSD 5.4 mm") : tr("VG 4,1 cm", "LV 4.1 cm"));
   const ticks = variant === "eye" ? [0, 2.5, cm] : [0, cm / 2, cm];
   return (
-    <svg className={`echo-img ${live ? "live" : ""}`} viewBox="0 0 400 300" role="img" aria-label={label ?? "Image d’échographie simulée (démo)"}>
+    <svg className={`echo-img ${live ? "live" : ""}`} viewBox="0 0 400 300" role="img" aria-label={label ?? tr("Image d’échographie simulée (démo)", "Simulated ultrasound image (demo)")}>
       <defs>
         <radialGradient id={`echoG-${uid}`} cx="50%" cy="0%" r="100%">
           <stop offset="0" stopColor="#c5d4dc" stopOpacity=".72" />
@@ -55,7 +57,7 @@ export function Probe({
         <line x1="386" y1="24" x2="386" y2="272" />
         {ticks.map((t, i) => {
           const y = 24 + ((272 - 24) * i) / (ticks.length - 1);
-          const text = String(t).replace(".", ",");
+          const text = lang === "en" ? String(t) : String(t).replace(".", ",");
           return (
             <g key={text}>
               <line x1="380" y1={y} x2="392" y2={y} />
@@ -71,7 +73,7 @@ export function Probe({
           <circle cx="124" cy="168" r="3.5" />
           <circle cx="212" cy="168" r="3.5" />
           <text x="128" y="158">{caliper}</text>
-          {callout && (<><path d="M230 176 l28 -24" /><text x="236" y="146">Flèche : à revoir</text></>)}
+          {callout && (<><path d="M230 176 l28 -24" /><text x="236" y="146">{tr("Flèche : à revoir", "Arrow: review")}</text></>)}
         </g>
       )}
       {marks && variant === "eye" && (
@@ -83,7 +85,7 @@ export function Probe({
         </g>
       )}
       <text x="12" y="20" className="echo-meta">{banner}</text>
-      <text x="12" y="290" className="echo-meta">IMAGE SIMULÉE · DÉMO</text>
+      <text x="12" y="290" className="echo-meta">{tr("IMAGE SIMULÉE · DÉMO", "SIMULATED IMAGE · DEMO")}</text>
     </svg>
   );
 }

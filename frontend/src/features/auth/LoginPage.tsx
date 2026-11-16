@@ -16,7 +16,7 @@ import "@/features/landing/landing.css";
 export function LoginPage() {
   const { user, enterRole } = useAuth();
   const { theme } = useTheme();
-  const { t } = useLang();
+  const { t, tr } = useLang();
   const L = t.login;
   const nav = useNavigate();
   const loc = useLocation() as { state?: { loggedOut?: boolean } };
@@ -36,7 +36,7 @@ export function LoginPage() {
       const u = await enterRole(role);
       nav(homeFor(u.role), { replace: true });
     } catch (x) {
-      const a = x instanceof AuthError ? x : new AuthError("NETWORK", "Ouverture impossible. Réessayez.");
+      const a = x instanceof AuthError ? x : new AuthError("NETWORK", tr("Ouverture impossible. Réessayez.", "Could not open. Try again."));
       setErr(a.message);
       setOpening(false);
     }

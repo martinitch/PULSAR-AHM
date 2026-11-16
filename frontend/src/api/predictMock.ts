@@ -87,7 +87,7 @@ function forecast(id: string, metric: PredictionMetric, horizon: Horizon, now: n
   );
   return { metric, label, unit: d.unit, resolution: daily ? "day" : "hour", points, thresholds: d.thr, level, trend, timeToThresholdHours: tth, thresholdLevel: tl, summary };
 }
-export const fmtH = (h: number) => (h < 48 ? `${Math.max(1, Math.round(h))} h` : `${Math.round(h / 24)} j`);
+export const fmtH = (h: number) => (h < 48 ? `${Math.max(1, Math.round(h))} h` : `${Math.round(h / 24)} ${readLang() === "en" ? "d" : "j"}`);
 
 const ANOMALIES: Record<string, Omit<Anomaly, "detectedAt">[]> = {
   LK: [

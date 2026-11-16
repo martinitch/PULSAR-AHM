@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "@/api";
 import { Card } from "@/components/ui";
+import { useLang } from "@/i18n";
 
 type EventRow = { kind: string; title: string; time: string };
 type Report = {
@@ -13,6 +14,13 @@ type Report = {
 };
 
 const WORD = { connected: "Connecté", cache: "Cache", offline: "Hors ligne" } as const;
+const WORD_EN = { connected: "Connected", cache: "Cache", offline: "Offline" } as const;
+const LOCAL_EN: Record<string, string> = {
+  "Fichier local : activité solaire modérée, aucun événement extrême dans cette copie.": "Local file: moderate solar activity, no extreme event in this copy.",
+  "Référence locale — pas une mesure du dosimètre de bord": "Local reference — not a reading from the onboard dosimeter",
+  "Données de référence, pas des mesures de l'équipage. DÉMO.": "Reference data, not crew measurements. DEMO.",
+  "Référence locale en cours de lecture.": "Reading the local reference.",
+};
 
 async function loadLocal(): Promise<Report> {
   const res = await fetch("/reference/space-weather.json");
@@ -20,6 +28,8 @@ async function loadLocal(): Promise<Report> {
 }
 
 export function SpaceWeatherCard() {
+  const { tr, lang } = useLang();
+  const say = (text: string) => (lang === "en" ? LOCAL_EN[text] ?? text : text);
   const [report, setReport] = useState<Report | null>(null);
   useEffect(() => {
     let cancel = false;
@@ -34,14 +44,14 @@ export function SpaceWeatherCard() {
   }, []);
   const provenance = report?.provenance ?? "offline";
   return (
-    <Card title="Météo spatiale" icon="satellite_alt" aside={<span className="chip">{WORD[provenance]}</span>}>
-      <p>{report?.summary ?? "Référence locale en cours de lecture."}</p>
+    <Card title={tr("Météo spatiale", "Space weather")} icon="satellite_alt" aside={<span className="chip">{lang === "en" ? WORD_EN[provenance] : WORD[provenance]}</span>}>
+      <p>{say(report?.summary ?? "Référence locale en cours de lecture.")}</p>
       <ul className="log">
         {(report?.events ?? []).map((ev) => (
-          <li key={ev.title}><span className="mono">{ev.kind}</span>{ev.title}</li>
+          <li key={ev.title}><span className="mono">{ev.kind}</span>{say(ev.title)}</li>
         ))}
       </ul>
-      <p className="r-note">{report?.note ?? "Données de référence, pas des mesures de l'équipage. DÉMO."}</p>
+      <p className="r-note">{say(report?.note ?? "Données de référence, pas des mesures de l'équipage. DÉMO.")}</p>
     </Card>
   );
 }

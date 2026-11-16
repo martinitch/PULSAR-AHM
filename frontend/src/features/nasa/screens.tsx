@@ -52,7 +52,7 @@ function ReportList({ cur, go }: { cur: string; go: Go }) {
               <span className="rep-kind">{r.kind === "red" ? <><Icon name="error" size={14} /> {tr("Alerte rouge", "Red alert")}</> : <><Icon name="schedule" size={14} /> {tr("Programmé", "Scheduled")}</>}</span>
               {r.unread && <i className="dot" aria-label={tr("Non lu", "Unread")} />}
               <strong>{dashTitle(r.title, lang)}</strong>
-              <span className="rep-meta">Généré {r.generated} · reçu {r.age}</span>
+              <span className="rep-meta">{tr("Généré", "Generated")} {r.generated} · {tr("reçu", "received")} {r.age}</span>
               <span className="rep-lights">
                 {Object.entries(r.lights).filter(([, l]) => l !== "ok").map(([k, l]) => (
                   <span key={k} className="rep-lamp"><span className="mono">{k}</span> <Lamp l={l} compact /></span>
@@ -68,26 +68,28 @@ function ReportList({ cur, go }: { cur: string; go: Go }) {
     </aside>
   );
 }
-function savePdf(r: (typeof REPORTS)[number]) {
-  const word = (l: string) => (l === "warning" ? "alerte" : l === "caution" ? "attention" : "nominal");
+function savePdf(r: (typeof REPORTS)[number], en: boolean) {
+  const word = (l: string) => (en
+    ? (l === "warning" ? "alert" : l === "caution" ? "caution" : "nominal")
+    : (l === "warning" ? "alerte" : l === "caution" ? "attention" : "nominal"));
   downloadPdf(`${r.id}.pdf`, [
-    "PULSAR AHM — rapport médical",
+    en ? "PULSAR AHM — medical report" : "PULSAR AHM — rapport médical",
     `${r.id} · ${r.title}`,
-    `Généré ${r.generated}`,
-    `Reçu ${r.received}`,
+    en ? `Generated ${r.generated}` : `Généré ${r.generated}`,
+    en ? `Received ${r.received}` : `Reçu ${r.received}`,
     "",
-    "Notes du médecin de bord",
+    en ? "Crew surgeon notes" : "Notes du médecin de bord",
     r.notes,
     "",
-    "Échographies jointes",
-    ...(r.studies?.length ? r.studies.map((s, i) => `${i + 1}. ${studyLine(s)}`) : ["Aucune image. Ne pas interpréter d’échographie pour cet envoi."]),
+    en ? "Attached ultrasounds" : "Échographies jointes",
+    ...(r.studies?.length ? r.studies.map((s, i) => `${i + 1}. ${studyLine(s)}`) : [en ? "No image. Do not interpret an ultrasound for this send." : "Aucune image. Ne pas interpréter d’échographie pour cet envoi."]),
     "",
-    "Équipage",
-    ...CREW.map((m) => `${m.id}  ${m.name}  ${word(r.lights[m.id])}  FC ${m.hr}  TA ${m.bp}  SpO2 ${m.spo2} %`),
+    en ? "Crew" : "Équipage",
+    ...CREW.map((m) => `${m.id}  ${m.name}  ${word(r.lights[m.id])}  ${en ? "HR" : "FC"} ${m.hr}  ${en ? "BP" : "TA"} ${m.bp}  SpO2 ${m.spo2} %`),
     "",
-    "Copie générée dans le navigateur.",
+    en ? "Copy generated in the browser." : "Copie générée dans le navigateur.",
   ]);
-  notifyOk("PDF téléchargé", `${r.id}.pdf enregistré sur cet appareil.`);
+  notifyOk(en ? "PDF downloaded" : "PDF téléchargé", en ? `${r.id}.pdf saved on this device.` : `${r.id}.pdf enregistré sur cet appareil.`);
 }
 function ReportSilhouette({ light }: { light: Light }) {
   const states = statesFor(light);
@@ -106,7 +108,7 @@ function ReportDetail({ r, go, studyId, onStudy }: { r: (typeof REPORTS)[number]
   const focus = CREW.find((m) => r.lights[m.id] !== "ok") ?? CREW[0];
   return (
     <article className="rep-detail">
-      <header className="rep-head"><div><h1>{dashTitle(r.title, lang)}</h1><Latency r={r} /><WorkflowBadge status={wf} assignee={r.assignee ?? "NASA-FS-001"} /></div><div className="btn-row"><button type="button" className="btn btn-secondary" onClick={() => savePdf(r)}><Icon name="download" size={18} /> PDF</button><button className="btn btn-primary" onClick={() => go("/nasa/reponse")}><Icon name="reply" size={18} /> {tr("Recommandation", "Recommendation")}</button></div></header>
+      <header className="rep-head"><div><h1>{dashTitle(r.title, lang)}</h1><Latency r={r} /><WorkflowBadge status={wf} assignee={r.assignee ?? "NASA-FS-001"} /></div><div className="btn-row"><button type="button" className="btn btn-secondary" onClick={() => savePdf(r, lang === "en")}><Icon name="download" size={18} /> PDF</button><button className="btn btn-primary" onClick={() => go("/nasa/reponse")}><Icon name="reply" size={18} /> {tr("Recommandation", "Recommendation")}</button></div></header>
       <section className="rep-sec synth">
         <div>
           <h2><Icon name="warning" size={18} /> {tr("À retenir", "To note")}</h2>
@@ -114,9 +116,9 @@ function ReportDetail({ r, go, studyId, onStudy }: { r: (typeof REPORTS)[number]
         </div>
         <ReportSilhouette key={r.id} light={r.lights[focus.id]} />
       </section>
-      <section className="rep-sec"><h2><Icon name="groups" size={18} /> {tr("Résumé équipage", "Crew summary")}</h2><table className="crew-table"><thead><tr><th>{tr("Astronaute", "Astronaut")}</th><th>{tr("État", "Status")}</th><th>{tr("FC", "HR")}</th><th>{tr("TA", "BP")}</th><th>SpO₂</th><th>{tr("Sommeil", "Sleep")}</th><th>{tr("Motif", "Reason")}</th></tr></thead><tbody>{CREW.map((m) => { const l = r.lights[m.id]; return <tr key={m.id} className={l === "ok" ? "muted" : ""}><td><span className="who"><Avatar id={m.id} l={l} /> {m.name}</span></td><td><Lamp l={l} /></td><td className="mono">{m.hr}</td><td className="mono">{m.bp}</td><td className="mono">{m.spo2}%</td><td className="mono">{m.sleep}</td><td>{l === "ok" ? "—" : m.id === "SR" ? "SpO₂ 91 % · 4 min" : m.reason}</td></tr>; })}</tbody></table><Demo /></section>
+      <section className="rep-sec"><h2><Icon name="groups" size={18} /> {tr("Résumé équipage", "Crew summary")}</h2><table className="crew-table"><thead><tr><th>{tr("Astronaute", "Astronaut")}</th><th>{tr("État", "Status")}</th><th>{tr("FC", "HR")}</th><th>{tr("TA", "BP")}</th><th>SpO₂</th><th>{tr("Sommeil", "Sleep")}</th><th>{tr("Motif", "Reason")}</th></tr></thead><tbody>{CREW.map((m) => { const l = r.lights[m.id]; return <tr key={m.id} className={l === "ok" ? "muted" : ""}><td><span className="who"><Avatar id={m.id} l={l} /> {m.name}</span></td><td><Lamp l={l} /></td><td className="mono">{m.hr}</td><td className="mono">{m.bp}</td><td className="mono">{m.spo2}%</td><td className="mono">{m.sleep}</td><td>{l === "ok" ? "—" : m.id === "SR" ? (lang === "en" ? "SpO₂ 91% · 4 min" : "SpO₂ 91 % · 4 min") : m.reason}</td></tr>; })}</tbody></table><Demo /></section>
       <PredictionsSummary />
-      <section className="rep-sec"><h2><Icon name="monitoring" size={18} /> {tr("Tendances depuis le dernier rapport", "Trends since the last report")}</h2><div className="trend-grid">{TRENDS.map((t) => <div key={t.id} className="r-card"><p className="eyebrow">{t.label} · {t.unit}</p>{Object.entries(t.series).map(([k, v]) => <div key={k} className="trend-row"><span className="mono">{k}</span><Spark v={v} l={k === "LK" ? "caution" : "ok"} w={150} h={26} /><span className="mono">{String(v[v.length - 1]).replace(".", ",")}</span></div>)}</div>)}</div></section>
+      <section className="rep-sec"><h2><Icon name="monitoring" size={18} /> {tr("Tendances depuis le dernier rapport", "Trends since the last report")}</h2><div className="trend-grid">{TRENDS.map((t) => <div key={t.id} className="r-card"><p className="eyebrow">{t.label} · {t.unit}</p>{Object.entries(t.series).map(([k, v]) => <div key={k} className="trend-row"><span className="mono">{k}</span><Spark v={v} l={k === "LK" ? "caution" : "ok"} w={150} h={26} /><span className="mono">{lang === "en" ? String(v[v.length - 1]) : String(v[v.length - 1]).replace(".", ",")}</span></div>)}</div>)}</div></section>
       <section className="rep-sec">
         <h2><Icon name="image" size={18} /> {tr("Images échographiques jointes", "Attached ultrasound images")} · {r.studies?.length ?? 0}</h2>
         <EchoReview studies={r.studies ?? []} selectedId={studyId} onSelect={onStudy} />

@@ -9,7 +9,7 @@ import { TRENDS, WINDOWS } from "@/data/demo/crew";
 import type { Light, Member } from "@/data/types";
 import type { Go } from "@/app/types";
 import { Probe } from "./Probe";
-import { EchoDock, useEchoExam } from "./EchoDock";
+import { EchoDock, ECHO_NOTE_EN, ECHO_NOTE_FR, useEchoExam } from "./EchoDock";
 import { AiAlerts } from "./AiAlerts";
 import { SoundButton } from "@/features/sound";
 import { CrewParticipationCard } from "@/features/gamification";
@@ -246,8 +246,8 @@ export function CmoEcho({ step: s0, go }: { step?: string; go: Go }) {
     go(`/medecin-bord/echographie/${n}`);
   };
   const send = () => {
-    pushBoard({ who: "NO", light: "ok", text: "Échographie · Lina Kovacs · images jointes au dossier local" });
-    notifyBackend("Envoi du rapport au sol (liaison satellite)");
+    pushBoard({ who: "NO", light: "ok", text: tr("Échographie · Lina Kovacs · images jointes au dossier local", "Ultrasound · Lina Kovacs · images attached to the local file") });
+    notifyBackend(tr("Envoi du rapport au sol (liaison satellite)", "Sending the report to the ground (satellite link)"));
     reset();
     go("/medecin-bord/journal");
   };
@@ -269,7 +269,7 @@ export function CmoEcho({ step: s0, go }: { step?: string; go: Go }) {
         const done = n < exam.reached && n !== step;
         return (
           <li key={l} className={done ? "done" : n === step ? "now" : ""}>
-            <button type="button" aria-current={n === step ? "step" : undefined} disabled={locked} title={locked ? "Terminez l’étape en cours avant d’avancer." : undefined} onClick={() => go(`/medecin-bord/echographie/${n}`)}>
+            <button type="button" aria-current={n === step ? "step" : undefined} disabled={locked} title={locked ? tr("Terminez l’étape en cours avant d’avancer.", "Finish the current step before moving on.") : undefined} onClick={() => go(`/medecin-bord/echographie/${n}`)}>
               <span>{done ? <Icon name="check" size={14} /> : n}</span>{l}
             </button>
           </li>
@@ -358,7 +358,7 @@ export function CmoEcho({ step: s0, go }: { step?: string; go: Go }) {
               <p className="r-note">{tr("Outil", "Tool")} {tools.find((t) => t.id === tool)?.label} — {tr("repère posé sur l’image de démo.", "mark placed on the demo image.")}</p>
             </Card>
             <Card title={tr("Commentaire", "Comment")} icon="edit_note">
-              <textarea className="r-text" value={exam.note} aria-label={tr("Commentaire", "Comment")} onChange={(e) => patch({ note: e.target.value })} />
+              <textarea className="r-text" value={exam.note === ECHO_NOTE_FR || exam.note === ECHO_NOTE_EN ? tr(ECHO_NOTE_FR, ECHO_NOTE_EN) : exam.note} aria-label={tr("Commentaire", "Comment")} onChange={(e) => patch({ note: e.target.value })} />
             </Card>
           </div>
         </div>
@@ -399,27 +399,41 @@ export function CmoLog() {
   return (<><Head title={tr("Événements de l’équipage", "Crew events")} /><Card title={tr("Aujourd’hui · J127", "Today · D127")} icon="history"><ul className="log">{events.map((e) => <li key={e.t + e.text}><span className="mono">{e.t}</span><Lamp l={e.light} compact /><span><b>{e.who}</b> · {e.text}</span></li>)}</ul></Card></>);
 }
 
+const NOTE_FR = "Tachycardie de repos modérée, sommeil court. Écho cardiaque prévue. Repos 20 min + hydratation 500 mL.";
+const NOTE_EN = "Moderate resting tachycardia, short sleep. Cardiac ultrasound planned. Rest 20 min + hydration 500 mL.";
+
 function CmoNotes({ m }: { m: Member }) {
+  const { tr, lang } = useLang();
   const key = `pulsar.cmo-note.${m.id}`;
-  const fallback = m.light === "ok" ? "" : "Tachycardie de repos modérée, sommeil court. Écho cardiaque prévue. Repos 20 min + hydratation 500 mL.";
-  const [text, setText] = useState(() => localStorage.getItem(key) ?? fallback);
+  const fallback = () => (m.light === "ok" ? "" : (lang === "en" ? NOTE_EN : NOTE_FR));
+  const stored = () => {
+    const raw = localStorage.getItem(key);
+    if (!raw || raw === NOTE_FR || raw === NOTE_EN) return fallback();
+    return raw;
+  };
+  const [text, setText] = useState(stored);
   const [forId, setForId] = useState(m.id);
   const dirty = useRef(false);
   if (forId !== m.id) {
     setForId(m.id);
     dirty.current = false;
-    setText(localStorage.getItem(`pulsar.cmo-note.${m.id}`) ?? (m.light === "ok" ? "" : "Tachycardie de repos modérée, sommeil court. Écho cardiaque prévue. Repos 20 min + hydratation 500 mL."));
+    setText(stored());
   }
+  useEffect(() => {
+    if (dirty.current) return;
+    const raw = localStorage.getItem(key);
+    if (!raw || raw === NOTE_FR || raw === NOTE_EN) setText(fallback());
+  }, [lang, m.id]);
   return (
-    <Card title="Notes du médecin de bord" icon="ink_pen">
+    <Card title={tr("Notes du médecin de bord", "Crew surgeon notes")} icon="ink_pen">
       <textarea
         className="r-text"
         value={text}
-        aria-label="Notes"
+        aria-label={tr("Notes", "Notes")}
         onChange={(e) => { setText(e.target.value); dirty.current = true; localStorage.setItem(key, e.target.value); }}
-        onBlur={() => { if (!dirty.current) return; dirty.current = false; notifyOk("Note enregistrée", "Conservée sur cet appareil. Elle partira avec le prochain rapport quand le backend sera branché."); }}
+        onBlur={() => { if (!dirty.current) return; dirty.current = false; notifyOk(tr("Note enregistrée", "Note saved"), tr("Conservée sur cet appareil. Elle partira avec le prochain rapport quand le backend sera branché.", "Kept on this device. It will leave with the next report once the backend is connected.")); }}
       />
-      <p className="r-note">Les notes restent sur cet appareil. L’envoi au sol part avec le backend.</p>
+      <p className="r-note">{tr("Les notes restent sur cet appareil. L’envoi au sol part avec le backend.", "Notes stay on this device. The send to the ground leaves with the backend.")}</p>
     </Card>
   );
 }
