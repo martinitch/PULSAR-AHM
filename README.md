@@ -161,6 +161,12 @@ Stack: React 19, Vite 8, TypeScript (strict), Tailwind CSS 4 on the design token
 
 Design reference: [PULSAR AHM v6 on Figma](https://www.figma.com/design/cj96CiSofo2y0mDSpre7J1). Remote: https://github.com/kevinleboss499-code/PULSAR.git (`kevin/pulsar`).
 
+info 
+
+martinitch@gmail.com
+
+
+
 ## Credits
 
 - Fonts: Space Grotesk and IBM Plex (SIL OFL 1.1). Icons: lucide (ISC). Charts: Recharts (MIT).
